@@ -86,12 +86,16 @@ public class Login extends AppCompatActivity {
 
                             String val = String.valueOf(userStatus);
                             if (val.equals(studentVal)) {
-                                Toast.makeText(Login.this, "Login success!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Login.this, PanelStudent.class));
+                                Toast.makeText(Login.this, "Sign in", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(Login.this, PanelStudent.class);
+                                intent.putExtra("Email", emailUserString);
+                                startActivity(intent);
                             }
                             if (val.equals(teacherVal)) {
-                                Toast.makeText(Login.this, "Login success!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Login.this, PanelTeacher.class));
+                                Toast.makeText(Login.this, "Sign in", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(Login.this, PanelTeacher.class);
+                                intent.putExtra("Email", emailUserString);
+                                startActivity(intent);
                             }
                         } else {
                             Toast.makeText(Login.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();

@@ -23,21 +23,15 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.Objects;
-
 public class PanelTeacher extends AppCompatActivity {
     TextView welcomeText, verifyMessageText;
     Button checkNewTicketButton, logoutButton, acceptedTicketsButton, resendCodeButton;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    String teacherID, nameTeacher, surnameTeacher, facultyTeacher, fieldTeacher;
+    String nameTeacher, surnameTeacher, facultyTeacher, fieldTeacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_panel_teacher);
-
-        //Get ID for TextViews, Buttons
         checkNewTicketButton = findViewById(R.id.checkNewTicket_panelTeacher);
         welcomeText = findViewById(R.id.textview_panelTeacher);
         logoutButton = findViewById(R.id.logoutButton_panelTeacher);
@@ -45,13 +39,7 @@ public class PanelTeacher extends AppCompatActivity {
         verifyMessageText = findViewById(R.id.verifyText_panelTeacher);
         acceptedTicketsButton = findViewById(R.id.acceptedTickets_panelTeacher);
 
-        //Get Instance for FirebaseAuthentication and FirebaseFirestore
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-        //Get data teacher to set welcome TextView
-        teacherID = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
-        final DocumentReference documentTeacher = firebaseFirestore.collection("Users Accounts").document(teacherID);
+        final DocumentReference documentTeacher = FirebaseFirestore.getInstance().collection("Users Accounts").document(getIntent().getStringExtra("Email"));
         documentTeacher.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -65,11 +53,9 @@ public class PanelTeacher extends AppCompatActivity {
             }
         });
 
-        //Check if user verify your email
-        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         if (!user.isEmailVerified()) {
-            //Show button and textview
             resendCodeButton.setVisibility(View.VISIBLE);
             verifyMessageText.setVisibility(View.VISIBLE);
 
@@ -79,7 +65,7 @@ public class PanelTeacher extends AppCompatActivity {
                     user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(PanelTeacher.this, "Verification Email has been sent - Check an email!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PanelTeacher.this, "Verification Email has been sent", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -91,7 +77,6 @@ public class PanelTeacher extends AppCompatActivity {
             });
         }
 
-        //Sing out user of aplication
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,8 +85,6 @@ public class PanelTeacher extends AppCompatActivity {
             }
         });
 
-        //Go to Accepted Tickets Activity
-        //Transmission teacher data
         acceptedTicketsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,8 +97,6 @@ public class PanelTeacher extends AppCompatActivity {
             }
         });
 
-        //Go to Check New Tickets Activity
-        //Transmission teacher data
         checkNewTicketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
