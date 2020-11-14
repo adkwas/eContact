@@ -1,8 +1,5 @@
 package com.example.econtact;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,9 +33,7 @@ public class RegisterTeacher extends AppCompatActivity {
     EditText nameTeacher, surnameTeacher, emailTeacher, passwordTeacher, repeatPasswordTeacher;
     Button registerButton, loginButton;
     Spinner facultyUniversity, fieldUniversity;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    String teacherFaculty, teacherField, teacherID;
+    String teacherFaculty, teacherField;
 
     String[] elementsFaculty = {"Faculty of Study", "Faculty of Architecture", "Faculty of Chemical Technology", "Faculty of Civil and Transport Engineering", "Faculty of Computing and Telecomunications", "Faculty of Control, Robotics and Electrical Engineering", "Faculty of Engineering Management", "Faculty of Environmental Engineering and Energy", "Faculty of Materials Engineering and Technical Physics", "Faculty of Mechanical Engineering"};
     String[] architectureField = {"Field of Study", "Architecture", "Interior Design"};
@@ -59,7 +57,6 @@ public class RegisterTeacher extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_teacher);
 
-        //Get ID for all EditTexts, Buttons, Spinners
         nameTeacher = findViewById(R.id.nameTeacher_RegisterTeacher);
         surnameTeacher = findViewById(R.id.surnameTeacher_RegisterTeacher);
         emailTeacher = findViewById(R.id.emailTeacher_RegisterTeacher);
@@ -70,11 +67,6 @@ public class RegisterTeacher extends AppCompatActivity {
         facultyUniversity = findViewById(R.id.spinnerFaculty_RegisterTeacher);
         fieldUniversity = findViewById(R.id.spinnerField_RegisterTeacher);
 
-        //Get instance for Firestore and Authentication
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        //Set all adapter for spinner field
         final ArrayAdapter<String> adapterArchitecture = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, architectureField);
         final ArrayAdapter<String> adapterAutomatics = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, automaticsField);
         final ArrayAdapter<String> adapterTelecoms = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, telecomsField);
@@ -87,8 +79,6 @@ public class RegisterTeacher extends AppCompatActivity {
         final ArrayAdapter<String> adapterDefault = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, defaultField);
         final ArrayAdapter<String> adapterFaculty = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, elementsFaculty);
 
-        //Set faculty adapter
-        //When teacher click a faculty spinner and field spinner
         facultyUniversity.setAdapter(adapterFaculty);
         facultyUniversity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -384,8 +374,7 @@ public class RegisterTeacher extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegisterTeacher.this, Login.class);
-                startActivity(intent);
+                startActivity(new Intent(RegisterTeacher.this, Login.class));
             }
         });
 
@@ -394,7 +383,6 @@ public class RegisterTeacher extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Write down all the data provided by the teacher
                 final String emailString = emailTeacher.getText().toString().trim();
                 final String passwordString = passwordTeacher.getText().toString().trim();
                 final String repeatString = repeatPasswordTeacher.getText().toString().trim();
@@ -410,11 +398,10 @@ public class RegisterTeacher extends AppCompatActivity {
                 //Check if the email you entered is in the correct form
                 boolean emailValue = isEmailValid(emailString);
 
-                //Help variable
+                //Checking variables
                 final String checkFaculty = "Faculty of Study";
                 final String checkField = "Field of Study";
 
-                //Check if all pole are saved
                 if (nameString.isEmpty()) {
                     nameTeacher.setError("Name is empty!");
                     return;
@@ -456,30 +443,12 @@ public class RegisterTeacher extends AppCompatActivity {
 
 
                 //Register new teacher user
-                firebaseAuth.createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            FirebaseUser newUser = firebaseAuth.getCurrentUser();
-                            assert newUser != null;
-
-                            //Send email verify to new user
-                            newUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RegisterTeacher.this, "Verification Email has been sent!", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("TAG", "Error: " + e.getMessage());
-                                }
-                            });
-
-                            //Save teacher data in Cloud Fire Database
-                            teacherID = firebaseAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = firebaseFirestore.collection("Users Accounts").document(teacherID);
+                            DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailString);
                             Map<String, Object> user = new HashMap<>();
                             user.put("Name", nameString);
                             user.put("Surname", surnameString);
@@ -496,6 +465,21 @@ public class RegisterTeacher extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.d("TAG", "Error: " + e.toString());
+                                }
+                            });
+
+                            FirebaseUser newUser = FirebaseAuth.getInstance().getCurrentUser();
+                            assert newUser != null;
+
+                            newUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(RegisterTeacher.this, "Verification Email has been sent!", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("TAG", "Error: " + e.getMessage());
                                 }
                             });
                         } else {

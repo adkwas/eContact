@@ -35,108 +35,78 @@ public class Login extends AppCompatActivity {
     Button loginButton;
     ProgressBar progressBar;
     FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
-    String userID, userStatus;
+    String userStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        //Get ID for EditTexts, TextView and Button
         loginUser = findViewById(R.id.email_Login);
         passwordUser = findViewById(R.id.password_Login);
         forgotTextLink = findViewById(R.id.forgotPassword_Login);
         loginButton = findViewById(R.id.loginButton_Login);
         progressBar = findViewById(R.id.bar_Login);
 
-        //Save user ID and check in collection "Users Accounts" data user
-        //Save type user in variable: userStatus
-        /*userID = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
-        DocumentReference documentStudent = firebaseFirestore.collection("Users Accounts").document(userID);
-        documentStudent.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                assert documentSnapshot != null;
-                userStatus = documentSnapshot.getString("User");
-            }
-        });
-         */
-
-        //When Button is clicked
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Save email and password from user
-                String emailUserString = loginUser.getText().toString();
+                final String emailUserString = loginUser.getText().toString();
                 String passwordUserString = passwordUser.getText().toString();
 
-                //Check pole email
                 if (emailUserString.isEmpty()) {
                     loginUser.setError("Email is empty!");
                     return;
                 }
 
-                //Check pole password
                 if (passwordUserString.isEmpty()) {
                     passwordUser.setError("Password is empty!");
                     return;
                 }
 
-                //Get Instance for Firebase Authentication and Firebase Firestore
-                firebaseAuth = FirebaseAuth.getInstance();
+                //Check, which user want to login to app
+                DocumentReference documentStudent = FirebaseFirestore.getInstance()
+                        .collection("Users Accounts").document(emailUserString);
+                documentStudent.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        assert documentSnapshot != null;
+                        userStatus = documentSnapshot.getString("User");
+                    }
+                });
 
-                //Sign in Firebase user
-                firebaseAuth.signInWithEmailAndPassword(emailUserString, passwordUserString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                //Sign user by means of Firebase Auth
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(emailUserString, passwordUserString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            DocumentReference documentStudent = FirebaseFirestore.getInstance()
-                                    .collection("Users Accounts").document(firebaseAuth.getCurrentUser().getUid());
-                            documentStudent.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                                    assert documentSnapshot != null;
-                                    userStatus = documentSnapshot.getString("User");
-                                }
-                            });
-
                             final String studentVal = "Student";
                             final String teacherVal = "Teacher";
                             //progressBar.setVisibility(View.INVISIBLE);
 
                             String val = String.valueOf(userStatus);
-                            //If loggin in is student - go to Panel Student activity
                             if (val.equals(studentVal)) {
                                 Toast.makeText(Login.this, "Login success!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Login.this, PanelStudent.class));
                             }
-                            //If loggin in is teacher - go to Panel Student activity
                             if (val.equals(teacherVal)) {
                                 Toast.makeText(Login.this, "Login success!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Login.this, PanelTeacher.class));
                             }
-
-                        }
-                        //If user isn't in Database - show information about it
-                        else {
+                        } else {
                             Toast.makeText(Login.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                            //progressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
             }
         });
 
-        //If user forget your password, click a TextView "Forgot password?"
         forgotTextLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Create Edit Text to writing your email
-                //Create AlertDialog to send password reset to your email register
                 final EditText resetMail = new EditText(view.getContext());
                 final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(view.getContext());
-                passwordResetDialog.setTitle("Reset Password?");
+                passwordResetDialog.setTitle("Log in Account");
                 passwordResetDialog.setMessage("Enter your mail to received reset link: ");
                 passwordResetDialog.setView(resetMail);
 
@@ -152,7 +122,7 @@ public class Login extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Login.this, "Error! Reset link is not send" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

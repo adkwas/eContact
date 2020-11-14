@@ -17,21 +17,17 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginMainActivity);
         registerButton = findViewById(R.id.registerMainActivity);
 
-        //Start Login Activity
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent login = new Intent(MainActivity.this, Login.class);
-                startActivity(login);
+                startActivity(new Intent(MainActivity.this, Login.class));
             }
         });
 
-        //Start RegisterAs Activity
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register = new Intent(MainActivity.this, RegisterAs.class);
-                startActivity(register);
+                startActivity(new Intent(MainActivity.this, RegisterAs.class));
             }
         });
     }

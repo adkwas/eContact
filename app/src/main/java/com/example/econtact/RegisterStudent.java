@@ -33,9 +33,7 @@ public class RegisterStudent extends AppCompatActivity {
     EditText nameStudent, surnameStudent, indexNumberStudent, emailStudent, passwordStudent, repeatPasswordStudent;
     Button registerButton, loginButton;
     Spinner facultyUniversity, fieldUniversity, degreeStudent, semesterStudent;
-    String studentFaculty, studentField, studentDegree, studentSemester, studentID;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
+    String studentFaculty, studentField, studentDegree, studentSemester;
 
     String[] faculty = {"Faculty of Study", "Faculty of Architecture", "Faculty of Chemical Technology", "Faculty of Civil and Transport Engineering", "Faculty of Computing and Telecomunications", "Faculty of Control, Robotics and Electrical Engineering", "Faculty of Engineering Management", "Faculty of Environmental Engineering and Energy", "Faculty of Materials Engineering and Technical Physics", "Faculty of Mechanical Engineering"};
     String[] architectureField = {"Field of Study", "Architecture", "Interior Design"};
@@ -63,8 +61,6 @@ public class RegisterStudent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_student);
-
-        //Get ID for all EditTexts, Spinners, Buttons
         nameStudent = findViewById(R.id.nameStudent__RegisterStudent);
         surnameStudent = findViewById(R.id.surnameStudent__RegisterStudent);
         indexNumberStudent = findViewById(R.id.indexNumber__RegisterStudent);
@@ -78,11 +74,6 @@ public class RegisterStudent extends AppCompatActivity {
         degreeStudent = findViewById(R.id.spinnerDegree_RegisterStudent);
         semesterStudent = findViewById(R.id.semesterStudent__RegisterStudent);
 
-        //Get Instance for Firestore and Authentication
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        //Set adapters for all spinners
         final ArrayAdapter<String> adapterArchitecture = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, architectureField);
         final ArrayAdapter<String> adapterAutomatics = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, automaticsField);
         final ArrayAdapter<String> adapterTelecom = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, telecomsField);
@@ -499,7 +490,6 @@ public class RegisterStudent extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Save all data provided by the student on the form
                 final String emailString = emailStudent.getText().toString().trim();
                 final String passwordString = passwordStudent.getText().toString().trim();
                 final String repeatString = repeatPasswordStudent.getText().toString().trim();
@@ -517,7 +507,7 @@ public class RegisterStudent extends AppCompatActivity {
                 //Check if the email you entered is in the correct form
                 boolean emailValue = isEmailValid(emailString);
 
-                //Help variable
+                //Checking variables
                 final String checkFaculty = "Faculty of Study";
                 final String checkDegree = "Degree of Study";
                 final String checkField = "Field of Study";
@@ -546,12 +536,12 @@ public class RegisterStudent extends AppCompatActivity {
                 }
 
                 if (degreeString.equals(checkDegree)) {
-                    Toast.makeText(getApplicationContext(), "Please check a degree pole!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please check a semester pole!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (semesterString.equals(checkYear)) {
-                    Toast.makeText(getApplicationContext(), "Please check a year pole!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please check a semester pole!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -575,6 +565,10 @@ public class RegisterStudent extends AppCompatActivity {
                     return;
                 }
 
+                if (passwordString.length() < 8) {
+                    emailStudent.setError("Password is too short!");
+                }
+
                 if (repeatString.isEmpty()) {
                     repeatPasswordStudent.setError("Repeat password is empty!");
                     return;
@@ -591,32 +585,14 @@ public class RegisterStudent extends AppCompatActivity {
                     return;
                 }
 
-                //Register new student user
-                firebaseAuth.createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            FirebaseUser newUser = firebaseAuth.getCurrentUser();
-                            assert newUser != null;
-
-                            //Send email verify to new user
-                            newUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RegisterStudent.this, "Verification Email has been sent!", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("TAG", "Error! Email not send!: " + e.getMessage());
-                                }
-                            });
-
-
                             //Save student data in Cloud Fire Database
-                            studentID = firebaseAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = firebaseFirestore.collection("Users Accounts").document(studentID);
+                            //studentID = firebaseAuth.getCurrentUser().getUid();
+                            DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailString);
                             Map<String, Object> user = new HashMap<>();
                             user.put("Name", nameString);
                             user.put("Surname", surnameString);
@@ -638,8 +614,27 @@ public class RegisterStudent extends AppCompatActivity {
                                     Log.d("TAG", "Error: " + e.toString());
                                 }
                             });
+
+
+                            FirebaseUser newUser = FirebaseAuth.getInstance().getCurrentUser();
+                            assert newUser != null;
+
+                            //Send email verify to new user
+                            newUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(RegisterStudent.this, "Verification Email has been sent!", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("TAG", "Error: " + e.getMessage());
+                                }
+                            });
+
+
                         } else {
-                            Toast.makeText(RegisterStudent.this, "Error:" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterStudent.this, "Error: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
