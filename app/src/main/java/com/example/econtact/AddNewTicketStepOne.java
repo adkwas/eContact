@@ -171,6 +171,7 @@ public class AddNewTicketStepOne extends AppCompatActivity {
                                 stepTwoActivity.putExtra("degreeStudent", getIntent().getStringExtra("degreeStudent"));
                                 stepTwoActivity.putExtra("semesterStudent", getIntent().getStringExtra("semesterStudent"));
                                 stepTwoActivity.putExtra("indexNumberStudent", getIntent().getStringExtra("indexNumberStudent"));
+                                stepTwoActivity.putExtra("Email", getIntent().getStringExtra("Email"));
                                 //Start next Activity -> AddNewTicketStepTwo
                                 startActivity(stepTwoActivity);
                             }

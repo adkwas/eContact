@@ -112,7 +112,9 @@ public class PendingTickets extends AppCompatActivity {
                         dialogBuilder.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                startActivity(new Intent(PendingTickets.this, PanelStudent.class));
+                                Intent intent = new Intent(PendingTickets.this, PanelStudent.class);
+                                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+                                startActivity(intent);
                             }
                         });
                         dialogBuilder.create();

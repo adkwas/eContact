@@ -27,7 +27,7 @@ public class PanelStudent extends AppCompatActivity {
 
     TextView welcomeText, verifyMessage;
     Button addNewTicketButton, confirmTicketsButton, logoutButton, pendingTicketsButton, rejectTicketsButton, resendCodeButton;
-    String nameStudent, surnameStudent, facultyStudent, fieldStudent, degreeStudent, semesterStudent, indexNumberStudent;
+    String nameStudent, surnameStudent, facultyStudent, fieldStudent, degreeStudent, semesterStudent, indexNumberStudent, emailStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,10 @@ public class PanelStudent extends AppCompatActivity {
         pendingTicketsButton = findViewById(R.id.pendingTickets_panelStudent);
         rejectTicketsButton = findViewById(R.id.rejectTickets_panelStudent);
 
+        emailStudent = getIntent().getStringExtra("Email");
+
         //Searching data in collection "User Accounts" in document name UID student user
-        DocumentReference documentStudent = FirebaseFirestore.getInstance().collection("Users Accounts").document(getIntent().getStringExtra("Email"));
+        DocumentReference documentStudent = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailStudent);
         documentStudent.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -104,6 +106,7 @@ public class PanelStudent extends AppCompatActivity {
                 intent.putExtra("degreeStudent", degreeStudent);
                 intent.putExtra("semesterStudent", semesterStudent);
                 intent.putExtra("indexNumberStudent", indexNumberStudent);
+                intent.putExtra("Email", emailStudent);
                 startActivity(intent);
             }
         });
@@ -116,6 +119,7 @@ public class PanelStudent extends AppCompatActivity {
                 intent.putExtra("surnameStudent", surnameStudent);
                 intent.putExtra("facultyStudent", facultyStudent);
                 intent.putExtra("fieldStudent", fieldStudent);
+                intent.putExtra("Email", emailStudent);
                 startActivity(intent);
             }
         });
@@ -128,6 +132,7 @@ public class PanelStudent extends AppCompatActivity {
                 intent.putExtra("surnameStudent", surnameStudent);
                 intent.putExtra("facultyStudent", facultyStudent);
                 intent.putExtra("fieldStudent", fieldStudent);
+                intent.putExtra("Email", emailStudent);
                 startActivity(intent);
             }
         });
@@ -140,6 +145,7 @@ public class PanelStudent extends AppCompatActivity {
                 intent.putExtra("surnameStudent", surnameStudent);
                 intent.putExtra("facultyStudent", facultyStudent);
                 intent.putExtra("fieldStudent", fieldStudent);
+                intent.putExtra("Email", emailStudent);
                 startActivity(intent);
             }
         });

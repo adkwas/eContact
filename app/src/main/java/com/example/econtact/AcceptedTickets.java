@@ -113,8 +113,9 @@ public class AcceptedTickets extends AppCompatActivity {
                         dialogBuilder.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-
-                                startActivity(new Intent(AcceptedTickets.this, PanelTeacher.class));
+                                Intent intent = new Intent(AcceptedTickets.this, PanelTeacher.class);
+                                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+                                startActivity(intent);
                             }
                         });
                         dialogBuilder.create();

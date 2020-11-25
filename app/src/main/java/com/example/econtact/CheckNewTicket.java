@@ -123,7 +123,9 @@ public class CheckNewTicket extends AppCompatActivity {
                         dialogBuilder.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                startActivity(new Intent(CheckNewTicket.this, PanelTeacher.class));
+                                Intent intent = new Intent(CheckNewTicket.this, PanelTeacher.class);
+                                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+                                startActivity(intent);
                             }
                         });
                         dialogBuilder.create();
@@ -229,17 +231,22 @@ public class CheckNewTicket extends AppCompatActivity {
                 objectList.remove(indexTicket);
                 int sizeList = objectList.size();
                 //Removal of a specific request from the waiting list
-                final CollectionReference collectionReference = firebaseFirestore.collection("Pending Applications");
+                final CollectionReference collectionReference = firebaseFirestore.collection("Pending applications");
                 collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            String val = IDArrayList.get(indexTicket);
+                            collectionReference.document(val).delete();
+                            IDArrayList.remove(indexTicket);
+                            /*for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 if (document.getId().equals(IDArrayList.get(indexTicket))) {
-                                    collectionReference.document(document.getId()).delete();
+                                    collectionReference.document(IDArrayList.get(indexTicket)).delete();
                                     IDArrayList.remove(indexTicket);
                                 }
                             }
+
+                             */
                         }
                     }
                 });
@@ -270,6 +277,7 @@ public class CheckNewTicket extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             //showToast("You picked positive button");
                             Intent intent = new Intent(CheckNewTicket.this, PanelTeacher.class);
+                            intent.putExtra("Email", getIntent().getStringExtra("Email"));
                             startActivity(intent);
                         }
                     });
@@ -343,17 +351,22 @@ public class CheckNewTicket extends AppCompatActivity {
                 objectList.remove(indexTicket);
                 int sizeList = objectList.size();
                 //Removal of a specific request from the waiting list
-                final CollectionReference collectionReference = firebaseFirestore.collection("Pending Applications");
+                final CollectionReference collectionReference = firebaseFirestore.collection("Pending applications");
                 collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            String val = IDArrayList.get(indexTicket);
+                            collectionReference.document(val).delete();
+                            IDArrayList.remove(indexTicket);
+                            /*for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 if (document.getId().equals(IDArrayList.get(indexTicket))) {
-                                    collectionReference.document(document.getId()).delete();
+                                    collectionReference.document(IDArrayList.get(indexTicket)).delete();
                                     IDArrayList.remove(indexTicket);
                                 }
                             }
+
+                             */
                         }
                     }
                 });
@@ -384,6 +397,7 @@ public class CheckNewTicket extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             //showToast("You picked positive button");
                             Intent intent = new Intent(CheckNewTicket.this, PanelTeacher.class);
+                            intent.putExtra("Email", getIntent().getStringExtra("Email"));
                             startActivity(intent);
                         }
                     });

@@ -1,6 +1,5 @@
 package com.example.econtact;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -110,7 +109,9 @@ public class RejectTickets extends AppCompatActivity {
                         dialogBuilder.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                startActivity(new Intent(RejectTickets.this, PanelStudent.class));
+                                Intent intent = new Intent(RejectTickets.this, PanelStudent.class);
+                                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+                                startActivity(intent);
                             }
                         });
                         dialogBuilder.create();

@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class PanelTeacher extends AppCompatActivity {
     TextView welcomeText, verifyMessageText;
     Button checkNewTicketButton, logoutButton, acceptedTicketsButton, resendCodeButton;
-    String nameTeacher, surnameTeacher, facultyTeacher, fieldTeacher;
+    String nameTeacher, surnameTeacher, facultyTeacher, fieldTeacher, emailTeacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,9 @@ public class PanelTeacher extends AppCompatActivity {
         verifyMessageText = findViewById(R.id.verifyText_panelTeacher);
         acceptedTicketsButton = findViewById(R.id.acceptedTickets_panelTeacher);
 
-        final DocumentReference documentTeacher = FirebaseFirestore.getInstance().collection("Users Accounts").document(getIntent().getStringExtra("Email"));
+        emailTeacher = getIntent().getStringExtra("Email");
+
+        final DocumentReference documentTeacher = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailTeacher);
         documentTeacher.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -93,6 +95,7 @@ public class PanelTeacher extends AppCompatActivity {
                 intent.putExtra("surnameTeacher", surnameTeacher);
                 intent.putExtra("facultyTeacher", facultyTeacher);
                 intent.putExtra("fieldTeacher", fieldTeacher);
+                intent.putExtra("Email", emailTeacher);
                 startActivity(intent);
             }
         });
@@ -105,6 +108,7 @@ public class PanelTeacher extends AppCompatActivity {
                 intent.putExtra("surnameTeacher", surnameTeacher);
                 intent.putExtra("facultyTeacher", facultyTeacher);
                 intent.putExtra("fieldTeacher", fieldTeacher);
+                intent.putExtra("Email", emailTeacher);
                 startActivity(intent);
             }
         });

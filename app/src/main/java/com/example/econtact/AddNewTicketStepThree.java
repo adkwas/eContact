@@ -169,7 +169,7 @@ public class AddNewTicketStepThree extends AppCompatActivity {
                 //Such a provision is to remove the problem of obscuring the same reports or similar to the same teacher
                 DocumentReference documentReference = firebaseFirestore.collection("Pending applications")
                         .document(nameStudent + " " + surnameStudent + " to " + nameTeacher + " " + surnameTeacher +
-                                " - Date: " + dayVariable + "." + monthVariable + "." + yearVariable);
+                                " date: " + dayVariable + "." + monthVariable + "." + yearVariable + " time: "+ hourVariable + ":" + minuteVariable);
                 Map<String, Object> user = new HashMap<>();
                 //Data teacher
                 user.put("nameTeacher", nameTeacher);
@@ -214,8 +214,6 @@ public class AddNewTicketStepThree extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(AddNewTicketStepThree.this, "Ticket has been sent to the teacher!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddNewTicketStepThree.this, PanelStudent.class);
-                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -223,6 +221,9 @@ public class AddNewTicketStepThree extends AppCompatActivity {
                         Log.d("TAG", "Error!: " + e.toString());
                     }
                 });
+                Intent intent = new Intent(AddNewTicketStepThree.this, PanelStudent.class);
+                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+                startActivity(intent);
             }
         });
 
