@@ -177,6 +177,11 @@ public class AddNewTicketStepThree extends AppCompatActivity {
                 user.put("facultyTeacher", facultyTeacher);
                 user.put("fieldTeacher", fieldTeacher);
 
+                user.put("nameTeacher2", " ");
+                user.put("surnameTeacher2", " ");
+                user.put("facultyTeacher2", " ");
+                user.put("fieldTeacher2", " ");
+
                 //Data student
                 user.put("nameStudent", nameStudent);
                 user.put("surnameStudent", surnameStudent);

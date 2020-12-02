@@ -8,7 +8,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RejectTickets"/>
+        <activity android:name=".SecondTeacherStepTwo"></activity>
+        <activity android:name=".SecondTeacherStepOne" />
+        <activity android:name=".OngoingTicketStudent" />
+        <activity android:name=".OngoingTicket" />
+        <activity android:name=".RejectTickets" />
         <activity android:name=".ConfirmTickets" />
         <activity android:name=".AcceptedTickets" />
         <activity android:name=".CheckNewTicket" />

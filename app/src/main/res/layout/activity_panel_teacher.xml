@@ -8,6 +8,25 @@
     tools:context=".PanelTeacher">
 
     <Button
+        android:id="@+id/ongoingTickets_panelTeacher2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button"
+        android:drawableLeft="@android:drawable/presence_online"
+        android:fontFamily="@font/cabin"
+        android:text="Ongoing Tickets"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535" />
+
+    <Button
         android:id="@+id/acceptedTickets_panelTeacher"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -42,7 +61,7 @@
         app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.600" />
+        app:layout_constraintVertical_bias="0.7" />
 
     <Button
         android:id="@+id/verifyButton_panelTeacher"

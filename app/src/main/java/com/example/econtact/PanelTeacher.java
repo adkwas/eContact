@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class PanelTeacher extends AppCompatActivity {
     TextView welcomeText, verifyMessageText;
-    Button checkNewTicketButton, logoutButton, acceptedTicketsButton, resendCodeButton;
+    Button checkNewTicketButton, logoutButton, acceptedTicketsButton, resendCodeButton, ongoingButton;
     String nameTeacher, surnameTeacher, facultyTeacher, fieldTeacher, emailTeacher;
 
     @Override
@@ -37,6 +37,7 @@ public class PanelTeacher extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutButton_panelTeacher);
         resendCodeButton = findViewById(R.id.verifyButton_panelTeacher);
         verifyMessageText = findViewById(R.id.verifyText_panelTeacher);
+        ongoingButton = findViewById(R.id.ongoingTickets_panelTeacher2);
         acceptedTicketsButton = findViewById(R.id.acceptedTickets_panelTeacher);
 
         emailTeacher = getIntent().getStringExtra("Email");
@@ -109,6 +110,18 @@ public class PanelTeacher extends AppCompatActivity {
                 intent.putExtra("facultyTeacher", facultyTeacher);
                 intent.putExtra("fieldTeacher", fieldTeacher);
                 intent.putExtra("Email", emailTeacher);
+                startActivity(intent);
+            }
+        });
+
+        ongoingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PanelTeacher.this, OngoingTicket.class);
+                intent.putExtra("nameTeacher", nameTeacher);
+                intent.putExtra("surnameTeacher", surnameTeacher);
+                intent.putExtra("facultyTeacher", facultyTeacher);
+                intent.putExtra("fieldTeacher", fieldTeacher);
                 startActivity(intent);
             }
         });
