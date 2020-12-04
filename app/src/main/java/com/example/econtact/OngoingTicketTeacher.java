@@ -124,7 +124,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                     document.getString("reasonType"),
                                     document.getString("typeMeet"),
 
-                                    document.getString("informationTeacher"),
+                                    document.getString("informationTeacher1"),
                                     document.getString("informationTeacher2"));
                             objectArrayList.add(cloudFireOngoingTicket);
                         }
@@ -167,7 +167,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                     document.getString("reasonType"),
                                     document.getString("typeMeet"),
 
-                                    document.getString("informationTeacher"),
+                                    document.getString("informationTeacher1"),
                                     document.getString("informationTeacher2"));
                             objectArrayList.add(cloudFireOngoingTicket);
                         }
@@ -256,22 +256,23 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher2) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
-                        informationTeacherTwo.setVisibility(VISIBLE);
-                        save2.setVisibility(VISIBLE);
-
-                        informationTeacher1Text.setVisibility(VISIBLE);
-                        save1.setVisibility(GONE);
-
-
-                        informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
-
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
 
-                        CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
+                        informationTeacher1Text.setVisibility(VISIBLE);
+                        informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
+
+                        informationTeacherOne.setVisibility(GONE);
+                        save1.setVisibility(GONE);
+
+                        informationTeacherTwo.setVisibility(VISIBLE);
+                        save2.setVisibility(VISIBLE);
+
+                        informationTeacher2Text.setVisibility(GONE);
+                        /*CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -300,6 +301,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                 }
                             }
                         });
+
+                         */
                     }
 
 
