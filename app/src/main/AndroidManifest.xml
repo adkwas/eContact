@@ -11,7 +11,7 @@
         <activity android:name=".SecondTeacherStepTwo"></activity>
         <activity android:name=".SecondTeacherStepOne" />
         <activity android:name=".OngoingTicketStudent" />
-        <activity android:name=".OngoingTicket" />
+        <activity android:name=".OngoingTicketTeacher" />
         <activity android:name=".RejectTickets" />
         <activity android:name=".ConfirmTickets" />
         <activity android:name=".AcceptedTickets" />

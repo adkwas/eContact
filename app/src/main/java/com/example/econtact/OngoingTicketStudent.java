@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,8 @@ public class OngoingTicketStudent extends AppCompatActivity {
     int indexTicket = 0;
     List<CloudFireOngoingTicketStudent> objectArrayList = new ArrayList<>();
 
+    TextView nameTeacherTextView, surnameTeacherTextView, textview2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,9 @@ public class OngoingTicketStudent extends AppCompatActivity {
         secondTeacherAddButton = findViewById(R.id.secondTeacherButton_ongoingTicketStudent);
         previousButton = findViewById(R.id.previous_ongoingTicketStudent);
         nextButton = findViewById(R.id.next_ongoingTicketStudent);
+        nameTeacherTextView = findViewById(R.id.nameTeacherTextView_ongoingTicketStudent);
+        surnameTeacherTextView = findViewById(R.id.surnameTeacherTextView_ongoingTicketStudent);
+        textview2 = findViewById(R.id.textview2_ongoingTicketStudent);
 
         nameStudent = getIntent().getStringExtra("nameStudent");
         surnameStudent = getIntent().getStringExtra("surnameStudent");
@@ -162,6 +168,16 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             facultyTeacher2.equals(" ")&& fieldTeacher2.equals(" ")) {
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     }
+
+                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
+                            (!facultyTeacher2.equals(" "))&& (!fieldTeacher2.equals(" "))){
+                        secondTeacherAddButton.setVisibility(View.GONE);
+                        textview2.setVisibility(VISIBLE);
+                        nameTeacherTextView.setVisibility(VISIBLE);
+                        surnameTeacherTextView.setVisibility(VISIBLE);
+                        nameTeacherTextView.setText(nameTeacher2);
+                        surnameTeacherTextView.setText(surnameTeacher2);
+                    }
                 }
 
                 if (objectArrayList.size() > 1) {
@@ -207,9 +223,14 @@ public class OngoingTicketStudent extends AppCompatActivity {
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     }
 
-                    if(nameTeacher2Canceled.equals("no") && surnameTeacher2Canceled.equals("no") &&
-                            facultyTeacher2Canceled.equals("no") && fieldTeacher2Canceled.equals("no")){
+                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
+                            (!facultyTeacher2.equals(" "))&& (!fieldTeacher2.equals(" "))){
                         secondTeacherAddButton.setVisibility(View.GONE);
+                        textview2.setVisibility(VISIBLE);
+                        nameTeacherTextView.setVisibility(VISIBLE);
+                        surnameTeacherTextView.setVisibility(VISIBLE);
+                        nameTeacherTextView.setText(nameTeacher2);
+                        surnameTeacherTextView.setText(surnameTeacher2);
                     }
 
                 }
@@ -312,9 +333,14 @@ public class OngoingTicketStudent extends AppCompatActivity {
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     }
 
-                    if(nameTeacher2Canceled.equals("no") && surnameTeacher2Canceled.equals("no") &&
-                            facultyTeacher2Canceled.equals("no") && fieldTeacher2Canceled.equals("no")){
+                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
+                            (!facultyTeacher2.equals(" "))&& (!fieldTeacher2.equals(" "))){
                         secondTeacherAddButton.setVisibility(View.GONE);
+                        textview2.setVisibility(VISIBLE);
+                        nameTeacherTextView.setVisibility(VISIBLE);
+                        surnameTeacherTextView.setVisibility(VISIBLE);
+                        nameTeacherTextView.setText(nameTeacher2);
+                        surnameTeacherTextView.setText(surnameTeacher2);
                     }
                 }
 
@@ -361,9 +387,14 @@ public class OngoingTicketStudent extends AppCompatActivity {
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     }
 
-                    if(nameTeacher2Canceled.equals("no") && surnameTeacher2Canceled.equals("no") &&
-                            facultyTeacher2Canceled.equals("no") && fieldTeacher2Canceled.equals("no")){
+                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
+                            (!facultyTeacher2.equals(" "))&& (!fieldTeacher2.equals(" "))){
                         secondTeacherAddButton.setVisibility(View.GONE);
+                        textview2.setVisibility(VISIBLE);
+                        nameTeacherTextView.setVisibility(VISIBLE);
+                        surnameTeacherTextView.setVisibility(VISIBLE);
+                        nameTeacherTextView.setText(nameTeacher2);
+                        surnameTeacherTextView.setText(surnameTeacher2);
                     }
 
                 } else {
@@ -420,9 +451,14 @@ public class OngoingTicketStudent extends AppCompatActivity {
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     }
 
-                    if(nameTeacher2Canceled.equals("no") && surnameTeacher2Canceled.equals("no") &&
-                            facultyTeacher2Canceled.equals("no") && fieldTeacher2Canceled.equals("no")){
+                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
+                            (!facultyTeacher2.equals(" "))&& (!fieldTeacher2.equals(" "))){
                         secondTeacherAddButton.setVisibility(View.GONE);
+                        textview2.setVisibility(VISIBLE);
+                        nameTeacherTextView.setVisibility(VISIBLE);
+                        surnameTeacherTextView.setVisibility(VISIBLE);
+                        nameTeacherTextView.setText(nameTeacher2);
+                        surnameTeacherTextView.setText(surnameTeacher2);
                     }
 
                     nextButton.setVisibility(VISIBLE);
@@ -470,9 +506,14 @@ public class OngoingTicketStudent extends AppCompatActivity {
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     }
 
-                    if(nameTeacher2Canceled.equals("no") && surnameTeacher2Canceled.equals("no") &&
-                            facultyTeacher2Canceled.equals("no") && fieldTeacher2Canceled.equals("no")){
+                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
+                            (!facultyTeacher2.equals(" "))&& (!fieldTeacher2.equals(" "))){
                         secondTeacherAddButton.setVisibility(View.GONE);
+                        textview2.setVisibility(VISIBLE);
+                        nameTeacherTextView.setVisibility(VISIBLE);
+                        surnameTeacherTextView.setVisibility(VISIBLE);
+                        nameTeacherTextView.setText(nameTeacher2);
+                        surnameTeacherTextView.setText(surnameTeacher2);
                     }
                     nextButton.setVisibility(VISIBLE);
                 } else {

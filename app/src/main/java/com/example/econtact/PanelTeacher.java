@@ -117,7 +117,7 @@ public class PanelTeacher extends AppCompatActivity {
         ongoingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PanelTeacher.this, OngoingTicket.class);
+                Intent intent = new Intent(PanelTeacher.this, OngoingTicketTeacher.class);
                 intent.putExtra("nameTeacher", nameTeacher);
                 intent.putExtra("surnameTeacher", surnameTeacher);
                 intent.putExtra("facultyTeacher", facultyTeacher);
