@@ -3,27 +3,37 @@ package com.example.econtact;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +46,9 @@ import static android.view.View.VISIBLE;
 
 public class OngoingTicketTeacher extends AppCompatActivity {
 
-    Button previousButton, nextButton, save1, save2, delete;
-    EditText informationTeacherOne, informationTeacherTwo;
+    Button previousButton, nextButton, save1, save2, delete, uploadFile;
+    EditText informationTeacherOne, informationTeacherTwo, selectFile;
+
 
     TextView nameStudent, surnameStudent, nameTeacher2, surnameTeacher2, informationTeacher1Text, informationTeacher2Text;
 
@@ -49,6 +60,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     int indexTicket = 0;
     List<CloudFireOngoingTicket> objectArrayList = new ArrayList<>();
 
+    StorageReference storageReference;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +73,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         save1 = findViewById(R.id.save1_ongoingTicketTeacher);
         save2 = findViewById(R.id.save2_ongoingTicketTeacher);
         delete = findViewById(R.id.delete_ongoingTicketTeacher);
+        uploadFile = findViewById(R.id.uploadFile_ongoingTicketTeacher);
 
         nameStudent = findViewById(R.id.nameStudent_ongoingTicketTeacher);
         surnameStudent = findViewById(R.id.surnameStudent_ongoingTicketTeacher);
@@ -72,10 +86,18 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         informationTeacherOne = findViewById(R.id.informationTeacher1_ongoingTicketTeacher);
         informationTeacherTwo = findViewById(R.id.informationTeacher2_ongoingTicketTeacher);
 
+        selectFile = findViewById(R.id.selectFile_ongoingTicketTeacher);
+
         nameTeacherLogin = getIntent().getStringExtra("nameTeacher");
         surnameTeacherLogin = getIntent().getStringExtra("surnameTeacher");
         facultyTeacherLogin = getIntent().getStringExtra("facultyTeacher");
         fieldTeacherLogin = getIntent().getStringExtra("fieldTeacher");
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference("uploadPDF");
+
+        uploadFile.setEnabled(false);
+
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = firebaseFirestore.collection("Accepted Applications");
@@ -272,37 +294,6 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         save2.setVisibility(VISIBLE);
 
                         informationTeacher2Text.setVisibility(GONE);
-                        /*CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
-                        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        if (document.getId().equals(cloudFireOngoingTicket.id)) {
-                                            nameTeacher2Canceled = document.getString("nameTeacher2");
-                                            surnameTeacher2Canceled = document.getString("surnameTeacher2");
-                                            facultyTeacher2Canceled = document.getString("facultyTeacher2");
-                                            fieldTeacher2Canceled = document.getString("fieldTeacher2");
-
-                                            if (!(nameTeacher2Canceled.isEmpty() && surnameTeacher2Canceled.isEmpty()
-                                                    && facultyTeacher2Canceled.isEmpty() && fieldTeacher2Canceled.isEmpty())) {
-
-                                                if (document.getString("secondTeacher").equals("no")) {
-                                                    save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
-                                                }
-                                            } else {
-                                                save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
-
-                         */
                     }
 
 
@@ -419,6 +410,15 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                 }
             }
         });
+
+
+        selectFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectPDF();
+            }
+        });
+
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -993,6 +993,68 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+    }
+
+    private void selectPDF() {
+        Intent intent = new Intent();
+        intent.setType("application/pdf");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "PDF FILE SELECT"), 12);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if ((requestCode == 12) && (resultCode == RESULT_OK) && (data != null) && (data.getData() != null)) {
+            uploadFile.setEnabled(true);
+            selectFile.setText(data.getDataString()
+                    .substring(data.getDataString().lastIndexOf("/") + 1));
+
+            uploadFile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    uploadPDFFileFirebase(data.getData());
+                }
+            });
+        }
+    }
+
+    private void uploadPDFFileFirebase(Uri data) {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("File is loading...");
+        progressDialog.show();
+
+        final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
+
+        StorageReference reference = storageReference.child("uploadPDF " + System.currentTimeMillis() + ".pdf");
+        reference.putFile(data)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isComplete()) ;
+                        Uri uri = uriTask.getResult();
+
+                        putPDF putPDF = new putPDF(selectFile.getText().toString(), uri.toString());
+                        databaseReference
+                                .child(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+                                        cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+                                        + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+                                        + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket).setValue(putPDF);
+                        Toast.makeText(OngoingTicketTeacher.this, "File Upload", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                progressDialog.setMessage("File Uploaded.." + (int) progress + "%");
+
             }
         });
     }
