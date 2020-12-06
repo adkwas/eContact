@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RetrievePDF"></activity>
+        <activity android:name=".SettingsPanelStudent"></activity>
+        <activity android:name=".RetrievePDF" />
         <activity android:name=".SecondTeacherStepTwo" />
         <activity android:name=".SecondTeacherStepOne" />
         <activity android:name=".OngoingTicketStudent" />

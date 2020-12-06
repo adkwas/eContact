@@ -33,6 +33,9 @@ public class AcceptedTickets extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     String day, month, year, minute, hour;
     int indexTicket = 0;
+
+    String nameVal, surnameVal, facultyVal, fieldVal, nameVal2, surnameVal2, facultyVal2, fieldVal2;
+
     List<CloudFireAcceptedTicket> objectArrayList = new ArrayList<>();
 
     @Override
@@ -40,7 +43,6 @@ public class AcceptedTickets extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accepted_tickets);
 
-        //Get ID for all Textviews and Buttons
         previousButton = findViewById(R.id.previous_acceptedTickets);
         nextButton = findViewById(R.id.next_acceptedTickets);
         nameStudent = findViewById(R.id.nameStudent_acceptedTickets);
@@ -55,13 +57,11 @@ public class AcceptedTickets extends AppCompatActivity {
         reasonMeet = findViewById(R.id.reasonMeet_acceptedTickets);
         indexNumberStudent = findViewById(R.id.indexNumberStudent_acceptedTickets);
 
-        //Get data teacher with Panel Teacher
         nameTeacher = getIntent().getStringExtra("nameTeacher");
         surnameTeacher = getIntent().getStringExtra("surnameTeacher");
         facultyTeacher = getIntent().getStringExtra("facultyTeacher");
         fieldTeacher = getIntent().getStringExtra("fieldTeacher");
 
-        //Search for tickets that are specific to a given teacher.
         firebaseFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = firebaseFirestore.collection("Accepted Applications");
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -71,40 +71,47 @@ public class AcceptedTickets extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
 
-                        //Downloading teacher data from a single application from Cloud Fire
-                        String nameVal = document.getString("nameTeacher");
-                        String surnameVal = document.getString("surnameTeacher");
-                        String facultyVal = document.getString("facultyTeacher");
-                        String fieldVal = document.getString("fieldTeacher");
+                        nameVal = document.getString("nameTeacher");
+                        surnameVal = document.getString("surnameTeacher");
+                        facultyVal = document.getString("facultyTeacher");
+                        fieldVal = document.getString("fieldTeacher");
 
-                        //If the data retrieved from a previous activity (containing teacher data) and data from Cloud Fire
-                        //Save the data to the CloudFireCheckNewTicket object and
-                        //Enter it into the list of ticket objects.
-                        assert nameVal != null;
-                        if (nameVal.equals(nameTeacher)) {
-                            assert surnameVal != null;
-                            if (surnameVal.equals(surnameTeacher)) {
-                                assert facultyVal != null;
-                                if (facultyVal.equals(facultyTeacher)) {
-                                    assert fieldVal != null;
-                                    if (fieldVal.equals(fieldTeacher)) {
-                                        day = document.getString("dayTicket");
-                                        month = document.getString("monthTicket");
-                                        year = document.getString("yearTicket");
-                                        minute = document.getString("minuteTicket");
-                                        hour = document.getString("hourTicket");
-                                        CloudFireAcceptedTicket cloudFireAcceptedTicket = new CloudFireAcceptedTicket(document.getString("nameStudent"), document.getString("surnameStudent"), document.getString("facultyStudent"),
-                                                document.getString("fieldStudent"), document.getString("degreeStudent"), document.getString("semesterStudent"), document.getString("typeMeet"), day + "." + month + "." + year,
-                                                hour + ":" + minute, document.getString("reasonType"), document.getString("indexNumberStudent"));
-                                        objectArrayList.add(cloudFireAcceptedTicket);
-                                    }
-                                }
-                            }
+                        nameVal2 = document.getString("nameTeacher2");
+                        surnameVal2 = document.getString("surnameTeacher2");
+                        facultyVal2 = document.getString("facultyTeacher2");
+                        fieldVal2 = document.getString("fieldTeacher2");
+
+
+                        if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
+                                facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                            day = document.getString("dayTicket");
+                            month = document.getString("monthTicket");
+                            year = document.getString("yearTicket");
+                            minute = document.getString("minuteTicket");
+                            hour = document.getString("hourTicket");
+                            CloudFireAcceptedTicket cloudFireAcceptedTicket = new CloudFireAcceptedTicket(document.getString("nameStudent"), document.getString("surnameStudent"), document.getString("facultyStudent"),
+                                    document.getString("fieldStudent"), document.getString("degreeStudent"), document.getString("semesterStudent"), document.getString("typeMeet"), day + "." + month + "." + year,
+                                    hour + ":" + minute, document.getString("reasonType"), document.getString("indexNumberStudent"));
+                            objectArrayList.add(cloudFireAcceptedTicket);
                         }
+
+                        if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
+                                facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                            day = document.getString("dayTicket");
+                            month = document.getString("monthTicket");
+                            year = document.getString("yearTicket");
+                            minute = document.getString("minuteTicket");
+                            hour = document.getString("hourTicket");
+                            CloudFireAcceptedTicket cloudFireAcceptedTicket = new CloudFireAcceptedTicket(document.getString("nameStudent"), document.getString("surnameStudent"), document.getString("facultyStudent"),
+                                    document.getString("fieldStudent"), document.getString("degreeStudent"), document.getString("semesterStudent"), document.getString("typeMeet"), day + "." + month + "." + year,
+                                    hour + ":" + minute, document.getString("reasonType"), document.getString("indexNumberStudent"));
+                            objectArrayList.add(cloudFireAcceptedTicket);
+                        }
+
+
                     }
 
-                    //If the list of applications is late -
-                    //display a banner about no applications with a button to return to Panel Teacher
                     if (objectArrayList.size() == 0) {
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AcceptedTickets.this);
                         dialogBuilder.setTitle("Accepted applications");
@@ -121,48 +128,82 @@ public class AcceptedTickets extends AppCompatActivity {
                         dialogBuilder.create();
                         dialogBuilder.show();
                     }
-                    //If the list of tickets has one ticket - display it on the application's desktop
                     if (objectArrayList.size() == 1) {
+
                         CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(0);
-                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
-                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
-                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
-                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
-                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
-                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
-                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
-                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
-                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
-                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+                        if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
+                                facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                            nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                            surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                            facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                            fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                            degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                            semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                            indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
+                            dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                            timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                            reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                        }
+                        if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
+                                facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                            nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                            surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                            facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                            fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                            degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                            semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                            indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                            dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                            timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                            reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                        }
                     }
 
-                    //If the ticket list has several tickets - display them on the application's desktop
-                    //Activate NextButton
                     if (objectArrayList.size() > 1) {
                         nextButton.setVisibility(VISIBLE);
                         CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(0);
-                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
-                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
-                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
-                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
-                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
-                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
-                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
-                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
-                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
-                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                        if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
+                                facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                            nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                            surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                            facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                            fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                            degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                            semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                            indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
+                            dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                            timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                            reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                        }
+                        if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
+                                facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                            nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                            surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                            facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                            fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                            degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                            semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                            indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                            dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                            timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                            reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                        }
                     }
                 }
             }
         });
 
-        //If click a next button:
-        //Set the previous button to visible.
-        //If there are still issues on the list,
-        //display another issue until the last one.
-        //When we get to the last report - turn off the next Button
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,42 +214,81 @@ public class AcceptedTickets extends AppCompatActivity {
                 if (indexTicket == (sizeList - 1)) {
                     nextButton.setVisibility(View.GONE);
                     CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(indexTicket);
-                    nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
-                    surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
-                    facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
-                    fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
-                    degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
-                    semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
-                    indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                    typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
-                    dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
-                    timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
-                    reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
+                            facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
+                    if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
+                            facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
                 }
 
 
                 if (indexTicket < sizeList) {
                     CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(indexTicket);
-                    nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
-                    surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
-                    facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
-                    fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
-                    degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
-                    semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
-                    indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                    typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
-                    dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
-                    timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
-                    reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
+                            facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
+                    if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
+                            facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
                 } else {
                     nextButton.setVisibility(View.GONE);
                 }
             }
         });
 
-        //If click a previous button
-        //Go to the previous request and set the parameters on the display.
-        //If we get to the first notification - turn off the previous button
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,33 +297,74 @@ public class AcceptedTickets extends AppCompatActivity {
                 if (indexTicket == 0) {
                     previousButton.setVisibility(View.GONE);
                     CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(indexTicket);
-                    nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
-                    surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
-                    facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
-                    fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
-                    degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
-                    semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
-                    indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                    typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
-                    dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
-                    timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
-                    reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
+                            facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
+                    if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
+                            facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
                     nextButton.setVisibility(VISIBLE);
                 }
 
                 if (indexTicket > 0) {
                     CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(indexTicket);
-                    nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
-                    surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
-                    facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
-                    fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
-                    degreeStudent.setText( cloudFireAcceptedTicket.degreeStudent);
-                    semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
-                    indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                    typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
-                    dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
-                    timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
-                    reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+                    if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
+                            facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
+                    if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
+                            facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                        nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
+                        surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
+                        facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
+                        fieldStudent.setText("Field: " + cloudFireAcceptedTicket.fieldStudent);
+                        degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
+                        semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
+                        indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
+                        timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
+                        reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
+
+                    }
                     nextButton.setVisibility(VISIBLE);
                 } else {
                     previousButton.setVisibility(View.GONE);
@@ -254,26 +375,27 @@ public class AcceptedTickets extends AppCompatActivity {
 
     }
 
-    //Class CloudFireCheckNewTicket
-    //The class is used to save read student data from Cloud Fire.
-    //Class objects are single entries to the same teacher.
-    //The class contains all the data concerning the application and the data of a single student.
-    //The class objects are then listed in the list.
     public static class CloudFireAcceptedTicket {
-        String nameStudent;
-        String surnameStudent;
-        String facultyStudent;
-        String fieldStudent;
-        String degreeStudent;
-        String semesterStudent;
-        String meetType;
-        String dataMeet;
-        String timeMeet;
-        String reason;
-        String indexNumber;
+        String nameStudent = " ";
+        String surnameStudent = " ";
+
+        String facultyStudent = " ";
+        String fieldStudent = " ";
+
+        String degreeStudent = " ";
+        String semesterStudent = " ";
+
+        String meetType = " ";
+        String dataMeet = " ";
+
+        String timeMeet = " ";
+
+        String reason = " ";
+        String indexNumber = " ";
 
         public CloudFireAcceptedTicket(String nameStudent, String surnameStudent, String facultyStudent,
-                                       String fieldStudent, String degreeStudent, String semesterStudent, String meetType, String dataMeet, String timeMeet, String reason, String indexNumber) {
+                                       String fieldStudent, String degreeStudent, String semesterStudent,
+                                       String meetType, String dataMeet, String timeMeet, String reason, String indexNumber) {
             this.nameStudent = nameStudent;
             this.surnameStudent = surnameStudent;
             this.facultyStudent = facultyStudent;

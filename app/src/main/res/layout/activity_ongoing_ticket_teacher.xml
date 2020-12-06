@@ -7,25 +7,73 @@
     android:background="@color/colorBackground"
     tools:context=".OngoingTicketTeacher">
 
+    <TextView
+        android:id="@+id/textview2_ongoingTicketStudent4"
+        style="@android:style/Widget.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:height="50dp"
+        android:fontFamily="@font/cabin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:text="Second teacher:"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.795" />
+
+    <TextView
+        android:id="@+id/textview2_ongoingTicketStudent2"
+        style="@android:style/Widget.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:height="50dp"
+        android:fontFamily="@font/cabin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:text="First teacher:"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.61" />
+
     <EditText
         android:id="@+id/selectFile_ongoingTicketTeacher"
         style="@android:style/Widget.EditText"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_button"
+        android:editable="false"
         android:fontFamily="@font/cabin"
-        android:hint="Select file from Storage"
         android:importantForAutofill="no"
-        android:inputType="textPersonName|textEmailAddress"
         android:paddingStart="8dp"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:paddingRight="8dp"
+        android:text="Click to select a file"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColorHint="#707B7C"
@@ -36,13 +84,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413"
+        app:layout_constraintVertical_bias="0.424"
         tools:visibility="visible" />
 
     <Button
         android:id="@+id/uploadFile_ongoingTicketTeacher"
-        android:layout_width="0dp"
-        android:layout_height="65dp"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
@@ -53,10 +101,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.538" />
+        app:layout_constraintVertical_bias="0.424" />
 
     <TextView
         android:id="@+id/informationTeacher1Text_ongoingTicketTeacher2"
@@ -78,9 +126,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintVertical_bias="0.701" />
 
     <TextView
         android:id="@+id/informationTeacher2Text_ongoingTicketTeacher"
@@ -102,10 +151,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.894" />
+        app:layout_constraintVertical_bias="0.888" />
 
     <TextView
         android:id="@+id/textview5_ongoingTicketTeacher"
@@ -126,15 +175,15 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintHorizontal_bias="0.233"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.102" />
+        app:layout_constraintVertical_bias="0.024" />
 
     <TextView
         android:id="@+id/surnameStudent_ongoingTicketTeacher"
         style="@android:style/Widget.TextView"
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="55dp"
         android:layout_margin="32dp"
         android:layout_marginEnd="32dp"
@@ -154,12 +203,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.295" />
+        app:layout_constraintVertical_bias="0.271" />
 
     <TextView
         android:id="@+id/surnameTeacher2_ongoingTicketTeacher"
         style="@android:style/Widget.TextView"
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="55dp"
         android:layout_margin="32dp"
         android:layout_marginEnd="32dp"
@@ -179,12 +228,12 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.295" />
+        app:layout_constraintVertical_bias="0.273" />
 
     <TextView
         android:id="@+id/nameStudent_ongoingTicketTeacher"
         style="@android:style/Widget.TextView"
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="55dp"
         android:layout_margin="32dp"
         android:layout_marginEnd="32dp"
@@ -204,12 +253,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.187" />
+        app:layout_constraintVertical_bias="0.128" />
 
     <TextView
         android:id="@+id/nameTeacher2_ongoingTicketTeacher"
         style="@android:style/Widget.TextView"
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="55dp"
         android:layout_margin="32dp"
         android:layout_marginEnd="32dp"
@@ -229,7 +278,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19" />
+        app:layout_constraintVertical_bias="0.127" />
 
     <Button
         android:id="@+id/save2_ongoingTicketTeacher"
@@ -249,7 +298,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.881" />
+        app:layout_constraintVertical_bias="0.889" />
 
     <Button
         android:id="@+id/save1_ongoingTicketTeacher"
@@ -269,7 +318,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764" />
+        app:layout_constraintVertical_bias="0.695" />
 
     <TextView
         android:id="@+id/textview2_ongoingTicketStudent3"
@@ -290,10 +339,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.651" />
+        app:layout_constraintVertical_bias="0.53" />
 
     <EditText
         android:id="@+id/informationTeacher2_ongoingTicketTeacher"
@@ -323,7 +372,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.881"
+        app:layout_constraintVertical_bias="0.889"
         tools:visibility="gone" />
 
     <EditText
@@ -354,7 +403,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764"
+        app:layout_constraintVertical_bias="0.702"
         tools:visibility="gone" />
 
     <TextView
@@ -379,7 +428,7 @@
         app:layout_constraintHorizontal_bias="0.841"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.099" />
+        app:layout_constraintVertical_bias="0.024" />
 
     <Button
         android:id="@+id/delete_ongoingTicketTeacher"
@@ -400,32 +449,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/ongoing_ticket_textview"
-        style="@android:style/Widget.TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="51dp"
-        android:layout_margin="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:height="50dp"
-        android:fontFamily="@font/cabin"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:text="Ongoing Tickets"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textSize="18sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
     <Button
         android:id="@+id/next_ongoingTicket"
         android:layout_width="100dp"
@@ -436,7 +459,7 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/cabin"
-        android:text="P"
+        android:text="Next"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -455,7 +478,7 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/cabin"
-        android:text="L"
+        android:text="Previous"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class PanelStudent extends AppCompatActivity {
 
     TextView welcomeText, verifyMessage;
-    Button addNewTicketButton, confirmTicketsButton, logoutButton, pendingTicketsButton, rejectTicketsButton, resendCodeButton, ongoingTickets;
+    Button addNewTicketButton, confirmTicketsButton, logoutButton, pendingTicketsButton, rejectTicketsButton, resendCodeButton, ongoingTickets, settings;
     String nameStudent, surnameStudent, facultyStudent, fieldStudent, degreeStudent, semesterStudent, indexNumberStudent, emailStudent;
 
     @Override
@@ -42,6 +42,7 @@ public class PanelStudent extends AppCompatActivity {
         pendingTicketsButton = findViewById(R.id.pendingTickets_panelStudent);
         rejectTicketsButton = findViewById(R.id.rejectTickets_panelStudent);
         ongoingTickets = findViewById(R.id.ongoingTicket_panelStudent);
+        settings = findViewById(R.id.settings_panelStudent);
 
         emailStudent = getIntent().getStringExtra("Email");
 
@@ -159,6 +160,15 @@ public class PanelStudent extends AppCompatActivity {
                 intent.putExtra("surnameStudent", surnameStudent);
                 intent.putExtra("facultyStudent", facultyStudent);
                 intent.putExtra("fieldStudent", fieldStudent);
+                intent.putExtra("Email", emailStudent);
+                startActivity(intent);
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PanelStudent.this, SettingsPanelStudent.class);
                 intent.putExtra("Email", emailStudent);
                 startActivity(intent);
             }

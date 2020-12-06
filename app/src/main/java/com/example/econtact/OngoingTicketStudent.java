@@ -65,7 +65,6 @@ public class OngoingTicketStudent extends AppCompatActivity {
         facultyStudent = getIntent().getStringExtra("facultyStudent");
         fieldStudent = getIntent().getStringExtra("fieldStudent");
 
-        //Search for tickets that are specific to a given teacher.
         firebaseFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = firebaseFirestore.collection("Accepted Applications");
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -137,8 +136,8 @@ public class OngoingTicketStudent extends AppCompatActivity {
 
                 if (objectArrayList.size() == 1) {
 
+                    ///
                     final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(0);
-
                     nameTeacher1.setText(cloudFireOngoingTicketStudent.nameTeacher);
                     surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
                     informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
@@ -147,12 +146,14 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
+                        informationTeacher2TextView.setVisibility(GONE);
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     } else {
                         nameTeacher2.setVisibility(VISIBLE);
                         surnameTeacher2.setVisibility(VISIBLE);
                         nameTeacher2.setText(cloudFireOngoingTicketStudent.nameTeacher2);
                         surnameTeacher2.setText(cloudFireOngoingTicketStudent.surnameTeacher2);
+                        informationTeacher2TextView.setVisibility(VISIBLE);
                         informationTeacher2TextView.setText(cloudFireOngoingTicketStudent.informationTeacher2);
                         secondTeacherAddButton.setVisibility(GONE);
                     }
@@ -181,6 +182,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                                                 secondTeacherAddButton.setVisibility(GONE);
                                                 nameTeacher2.setText("No data!");
                                                 surnameTeacher2.setText("No data!");
+                                                informationTeacher2TextView.setVisibility(VISIBLE);
                                                 informationTeacher2TextView.setText("No data!");
                                             }
                                         }
@@ -189,12 +191,34 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             }
                         }
                     });
+                    /////
                 }
 
                 if (objectArrayList.size() > 1) {
                     nextButton.setVisibility(VISIBLE);
 
+                    ///
                     final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(0);
+                    nameTeacher1.setText(cloudFireOngoingTicketStudent.nameTeacher);
+                    surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
+                    informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
+
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                        nameTeacher2.setVisibility(GONE);
+                        surnameTeacher2.setVisibility(GONE);
+                        informationTeacher2TextView.setVisibility(GONE);
+                        secondTeacherAddButton.setVisibility(VISIBLE);
+                    } else {
+                        nameTeacher2.setVisibility(VISIBLE);
+                        surnameTeacher2.setVisibility(VISIBLE);
+                        nameTeacher2.setText(cloudFireOngoingTicketStudent.nameTeacher2);
+                        surnameTeacher2.setText(cloudFireOngoingTicketStudent.surnameTeacher2);
+                        informationTeacher2TextView.setVisibility(VISIBLE);
+                        informationTeacher2TextView.setText(cloudFireOngoingTicketStudent.informationTeacher2);
+                        secondTeacherAddButton.setVisibility(GONE);
+                    }
+
 
                     CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                     collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -214,6 +238,13 @@ public class OngoingTicketStudent extends AppCompatActivity {
 
                                             if (document.getString("secondTeacher").equals("no")) {
                                                 secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setVisibility(VISIBLE);
+                                                surnameTeacher2.setVisibility(VISIBLE);
+                                                secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setText("No data!");
+                                                surnameTeacher2.setText("No data!");
+                                                informationTeacher2TextView.setVisibility(VISIBLE);
+                                                informationTeacher2TextView.setText("No data!");
                                             }
                                         }
                                     }
@@ -221,28 +252,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             }
                         }
                     });
-
-
-                    String nameTeacher2 = cloudFireOngoingTicketStudent.nameTeacher2;
-                    String surnameTeacher2 = cloudFireOngoingTicketStudent.surnameTeacher2;
-                    String facultyTeacher2 = cloudFireOngoingTicketStudent.facultyTeacher2;
-                    String fieldTeacher2 = cloudFireOngoingTicketStudent.fieldTeacher2;
-
-
-                    if (nameTeacher2.equals(" ") && surnameTeacher2.equals(" ") &&
-                            facultyTeacher2.equals(" ") && fieldTeacher2.equals(" ")) {
-                        secondTeacherAddButton.setVisibility(VISIBLE);
-                    }
-
-                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
-                            (!facultyTeacher2.equals(" ")) && (!fieldTeacher2.equals(" "))) {
-                        secondTeacherAddButton.setVisibility(GONE);
-                        nameTeacher1.setVisibility(VISIBLE);
-                        surnameTeacher1.setVisibility(VISIBLE);
-                        nameTeacher1.setText(nameTeacher2);
-                        surnameTeacher1.setText(surnameTeacher2);
-                    }
-
+                    /////
                 }
             }
         });
@@ -269,9 +279,8 @@ public class OngoingTicketStudent extends AppCompatActivity {
                 intent.putExtra("surnameStudent", surnameStudent);
                 intent.putExtra("facultyStudent", facultyStudent);
                 intent.putExtra("fieldStudent", fieldStudent);
-
-                intent.putExtra("semesterStudent", cloudFireOngoingTicketStudent.semesterStudent);
                 intent.putExtra("degreeStudent", cloudFireOngoingTicketStudent.degreeStudent);
+                intent.putExtra("semesterStudent", cloudFireOngoingTicketStudent.semesterStudent);
                 intent.putExtra("indexNumberStudent", cloudFireOngoingTicketStudent.indexNumberStudent);
 
                 intent.putExtra("minuteTicket", cloudFireOngoingTicketStudent.minuteTicket);
@@ -305,6 +314,28 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(indexTicket);
 
 
+                    ///
+                    nameTeacher1.setText(cloudFireOngoingTicketStudent.nameTeacher);
+                    surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
+                    informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
+
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                        nameTeacher2.setVisibility(GONE);
+                        surnameTeacher2.setVisibility(GONE);
+                        informationTeacher2TextView.setVisibility(GONE);
+                        secondTeacherAddButton.setVisibility(VISIBLE);
+                    } else {
+                        nameTeacher2.setVisibility(VISIBLE);
+                        surnameTeacher2.setVisibility(VISIBLE);
+                        nameTeacher2.setText(cloudFireOngoingTicketStudent.nameTeacher2);
+                        surnameTeacher2.setText(cloudFireOngoingTicketStudent.surnameTeacher2);
+                        informationTeacher2TextView.setVisibility(VISIBLE);
+                        informationTeacher2TextView.setText(cloudFireOngoingTicketStudent.informationTeacher2);
+                        secondTeacherAddButton.setVisibility(GONE);
+                    }
+
+
                     CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                     collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -323,6 +354,13 @@ public class OngoingTicketStudent extends AppCompatActivity {
 
                                             if (document.getString("secondTeacher").equals("no")) {
                                                 secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setVisibility(VISIBLE);
+                                                surnameTeacher2.setVisibility(VISIBLE);
+                                                secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setText("No data!");
+                                                surnameTeacher2.setText("No data!");
+                                                informationTeacher2TextView.setVisibility(VISIBLE);
+                                                informationTeacher2TextView.setText("No data!");
                                             }
                                         }
                                     }
@@ -330,27 +368,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             }
                         }
                     });
-
-
-                    String nameTeacher2 = cloudFireOngoingTicketStudent.nameTeacher2;
-                    String surnameTeacher2 = cloudFireOngoingTicketStudent.surnameTeacher2;
-                    String facultyTeacher2 = cloudFireOngoingTicketStudent.facultyTeacher2;
-                    String fieldTeacher2 = cloudFireOngoingTicketStudent.fieldTeacher2;
-
-
-                    if (nameTeacher2.equals(" ") && surnameTeacher2.equals(" ") &&
-                            facultyTeacher2.equals(" ") && fieldTeacher2.equals(" ")) {
-                        secondTeacherAddButton.setVisibility(VISIBLE);
-                    }
-
-                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
-                            (!facultyTeacher2.equals(" ")) && (!fieldTeacher2.equals(" "))) {
-                        secondTeacherAddButton.setVisibility(GONE);
-                        nameTeacher1.setVisibility(VISIBLE);
-                        surnameTeacher1.setVisibility(VISIBLE);
-                        nameTeacher1.setText(nameTeacher2);
-                        surnameTeacher1.setText(surnameTeacher2);
-                    }
+                    /////
                 }
 
 
@@ -358,6 +376,28 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(indexTicket);
 
 
+                    ///
+                    nameTeacher1.setText(cloudFireOngoingTicketStudent.nameTeacher);
+                    surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
+                    informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
+
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                        nameTeacher2.setVisibility(GONE);
+                        surnameTeacher2.setVisibility(GONE);
+                        informationTeacher2TextView.setVisibility(GONE);
+                        secondTeacherAddButton.setVisibility(VISIBLE);
+                    } else {
+                        nameTeacher2.setVisibility(VISIBLE);
+                        surnameTeacher2.setVisibility(VISIBLE);
+                        nameTeacher2.setText(cloudFireOngoingTicketStudent.nameTeacher2);
+                        surnameTeacher2.setText(cloudFireOngoingTicketStudent.surnameTeacher2);
+                        informationTeacher2TextView.setVisibility(VISIBLE);
+                        informationTeacher2TextView.setText(cloudFireOngoingTicketStudent.informationTeacher2);
+                        secondTeacherAddButton.setVisibility(GONE);
+                    }
+
+
                     CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                     collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -376,6 +416,13 @@ public class OngoingTicketStudent extends AppCompatActivity {
 
                                             if (document.getString("secondTeacher").equals("no")) {
                                                 secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setVisibility(VISIBLE);
+                                                surnameTeacher2.setVisibility(VISIBLE);
+                                                secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setText("No data!");
+                                                surnameTeacher2.setText("No data!");
+                                                informationTeacher2TextView.setVisibility(VISIBLE);
+                                                informationTeacher2TextView.setText("No data!");
                                             }
                                         }
                                     }
@@ -383,27 +430,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             }
                         }
                     });
-
-
-                    String nameTeacher2 = cloudFireOngoingTicketStudent.nameTeacher2;
-                    String surnameTeacher2 = cloudFireOngoingTicketStudent.surnameTeacher2;
-                    String facultyTeacher2 = cloudFireOngoingTicketStudent.facultyTeacher2;
-                    String fieldTeacher2 = cloudFireOngoingTicketStudent.fieldTeacher2;
-
-
-                    if (nameTeacher2.equals(" ") && surnameTeacher2.equals(" ") &&
-                            facultyTeacher2.equals(" ") && fieldTeacher2.equals(" ")) {
-                        secondTeacherAddButton.setVisibility(VISIBLE);
-                    }
-
-                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
-                            (!facultyTeacher2.equals(" ")) && (!fieldTeacher2.equals(" "))) {
-                        secondTeacherAddButton.setVisibility(GONE);
-                        nameTeacher1.setVisibility(VISIBLE);
-                        surnameTeacher1.setVisibility(VISIBLE);
-                        nameTeacher1.setText(nameTeacher2);
-                        surnameTeacher1.setText(surnameTeacher2);
-                    }
+                    /////
 
                 } else {
                     nextButton.setVisibility(GONE);
@@ -421,6 +448,28 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(indexTicket);
 
 
+                    ///
+                    nameTeacher1.setText(cloudFireOngoingTicketStudent.nameTeacher);
+                    surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
+                    informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
+
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                        nameTeacher2.setVisibility(GONE);
+                        surnameTeacher2.setVisibility(GONE);
+                        informationTeacher2TextView.setVisibility(GONE);
+                        secondTeacherAddButton.setVisibility(VISIBLE);
+                    } else {
+                        nameTeacher2.setVisibility(VISIBLE);
+                        surnameTeacher2.setVisibility(VISIBLE);
+                        nameTeacher2.setText(cloudFireOngoingTicketStudent.nameTeacher2);
+                        surnameTeacher2.setText(cloudFireOngoingTicketStudent.surnameTeacher2);
+                        informationTeacher2TextView.setVisibility(VISIBLE);
+                        informationTeacher2TextView.setText(cloudFireOngoingTicketStudent.informationTeacher2);
+                        secondTeacherAddButton.setVisibility(GONE);
+                    }
+
+
                     CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                     collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -439,6 +488,13 @@ public class OngoingTicketStudent extends AppCompatActivity {
 
                                             if (document.getString("secondTeacher").equals("no")) {
                                                 secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setVisibility(VISIBLE);
+                                                surnameTeacher2.setVisibility(VISIBLE);
+                                                secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setText("No data!");
+                                                surnameTeacher2.setText("No data!");
+                                                informationTeacher2TextView.setVisibility(VISIBLE);
+                                                informationTeacher2TextView.setText("No data!");
                                             }
                                         }
                                     }
@@ -446,27 +502,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             }
                         }
                     });
-
-
-                    String nameTeacher2 = cloudFireOngoingTicketStudent.nameTeacher2;
-                    String surnameTeacher2 = cloudFireOngoingTicketStudent.surnameTeacher2;
-                    String facultyTeacher2 = cloudFireOngoingTicketStudent.facultyTeacher2;
-                    String fieldTeacher2 = cloudFireOngoingTicketStudent.fieldTeacher2;
-
-
-                    if (nameTeacher2.equals(" ") && surnameTeacher2.equals(" ") &&
-                            facultyTeacher2.equals(" ") && fieldTeacher2.equals(" ")) {
-                        secondTeacherAddButton.setVisibility(VISIBLE);
-                    }
-
-                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
-                            (!facultyTeacher2.equals(" ")) && (!fieldTeacher2.equals(" "))) {
-                        secondTeacherAddButton.setVisibility(GONE);
-                        nameTeacher1.setVisibility(VISIBLE);
-                        surnameTeacher1.setVisibility(VISIBLE);
-                        nameTeacher1.setText(nameTeacher2);
-                        surnameTeacher1.setText(surnameTeacher2);
-                    }
+                    /////
 
                     nextButton.setVisibility(VISIBLE);
                 }
@@ -475,6 +511,28 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(indexTicket);
 
 
+                    ///
+                    nameTeacher1.setText(cloudFireOngoingTicketStudent.nameTeacher);
+                    surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
+                    informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
+
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                        nameTeacher2.setVisibility(GONE);
+                        surnameTeacher2.setVisibility(GONE);
+                        informationTeacher2TextView.setVisibility(GONE);
+                        secondTeacherAddButton.setVisibility(VISIBLE);
+                    } else {
+                        nameTeacher2.setVisibility(VISIBLE);
+                        surnameTeacher2.setVisibility(VISIBLE);
+                        nameTeacher2.setText(cloudFireOngoingTicketStudent.nameTeacher2);
+                        surnameTeacher2.setText(cloudFireOngoingTicketStudent.surnameTeacher2);
+                        informationTeacher2TextView.setVisibility(VISIBLE);
+                        informationTeacher2TextView.setText(cloudFireOngoingTicketStudent.informationTeacher2);
+                        secondTeacherAddButton.setVisibility(GONE);
+                    }
+
+
                     CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                     collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -493,6 +551,13 @@ public class OngoingTicketStudent extends AppCompatActivity {
 
                                             if (document.getString("secondTeacher").equals("no")) {
                                                 secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setVisibility(VISIBLE);
+                                                surnameTeacher2.setVisibility(VISIBLE);
+                                                secondTeacherAddButton.setVisibility(GONE);
+                                                nameTeacher2.setText("No data!");
+                                                surnameTeacher2.setText("No data!");
+                                                informationTeacher2TextView.setVisibility(VISIBLE);
+                                                informationTeacher2TextView.setText("No data!");
                                             }
                                         }
                                     }
@@ -500,27 +565,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             }
                         }
                     });
-
-
-                    String nameTeacher2 = cloudFireOngoingTicketStudent.nameTeacher2;
-                    String surnameTeacher2 = cloudFireOngoingTicketStudent.surnameTeacher2;
-                    String facultyTeacher2 = cloudFireOngoingTicketStudent.facultyTeacher2;
-                    String fieldTeacher2 = cloudFireOngoingTicketStudent.fieldTeacher2;
-
-
-                    if (nameTeacher2.equals(" ") && surnameTeacher2.equals(" ") &&
-                            facultyTeacher2.equals(" ") && fieldTeacher2.equals(" ")) {
-                        secondTeacherAddButton.setVisibility(VISIBLE);
-                    }
-
-                    if ((!nameTeacher2.equals(" ")) && (!surnameTeacher2.equals(" ")) &&
-                            (!facultyTeacher2.equals(" ")) && (!fieldTeacher2.equals(" "))) {
-                        secondTeacherAddButton.setVisibility(GONE);
-                        nameTeacher1.setVisibility(VISIBLE);
-                        surnameTeacher1.setVisibility(VISIBLE);
-                        nameTeacher1.setText(nameTeacher2);
-                        surnameTeacher1.setText(surnameTeacher2);
-                    }
+                    /////
                     nextButton.setVisibility(VISIBLE);
                 } else {
                     previousButton.setVisibility(GONE);
@@ -529,11 +574,17 @@ public class OngoingTicketStudent extends AppCompatActivity {
         });
 
 
-
     }
 
     public void retrievePDF(View view) {
-        startActivity(new Intent (getApplicationContext(), RetrievePDF.class));
+        final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(indexTicket);
+        Intent intent = new Intent(getApplicationContext(), RetrievePDF.class);
+        String val = nameStudent + surnameStudent + "to" +
+                cloudFireOngoingTicketStudent.nameTeacher + cloudFireOngoingTicketStudent.surnameTeacher
+                + cloudFireOngoingTicketStudent.dayTicket + cloudFireOngoingTicketStudent.monthTicket + cloudFireOngoingTicketStudent.yearTicket
+                + cloudFireOngoingTicketStudent.minuteTicket + cloudFireOngoingTicketStudent.hourTicket;
+        intent.putExtra("val", val);
+        startActivity(intent);
     }
 }
 

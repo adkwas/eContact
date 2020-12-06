@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RetrievePDF extends AppCompatActivity {
 
@@ -35,7 +36,6 @@ public class RetrievePDF extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrieve_p_d_f);
         listView = findViewById(R.id.listview_retrievePDF);
-
         uploadedPDF = new ArrayList<>();
         retrievedPDFFile();
 
@@ -48,7 +48,6 @@ public class RetrievePDF extends AppCompatActivity {
                 intent.setType("application/pdf");
                 intent.setData(Uri.parse(putPDF.getUrl()));
                 startActivity(intent);
-
             }
         });
     }
@@ -59,9 +58,12 @@ public class RetrievePDF extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String val = getIntent().getStringExtra("val");
                 for(DataSnapshot ds: snapshot.getChildren()){
-                    putPDF putPDF = ds.getValue(com.example.econtact.putPDF.class);
-                    uploadedPDF.add(putPDF);
+                    if(Objects.requireNonNull(ds.getKey()).equals(val)){
+                        putPDF putPDF = ds.getValue(com.example.econtact.putPDF.class);
+                        uploadedPDF.add(putPDF);
+                    }
                 }
 
                 String[] uploadsName = new String[uploadedPDF.size()];

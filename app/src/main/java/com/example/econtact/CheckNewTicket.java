@@ -448,7 +448,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("facultyStudent", cloudFireCheckNewTicket.facultyStudent);
                     user.put("fieldStudent", cloudFireCheckNewTicket.fieldStudent);
                     user.put("degreeStudent", cloudFireCheckNewTicket.degreeStudent);
-                    user.put("yearStudent", cloudFireCheckNewTicket.semesterStudent);
+                    user.put("semesterStudent", cloudFireCheckNewTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireCheckNewTicket.indexNumberStudent);
 
                     String minuteString = String.valueOf(minuteTicket);
@@ -543,7 +543,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("facultyStudent", cloudFireCheckNewTicket.facultyStudent);
                     user.put("fieldStudent", cloudFireCheckNewTicket.fieldStudent);
                     user.put("degreeStudent", cloudFireCheckNewTicket.degreeStudent);
-                    user.put("yearStudent", cloudFireCheckNewTicket.semesterStudent);
+                    user.put("semesterStudent", cloudFireCheckNewTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireCheckNewTicket.indexNumberStudent);
 
                     user.put("secondTeacher", "no");

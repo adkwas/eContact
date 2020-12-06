@@ -50,7 +50,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     EditText informationTeacherOne, informationTeacherTwo, selectFile;
 
 
-    TextView nameStudent, surnameStudent, nameTeacher2, surnameTeacher2, informationTeacher1Text, informationTeacher2Text;
+    TextView nameStudent, surnameStudent, nameTeacher2, surnameTeacher2, informationTeacher1Text, informationTeacher2Text, textView;
 
     String nameTeacher2Canceled = " ", surnameTeacher2Canceled = " ", facultyTeacher2Canceled = " ",
             fieldTeacher2Canceled = " ";
@@ -85,6 +85,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         informationTeacher2Text = findViewById(R.id.informationTeacher2Text_ongoingTicketTeacher);
         informationTeacherOne = findViewById(R.id.informationTeacher1_ongoingTicketTeacher);
         informationTeacherTwo = findViewById(R.id.informationTeacher2_ongoingTicketTeacher);
+        textView = findViewById(R.id.textview4_ongoingTicketTeacher);
 
         selectFile = findViewById(R.id.selectFile_ongoingTicketTeacher);
 
@@ -215,28 +216,27 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
 
                 if (objectArrayList.size() == 1) {
+                    //////
                     final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(0);
-
-
                     if (nameTeacherLogin.equals(cloudFireOngoingTicket.nameTeacher) &&
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
-                        informationTeacherOne.setVisibility(VISIBLE);
 
+                        textView.setText("Second Teacher:");
+
+                        informationTeacherOne.setVisibility(VISIBLE);
+                        save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
 
-                        save1.setVisibility(VISIBLE);
-
                         informationTeacher2Text.setVisibility(VISIBLE);
+                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
-
-                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
                         CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -256,6 +256,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 if (document.getString("secondTeacher").equals("no")) {
                                                     save2.setVisibility(GONE);
                                                     informationTeacherTwo.setVisibility(GONE);
+                                                    informationTeacher2Text.setVisibility(VISIBLE);
                                                     informationTeacher2Text.setText("No data!");
                                                     nameTeacher2.setText("No data!");
                                                     surnameTeacher2.setText("No data!");
@@ -263,6 +264,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                             } else {
                                                 save2.setVisibility(GONE);
                                                 informationTeacherTwo.setVisibility(GONE);
+                                                informationTeacher2Text.setVisibility(VISIBLE);
                                                 informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
                                             }
                                         }
@@ -278,42 +280,43 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher2) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
+                        textView.setText("First Teacher:");
+
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
 
+                        informationTeacherOne.setVisibility(GONE);
+                        save1.setVisibility(GONE);
                         informationTeacher1Text.setVisibility(VISIBLE);
                         informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
 
-                        informationTeacherOne.setVisibility(GONE);
-                        save1.setVisibility(GONE);
-
                         informationTeacherTwo.setVisibility(VISIBLE);
                         save2.setVisibility(VISIBLE);
-
                         informationTeacher2Text.setVisibility(GONE);
                     }
-
-
+                    //////
                 }
 
                 if (objectArrayList.size() > 1) {
                     nextButton.setVisibility(VISIBLE);
                     final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(0);
-
-
+//////
                     if (nameTeacherLogin.equals(cloudFireOngoingTicket.nameTeacher) &&
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
-                        informationTeacherOne.setVisibility(VISIBLE);
 
+                        textView.setText("Second Teacher:");
+
+                        informationTeacherOne.setVisibility(VISIBLE);
+                        save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
 
-
-                        save1.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(VISIBLE);
+                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
@@ -338,14 +341,17 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                                                 if (document.getString("secondTeacher").equals("no")) {
                                                     save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
+                                                    informationTeacherTwo.setVisibility(GONE);
+                                                    informationTeacher2Text.setVisibility(VISIBLE);
+                                                    informationTeacher2Text.setText("No data!");
                                                     nameTeacher2.setText("No data!");
                                                     surnameTeacher2.setText("No data!");
                                                 }
                                             } else {
                                                 save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
+                                                informationTeacherTwo.setVisibility(GONE);
+                                                informationTeacher2Text.setVisibility(VISIBLE);
+                                                informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
                                             }
                                         }
                                     }
@@ -359,53 +365,25 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher2) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher2) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
-                        informationTeacherTwo.setVisibility(VISIBLE);
-                        save2.setVisibility(VISIBLE);
 
-                        save1.setVisibility(GONE);
-
-                        if (cloudFireOngoingTicket.informationTeacher1.equals(" ")) {
-                            informationTeacherOne.setText("No data!");
-                        } else {
-                            informationTeacherOne.setText(cloudFireOngoingTicket.informationTeacher1);
-                        }
+                        textView.setText("First Teacher:");
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
-                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
 
-                        CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
-                        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        if (document.getId().equals(cloudFireOngoingTicket.id)) {
-                                            nameTeacher2Canceled = document.getString("nameTeacher2");
-                                            surnameTeacher2Canceled = document.getString("surnameTeacher2");
-                                            facultyTeacher2Canceled = document.getString("facultyTeacher2");
-                                            fieldTeacher2Canceled = document.getString("fieldTeacher2");
+                        informationTeacherOne.setVisibility(GONE);
+                        save1.setVisibility(GONE);
+                        informationTeacher1Text.setVisibility(VISIBLE);
+                        informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
 
-                                            if (!(nameTeacher2Canceled.isEmpty() && surnameTeacher2Canceled.isEmpty()
-                                                    && facultyTeacher2Canceled.isEmpty() && fieldTeacher2Canceled.isEmpty())) {
-
-                                                if (document.getString("secondTeacher").equals("no")) {
-                                                    save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
-                                                }
-                                            } else {
-                                                save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                        informationTeacherTwo.setVisibility(VISIBLE);
+                        save2.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(GONE);
                     }
+                    //////
 
                 }
             }
@@ -431,16 +409,21 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     nextButton.setVisibility(GONE);
                     final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
 
+                    //////
                     if (nameTeacherLogin.equals(cloudFireOngoingTicket.nameTeacher) &&
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
-                        informationTeacherOne.setVisibility(VISIBLE);
 
+                        textView.setText("Second Teacher:");
+
+
+                        informationTeacherOne.setVisibility(VISIBLE);
+                        save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
 
-
-                        save1.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(VISIBLE);
+                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
@@ -465,14 +448,17 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                                                 if (document.getString("secondTeacher").equals("no")) {
                                                     save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
+                                                    informationTeacherTwo.setVisibility(GONE);
+                                                    informationTeacher2Text.setVisibility(VISIBLE);
+                                                    informationTeacher2Text.setText("No data!");
                                                     nameTeacher2.setText("No data!");
                                                     surnameTeacher2.setText("No data!");
                                                 }
                                             } else {
                                                 save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
+                                                informationTeacherTwo.setVisibility(GONE);
+                                                informationTeacher2Text.setVisibility(VISIBLE);
+                                                informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
                                             }
                                         }
                                     }
@@ -486,54 +472,25 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher2) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher2) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
-                        informationTeacherTwo.setVisibility(VISIBLE);
-                        save2.setVisibility(VISIBLE);
 
-                        informationTeacher1Text.setVisibility(GONE);
-                        save1.setVisibility(GONE);
-
-                        if (cloudFireOngoingTicket.informationTeacher1.isEmpty()) {
-                            informationTeacher1Text.setText("No data!");
-                        } else {
-                            informationTeacherOne.setText(cloudFireOngoingTicket.informationTeacher1);
-                        }
+                        textView.setText("First Teacher:");
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
-                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
 
-                        CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
-                        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        if (document.getId().equals(cloudFireOngoingTicket.id)) {
-                                            nameTeacher2Canceled = document.getString("nameTeacher2");
-                                            surnameTeacher2Canceled = document.getString("surnameTeacher2");
-                                            facultyTeacher2Canceled = document.getString("facultyTeacher2");
-                                            fieldTeacher2Canceled = document.getString("fieldTeacher2");
+                        informationTeacherOne.setVisibility(GONE);
+                        save1.setVisibility(GONE);
+                        informationTeacher1Text.setVisibility(VISIBLE);
+                        informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
 
-                                            if (!(nameTeacher2Canceled.isEmpty() && surnameTeacher2Canceled.isEmpty()
-                                                    && facultyTeacher2Canceled.isEmpty() && fieldTeacher2Canceled.isEmpty())) {
-
-                                                if (document.getString("secondTeacher").equals("no")) {
-                                                    save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
-                                                }
-                                            } else {
-                                                save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                        informationTeacherTwo.setVisibility(VISIBLE);
+                        save2.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(GONE);
                     }
+                    //////
 
                 }
 
@@ -542,16 +499,20 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
 
 
+                    //////
                     if (nameTeacherLogin.equals(cloudFireOngoingTicket.nameTeacher) &&
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
-                        informationTeacherOne.setVisibility(VISIBLE);
 
+                        textView.setText("Second Teacher:");
+
+                        informationTeacherOne.setVisibility(VISIBLE);
+                        save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
 
-
-                        save1.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(VISIBLE);
+                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
@@ -576,14 +537,17 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                                                 if (document.getString("secondTeacher").equals("no")) {
                                                     save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
+                                                    informationTeacherTwo.setVisibility(GONE);
+                                                    informationTeacher2Text.setVisibility(VISIBLE);
+                                                    informationTeacher2Text.setText("No data!");
                                                     nameTeacher2.setText("No data!");
                                                     surnameTeacher2.setText("No data!");
                                                 }
                                             } else {
                                                 save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
+                                                informationTeacherTwo.setVisibility(GONE);
+                                                informationTeacher2Text.setVisibility(VISIBLE);
+                                                informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
                                             }
                                         }
                                     }
@@ -597,53 +561,25 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher2) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher2) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
-                        informationTeacherTwo.setVisibility(VISIBLE);
-                        save2.setVisibility(VISIBLE);
 
-                        save1.setVisibility(GONE);
-
-                        if (cloudFireOngoingTicket.informationTeacher1.equals(" ")) {
-                            informationTeacherOne.setText("No data!");
-                        } else {
-                            informationTeacherOne.setText(cloudFireOngoingTicket.informationTeacher1);
-                        }
+                        textView.setText("First Teacher:");
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
-                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
 
-                        CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
-                        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        if (document.getId().equals(cloudFireOngoingTicket.id)) {
-                                            nameTeacher2Canceled = document.getString("nameTeacher2");
-                                            surnameTeacher2Canceled = document.getString("surnameTeacher2");
-                                            facultyTeacher2Canceled = document.getString("facultyTeacher2");
-                                            fieldTeacher2Canceled = document.getString("fieldTeacher2");
+                        informationTeacherOne.setVisibility(GONE);
+                        save1.setVisibility(GONE);
+                        informationTeacher1Text.setVisibility(VISIBLE);
+                        informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
 
-                                            if (!(nameTeacher2Canceled.isEmpty() && surnameTeacher2Canceled.isEmpty()
-                                                    && facultyTeacher2Canceled.isEmpty() && fieldTeacher2Canceled.isEmpty())) {
-
-                                                if (document.getString("secondTeacher").equals("no")) {
-                                                    save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
-                                                }
-                                            } else {
-                                                save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                        informationTeacherTwo.setVisibility(VISIBLE);
+                        save2.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(GONE);
                     }
+                    //////
 
                 } else {
                     nextButton.setVisibility(GONE);
@@ -660,17 +596,20 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     previousButton.setVisibility(GONE);
                     final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
 
-
+//////
                     if (nameTeacherLogin.equals(cloudFireOngoingTicket.nameTeacher) &&
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
-                        informationTeacherOne.setVisibility(VISIBLE);
 
+                        textView.setText("Second Teacher:");
+
+                        informationTeacherOne.setVisibility(VISIBLE);
+                        save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
 
-
-                        save1.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(VISIBLE);
+                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
@@ -695,14 +634,17 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                                                 if (document.getString("secondTeacher").equals("no")) {
                                                     save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
+                                                    informationTeacherTwo.setVisibility(GONE);
+                                                    informationTeacher2Text.setVisibility(VISIBLE);
+                                                    informationTeacher2Text.setText("No data!");
                                                     nameTeacher2.setText("No data!");
                                                     surnameTeacher2.setText("No data!");
                                                 }
                                             } else {
                                                 save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
+                                                informationTeacherTwo.setVisibility(GONE);
+                                                informationTeacher2Text.setVisibility(VISIBLE);
+                                                informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
                                             }
                                         }
                                     }
@@ -716,71 +658,45 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher2) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher2) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
-                        informationTeacherTwo.setVisibility(VISIBLE);
-                        save2.setVisibility(VISIBLE);
 
-
-                        save1.setVisibility(GONE);
-
-                        if (cloudFireOngoingTicket.informationTeacher1.equals(" ")) {
-                            informationTeacherOne.setText("No data!");
-                        } else {
-                            informationTeacherOne.setText(cloudFireOngoingTicket.informationTeacher1);
-                        }
+                        textView.setText("First Teacher:");
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
-                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
 
-                        CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
-                        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        if (document.getId().equals(cloudFireOngoingTicket.id)) {
-                                            nameTeacher2Canceled = document.getString("nameTeacher2");
-                                            surnameTeacher2Canceled = document.getString("surnameTeacher2");
-                                            facultyTeacher2Canceled = document.getString("facultyTeacher2");
-                                            fieldTeacher2Canceled = document.getString("fieldTeacher2");
+                        informationTeacherOne.setVisibility(GONE);
+                        save1.setVisibility(GONE);
+                        informationTeacher1Text.setVisibility(VISIBLE);
+                        informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
 
-                                            if (!(nameTeacher2Canceled.isEmpty() && surnameTeacher2Canceled.isEmpty()
-                                                    && facultyTeacher2Canceled.isEmpty() && fieldTeacher2Canceled.isEmpty())) {
-
-                                                if (document.getString("secondTeacher").equals("no")) {
-                                                    save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
-                                                }
-                                            } else {
-                                                save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                        informationTeacherTwo.setVisibility(VISIBLE);
+                        save2.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(GONE);
                     }
+                    //////
 
                     nextButton.setVisibility(VISIBLE);
                 }
 
                 if (indexTicket > 0) {
                     final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
-
-
+                    //////
                     if (nameTeacherLogin.equals(cloudFireOngoingTicket.nameTeacher) &&
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
-                        informationTeacherOne.setVisibility(VISIBLE);
 
+                        textView.setText("Second Teacher:");
+
+                        informationTeacherOne.setVisibility(VISIBLE);
+                        save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
 
-                        save1.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(VISIBLE);
+                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
@@ -805,14 +721,17 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                                                 if (document.getString("secondTeacher").equals("no")) {
                                                     save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
+                                                    informationTeacherTwo.setVisibility(GONE);
+                                                    informationTeacher2Text.setVisibility(VISIBLE);
+                                                    informationTeacher2Text.setText("No data!");
                                                     nameTeacher2.setText("No data!");
                                                     surnameTeacher2.setText("No data!");
                                                 }
                                             } else {
                                                 save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
+                                                informationTeacherTwo.setVisibility(GONE);
+                                                informationTeacher2Text.setVisibility(VISIBLE);
+                                                informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
                                             }
                                         }
                                     }
@@ -826,53 +745,25 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher2) &&
                             facultyTeacherLogin.equals(cloudFireOngoingTicket.facultyTeacher2) &&
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
-                        informationTeacherTwo.setVisibility(VISIBLE);
-                        save2.setVisibility(VISIBLE);
 
-                        save1.setVisibility(GONE);
-
-                        if (cloudFireOngoingTicket.informationTeacher1.equals(" ")) {
-                            informationTeacherOne.setText("No data!");
-                        } else {
-                            informationTeacherOne.setText(cloudFireOngoingTicket.informationTeacher1);
-                        }
+                        textView.setText("First Teacher:");
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
-                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
 
-                        CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
-                        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        if (document.getId().equals(cloudFireOngoingTicket.id)) {
-                                            nameTeacher2Canceled = document.getString("nameTeacher2");
-                                            surnameTeacher2Canceled = document.getString("surnameTeacher2");
-                                            facultyTeacher2Canceled = document.getString("facultyTeacher2");
-                                            fieldTeacher2Canceled = document.getString("fieldTeacher2");
+                        informationTeacherOne.setVisibility(GONE);
+                        save1.setVisibility(GONE);
+                        informationTeacher1Text.setVisibility(VISIBLE);
+                        informationTeacher1Text.setText(cloudFireOngoingTicket.informationTeacher1);
 
-                                            if (!(nameTeacher2Canceled.isEmpty() && surnameTeacher2Canceled.isEmpty()
-                                                    && facultyTeacher2Canceled.isEmpty() && fieldTeacher2Canceled.isEmpty())) {
-
-                                                if (document.getString("secondTeacher").equals("no")) {
-                                                    save2.setVisibility(GONE);
-                                                    informationTeacherTwo.setText("No data!");
-                                                }
-                                            } else {
-                                                save2.setVisibility(GONE);
-                                                informationTeacherTwo.setVisibility(VISIBLE);
-                                                informationTeacherTwo.setText(cloudFireOngoingTicket.informationTeacher2);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                        informationTeacherTwo.setVisibility(VISIBLE);
+                        save2.setVisibility(VISIBLE);
+                        informationTeacher2Text.setVisibility(GONE);
                     }
+                    //////
 
                     nextButton.setVisibility(VISIBLE);
                 } else {
