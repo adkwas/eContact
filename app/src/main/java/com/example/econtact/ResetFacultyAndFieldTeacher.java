@@ -1,5 +1,6 @@
 package com.example.econtact;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,35 +11,30 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-public class RegisterTeacher extends AppCompatActivity {
+public class ResetFacultyAndFieldTeacher extends AppCompatActivity {
 
-    EditText nameTeacher, surnameTeacher, emailTeacher, passwordTeacher, repeatPasswordTeacher;
-    Button registerButton, loginButton;
     Spinner facultyUniversity, fieldUniversity;
-    String teacherFaculty, teacherField;
+    Button reset, back;
 
     String[] elementsFaculty = {"Faculty of Study", "Faculty of Architecture", "Faculty of Chemical Technology", "Faculty of Civil and Transport Engineering", "Faculty of Computing and Telecomunications", "Faculty of Control, Robotics and Electrical Engineering", "Faculty of Engineering Management", "Faculty of Environmental Engineering and Energy", "Faculty of Materials Engineering and Technical Physics", "Faculty of Mechanical Engineering"};
     String[] architectureField = {"Field of Study", "Architecture", "Interior Design"};
@@ -52,25 +48,34 @@ public class RegisterTeacher extends AppCompatActivity {
     String[] chemistField = {"Field of Study", "Chemical and Process Engineering", "Chemical Technology", "Environmental Protection Technology", "Pharmaceutical Engineering"};
     String[] defaultField = {"Field of Study"};
 
-    boolean isEmailValid(CharSequence email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email)
-                .matches();
-    }
+    String teacherFaculty, teacherField, emailString;
+    String nameTeacher, surnameTeacher, emailTeacher, userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_teacher);
+        setContentView(R.layout.activity_reset_faculty_and_field_teacher);
 
-        nameTeacher = findViewById(R.id.nameTeacher_RegisterTeacher);
-        surnameTeacher = findViewById(R.id.surnameTeacher_RegisterTeacher);
-        emailTeacher = findViewById(R.id.emailTeacher_RegisterTeacher);
-        passwordTeacher = findViewById(R.id.passwordTeacher_RegisterTeacher);
-        repeatPasswordTeacher = findViewById(R.id.copypasswordTeacher_RegisterTeacher);
-        registerButton = findViewById(R.id.registerButton_RegisterTeacher);
-        loginButton = findViewById(R.id.loginButton_RegisterTeacher);
-        facultyUniversity = findViewById(R.id.spinnerFaculty_RegisterTeacher);
-        fieldUniversity = findViewById(R.id.spinnerField_RegisterTeacher);
+        facultyUniversity = findViewById(R.id.spinnerResetFaculty_ResetFacultyAndFieldTeacher);
+        fieldUniversity = findViewById(R.id.spinnerField_ResetFacultyAndFieldTeacher);
+        reset = findViewById(R.id.reset_ResetFacultyAndFieldTeacher);
+        back = findViewById(R.id.back_ResetFacultyAndFieldTeacher);
+
+        emailString = getIntent().getStringExtra("Email");
+
+        final DocumentReference documentTeacher = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailString);
+        documentTeacher.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                assert documentSnapshot != null;
+
+                nameTeacher = documentSnapshot.getString("Name");
+                surnameTeacher = documentSnapshot.getString("Surname");
+                emailTeacher = documentSnapshot.getString("Email");
+                userType = documentSnapshot.getString("User");
+            }
+        });
 
         final ArrayAdapter<String> adapterArchitecture = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, architectureField);
         final ArrayAdapter<String> adapterAutomatics = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, automaticsField);
@@ -375,46 +380,14 @@ public class RegisterTeacher extends AppCompatActivity {
             }
         });
 
-        //Start Login Activity when user click a Login Button
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        reset.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegisterTeacher.this, Login.class));
-            }
-        });
-
-        //When teacher click a Register Button
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                final String emailString = emailTeacher.getText().toString().trim();
-                final String passwordString = passwordTeacher.getText().toString().trim();
-                final String repeatString = repeatPasswordTeacher.getText().toString().trim();
-                final String nameString = nameTeacher.getText().toString();
-                final String surnameString = surnameTeacher.getText().toString();
+            public void onClick(View v) {
                 final String facultyString = teacherFaculty;
                 final String fieldString = teacherField;
 
-                //Save in Database type registered user - in this time this is teacher
-                final String userType = "Teacher";
-
-
-                //Check if the email you entered is in the correct form
-                boolean emailValue = isEmailValid(emailString);
-
-                //Checking variables
                 final String checkFaculty = "Faculty of Study";
                 final String checkField = "Field of Study";
-
-                if (nameString.isEmpty()) {
-                    nameTeacher.setError("Name is empty!");
-                    return;
-                }
-                if (surnameString.isEmpty()) {
-                    surnameTeacher.setError("Surname is empty!");
-                    return;
-                }
 
                 if (facultyString.equals(checkFaculty)) {
                     Toast.makeText(getApplicationContext(), "Please check a faculty pole!", Toast.LENGTH_SHORT).show();
@@ -426,150 +399,65 @@ public class RegisterTeacher extends AppCompatActivity {
                     return;
                 }
 
-                if (emailString.isEmpty()) {
-                    emailTeacher.setError("Email is empty!");
-                    return;
-                }
-
-                if (!emailValue) {
-                    emailTeacher.setError("Email must have a email type!");
-                    return;
-                }
-
-                if (passwordString.isEmpty()) {
-                    emailTeacher.setError("Password is empty!");
-                    return;
-                }
-
-                if (repeatString.isEmpty()) {
-                    repeatPasswordTeacher.setError("Repeat password is empty!");
-                    return;
-                }
-
-
-                //Register new teacher user
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailString);
+                Map<String, Object> user = new HashMap<>();
+                user.put("Name", nameTeacher);
+                user.put("Surname", surnameTeacher);
+                user.put("Faculty", facultyString);
+                user.put("Field", fieldString);
+                user.put("Email", emailString);
+                user.put("User", userType);
+                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                    public void onSuccess(Void aVoid) {
+                        NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                        channel.setDescription("description");
 
-                            DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailString);
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("Name", nameString);
-                            user.put("Surname", surnameString);
-                            user.put("Faculty", facultyString);
-                            user.put("Field", fieldString);
-                            user.put("Email", emailString);
-                            user.put("User", userType);
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                                    channel.setDescription("description");
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        notificationManager.createNotificationChannel(channel);
 
-                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                    notificationManager.createNotificationChannel(channel);
+                        Notification notification = new NotificationCompat.Builder(ResetFacultyAndFieldTeacher.this, "channel01")
+                                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                .setContentTitle("eContact")
+                                .setContentText("Faculty and Field changed!")
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                .build();
+                        notificationManager.notify(0, notification);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                        channel.setDescription("description");
 
-                                    Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
-                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Register success!")
-                                            .setDefaults(Notification.DEFAULT_ALL)
-                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                            .build();
-                                    notificationManager.notify(0, notification);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                                    channel.setDescription("description");
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        notificationManager.createNotificationChannel(channel);
 
-                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                    notificationManager.createNotificationChannel(channel);
-
-                                    Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
-                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Error: " + e.toString())
-                                            .setDefaults(Notification.DEFAULT_ALL)
-                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                            .build();
-                                    notificationManager.notify(0, notification);
-
-                                }
-                            });
-
-                            FirebaseUser newUser = FirebaseAuth.getInstance().getCurrentUser();
-                            assert newUser != null;
-
-                            newUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                                    channel.setDescription("description");
-
-                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                    notificationManager.createNotificationChannel(channel);
-
-                                    Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
-                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Verification Email has been sent!")
-                                            .setDefaults(Notification.DEFAULT_ALL)
-                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                            .build();
-                                    notificationManager.notify(0, notification);
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                                    channel.setDescription("description");
-
-                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                    notificationManager.createNotificationChannel(channel);
-
-                                    Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
-                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Error: " + e.getMessage())
-                                            .setDefaults(Notification.DEFAULT_ALL)
-                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                            .build();
-                                    notificationManager.notify(0, notification);
-
-                                }
-                            });
-                        } else {
-                            NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                    NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                            channel.setDescription("description");
-
-                            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                            notificationManager.createNotificationChannel(channel);
-
-                            Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
-                                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                    .setContentTitle("eContact")
-                                    .setContentText("Error: " + Objects.requireNonNull(task.getException()).getMessage())
-                                    .setDefaults(Notification.DEFAULT_ALL)
-                                    .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                    .build();
-                            notificationManager.notify(0, notification);
-                        }
+                        Notification notification = new NotificationCompat.Builder(ResetFacultyAndFieldTeacher.this, "channel01")
+                                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                .setContentTitle("eContact")
+                                .setContentText("Error: " + e.toString())
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                .build();
+                        notificationManager.notify(0, notification);
                     }
                 });
+            }
+
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ResetFacultyAndFieldTeacher.this, SettingsPanelTeacher.class);
+                intent.putExtra("Email", emailString);
+                startActivity(intent);
             }
         });
     }

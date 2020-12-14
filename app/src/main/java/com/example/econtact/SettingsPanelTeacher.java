@@ -22,28 +22,30 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SettingsPanelStudent extends AppCompatActivity {
+public class SettingsPanelTeacher extends AppCompatActivity {
 
-    Button resetDataStudent, resetPassword, back;
-    String email;
+    Button resetPassword, resetFacultyAndField, back;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
 
+    String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings_panel_student);
+        setContentView(R.layout.activity_settings_panel_teacher);
 
-        resetDataStudent = findViewById(R.id.resetDataStudent_settingsPanel);
-        resetPassword = findViewById(R.id.resetPassword_settingPanel);
-        back = findViewById(R.id.back_settingsPanelStudent);
+        resetPassword = findViewById(R.id.resetPassword_settingPanelTeacher);
+        resetFacultyAndField = findViewById(R.id.resetFacultyAndField_settingsPanelTeacher);
+        back = findViewById(R.id.back_settingsPanelTeacher);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
         email = getIntent().getStringExtra("Email");
 
         user = firebaseAuth.getCurrentUser();
+
 
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +65,6 @@ public class SettingsPanelStudent extends AppCompatActivity {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onSuccess(Void aVoid) {
-
-
                                 NotificationChannel channel = new NotificationChannel("channel01", "name",
                                         NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
                                 channel.setDescription("description");
@@ -72,17 +72,15 @@ public class SettingsPanelStudent extends AppCompatActivity {
                                 NotificationManager notificationManager = getSystemService(NotificationManager.class);
                                 notificationManager.createNotificationChannel(channel);
 
-                                Notification notification = new NotificationCompat.Builder(SettingsPanelStudent.this, "channel01")
+                                Notification notification = new NotificationCompat.Builder(SettingsPanelTeacher.this, "channel01")
                                         .setSmallIcon(android.R.drawable.ic_dialog_info)
                                         .setContentTitle("eContact")
-                                        .setContentText("Change password correct!")
+                                        .setContentText("Change password correct! Please log in again")
                                         .setDefaults(Notification.DEFAULT_ALL)
                                         .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                         .build();
                                 notificationManager.notify(0, notification);
-
-
-                                startActivity(new Intent(SettingsPanelStudent.this, MainActivity.class));
+                                startActivity(new Intent(SettingsPanelTeacher.this, MainActivity.class));
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -95,7 +93,7 @@ public class SettingsPanelStudent extends AppCompatActivity {
                                 NotificationManager notificationManager = getSystemService(NotificationManager.class);
                                 notificationManager.createNotificationChannel(channel);
 
-                                Notification notification = new NotificationCompat.Builder(SettingsPanelStudent.this, "channel01")
+                                Notification notification = new NotificationCompat.Builder(SettingsPanelTeacher.this, "channel01")
                                         .setSmallIcon(android.R.drawable.ic_dialog_info)
                                         .setContentTitle("eContact")
                                         .setContentText("Change password failure!")
@@ -117,10 +115,11 @@ public class SettingsPanelStudent extends AppCompatActivity {
             }
         });
 
-        resetDataStudent.setOnClickListener(new View.OnClickListener() {
+
+        resetFacultyAndField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SettingsPanelStudent.this, ResetDataStudent.class);
+                Intent intent = new Intent(SettingsPanelTeacher.this, ResetFacultyAndFieldTeacher.class);
                 intent.putExtra("Email", email);
                 startActivity(intent);
             }
@@ -129,7 +128,7 @@ public class SettingsPanelStudent extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SettingsPanelStudent.this, PanelStudent.class);
+                Intent intent = new Intent(SettingsPanelTeacher.this, PanelTeacher.class);
                 intent.putExtra("Email", email);
                 startActivity(intent);
             }

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".SettingsPanelStudent">
+    tools:context=".SettingsPanelTeacher">
 
     <Button
-        android:id="@+id/back_settingsPanelStudent"
+        android:id="@+id/back_settingsPanelTeacher"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
@@ -19,7 +19,7 @@
         android:bufferType="normal"
         android:fontFamily="@font/cabin"
         android:selectAllOnFocus="false"
-        android:text="Back to Panel Student"
+        android:text="Back to Panel Teacher"
         android:textAlignment="center"
         android:textColor="#050000"
         android:textColorHighlight="#050000"
@@ -35,7 +35,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/resetDataStudent_settingsPanel"
+        android:id="@+id/resetFacultyAndField_settingsPanelTeacher"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
@@ -46,7 +46,7 @@
         android:bufferType="normal"
         android:fontFamily="@font/cabin"
         android:selectAllOnFocus="false"
-        android:text="Reset data user"
+        android:text="Reset faculty and field"
         android:textAlignment="center"
         android:textColor="#050000"
         android:textColorHighlight="#050000"
@@ -59,10 +59,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.650" />
+        app:layout_constraintVertical_bias="0.648" />
 
     <Button
-        android:id="@+id/resetPassword_settingPanel"
+        android:id="@+id/resetPassword_settingPanelTeacher"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
@@ -83,13 +83,13 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.37" />
 
     <TextView
-        android:id="@+id/textview_settingPanel"
+        android:id="@+id/textview_settingPanel5"
         style="@android:style/Widget.TextView"
         android:layout_width="0dp"
         android:layout_height="50dp"

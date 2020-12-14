@@ -1,19 +1,24 @@
 package com.example.econtact;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -77,6 +82,7 @@ public class Login extends AppCompatActivity {
 
                 //Sign user by means of Firebase Auth
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(emailUserString, passwordUserString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -86,19 +92,64 @@ public class Login extends AppCompatActivity {
 
                             String val = String.valueOf(userStatus);
                             if (val.equals(studentVal)) {
-                                Toast.makeText(Login.this, "Sign in", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Login.this, PanelStudent.class);
                                 intent.putExtra("Email", emailUserString);
+
+                                NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                                channel.setDescription("description");
+
+                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                notificationManager.createNotificationChannel(channel);
+
+                                Notification notification = new NotificationCompat.Builder(Login.this, "channel01")
+                                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                        .setContentTitle("eContact")
+                                        .setContentText("You are logged in!")
+                                        .setDefaults(Notification.DEFAULT_ALL)
+                                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                        .build();
+                                notificationManager.notify(0, notification);
+
+
                                 startActivity(intent);
                             }
                             if (val.equals(teacherVal)) {
-                                Toast.makeText(Login.this, "Sign in", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Login.this, PanelTeacher.class);
                                 intent.putExtra("Email", emailUserString);
+                                NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                                channel.setDescription("description");
+
+                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                notificationManager.createNotificationChannel(channel);
+
+                                Notification notification = new NotificationCompat.Builder(Login.this, "channel01")
+                                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                        .setContentTitle("eContact")
+                                        .setContentText("You are logged in!")
+                                        .setDefaults(Notification.DEFAULT_ALL)
+                                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                        .build();
+                                notificationManager.notify(0, notification);
                                 startActivity(intent);
                             }
                         } else {
-                            Toast.makeText(Login.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                            NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                    NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                            channel.setDescription("description");
+
+                            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                            notificationManager.createNotificationChannel(channel);
+
+                            Notification notification = new NotificationCompat.Builder(Login.this, "channel01")
+                                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                    .setContentTitle("eContact")
+                                    .setContentText(Objects.requireNonNull(task.getException()).getMessage())
+                                    .setDefaults(Notification.DEFAULT_ALL)
+                                    .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                    .build();
+                            notificationManager.notify(0, notification);
                         }
                     }
                 });
@@ -119,14 +170,45 @@ public class Login extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String mail = resetMail.getText().toString();
                         firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(Login.this, "Reset link send to your email!", Toast.LENGTH_SHORT).show();
+                                NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                                channel.setDescription("description");
+
+                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                notificationManager.createNotificationChannel(channel);
+
+                                Notification notification = new NotificationCompat.Builder(Login.this, "channel01")
+                                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                        .setContentTitle("eContact")
+                                        .setContentText("Reset link send to your email!")
+                                        .setDefaults(Notification.DEFAULT_ALL)
+                                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                        .build();
+                                notificationManager.notify(0, notification);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Login.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                                channel.setDescription("description");
+
+                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                notificationManager.createNotificationChannel(channel);
+
+                                Notification notification = new NotificationCompat.Builder(Login.this, "channel01")
+                                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                        .setContentTitle("eContact")
+                                        .setContentText("Error: " + e.getMessage())
+                                        .setDefaults(Notification.DEFAULT_ALL)
+                                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                        .build();
+                                notificationManager.notify(0, notification);
                             }
                         });
                     }

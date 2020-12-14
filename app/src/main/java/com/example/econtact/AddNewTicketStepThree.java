@@ -1,8 +1,12 @@
 package com.example.econtact;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -14,10 +18,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -216,9 +221,34 @@ public class AddNewTicketStepThree extends AppCompatActivity {
 
                 //Check if ticket is saved in Cloud Fire
                 documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(AddNewTicketStepThree.this, "Ticket has been sent to the teacher!", Toast.LENGTH_SHORT).show();
+
+                        NotificationChannel channel = null;   // for heads-up notifications
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            channel = new NotificationChannel("channel01", "name",
+                                    NotificationManager.IMPORTANCE_HIGH);
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            channel.setDescription("description");
+                        }
+
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            notificationManager.createNotificationChannel(channel);
+                        }
+
+                        Notification notification = new NotificationCompat.Builder(AddNewTicketStepThree.this, "channel01")
+                                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                .setContentTitle("eContact")
+                                .setContentText("Application sent to the teacher! Wait for his decision.")
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                .build();
+                        notificationManager.notify(0, notification);
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
