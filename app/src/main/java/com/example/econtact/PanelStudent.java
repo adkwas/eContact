@@ -28,6 +28,7 @@ public class PanelStudent extends AppCompatActivity {
     TextView welcomeText, verifyMessage;
     Button addNewTicketButton, confirmTicketsButton, logoutButton, pendingTicketsButton, rejectTicketsButton, resendCodeButton, ongoingTickets, settings;
     String nameStudent, surnameStudent, facultyStudent, fieldStudent, degreeStudent, semesterStudent, indexNumberStudent, emailStudent;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,10 @@ public class PanelStudent extends AppCompatActivity {
 
         emailStudent = getIntent().getStringExtra("Email");
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
         //Searching data in collection "User Accounts" in document name UID student user
-        DocumentReference documentStudent = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailStudent);
+        DocumentReference documentStudent = firebaseFirestore.collection("Users Accounts").document(emailStudent);
         documentStudent.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override

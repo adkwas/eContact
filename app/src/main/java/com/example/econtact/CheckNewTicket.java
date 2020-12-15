@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +132,15 @@ public class CheckNewTicket extends AppCompatActivity {
                                             document.getString("typeMeet"),
                                             dayTicket + "." + monthTicket + "." + yearTicket,
                                             hourTicket + ":" + minuteTicket,
-                                            document.getString("reasonType"));
+                                            document.getString("reasonType"),
+
+                                            document.getString("dayTicket"),
+                                            document.getString("monthTicket"),
+                                            document.getString("yearTicket"),
+
+                                            document.getString("minuteTicket"),
+                                            document.getString("hourTicket"));
+
                             objectList.add(cloudFireCheckNewTicket);
                             IDArrayList.add(document.getId());
                         }
@@ -164,18 +174,25 @@ public class CheckNewTicket extends AppCompatActivity {
                                     document.getString("typeMeet"),
                                     dayTicket + "." + monthTicket + "." + yearTicket,
                                     hourTicket + ":" + minuteTicket,
-                                    document.getString("reasonType"));
+                                    document.getString("reasonType"),
+
+                                    document.getString("dayTicket"),
+                                    document.getString("monthTicket"),
+                                    document.getString("yearTicket"),
+
+                                    document.getString("minuteTicket"),
+                                    document.getString("hourTicket"));
                             objectList.add(cloudFireCheckNewTicket);
                             IDArrayList.add(document.getId());
                         }
                     }
 
                     if (objectList.isEmpty()) {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CheckNewTicket.this);
-                        dialogBuilder.setTitle("Check New Tickets");
-                        dialogBuilder.setMessage("No tickets to display!");
-                        dialogBuilder.setCancelable(false);
-                        dialogBuilder.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
+                        AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(CheckNewTicket.this);
+                        dialogBuilder1.setTitle("Check New Tickets");
+                        dialogBuilder1.setMessage("No tickets to display!");
+                        dialogBuilder1.setCancelable(false);
+                        dialogBuilder1.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Intent intent = new Intent(CheckNewTicket.this, PanelTeacher.class);
@@ -183,8 +200,8 @@ public class CheckNewTicket extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
-                        dialogBuilder.create();
-                        dialogBuilder.show();
+                        dialogBuilder1.create();
+                        dialogBuilder1.show();
                     }
 
                     if (objectList.size() == 1) {
@@ -313,6 +330,49 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     //CALENDAR
 
+                    AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(CheckNewTicket.this);
+                    dialogBuilder2.setTitle("Check New Tickets");
+                    dialogBuilder2.setMessage("Would you like to add a ticket to your calendar?");
+                    dialogBuilder2.setCancelable(false);
+                    final CloudFireCheckNewTicket finalCloudFireCheckNewTicket = cloudFireCheckNewTicket;
+                    dialogBuilder2.setPositiveButton("Add", new Dialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            int day = Integer.parseInt(finalCloudFireCheckNewTicket.day);
+                            int month = Integer.parseInt(finalCloudFireCheckNewTicket.month);
+                            int year = Integer.parseInt(finalCloudFireCheckNewTicket.year);
+
+                            int minute = Integer.parseInt(finalCloudFireCheckNewTicket.minute);
+                            int hour= Integer.parseInt(finalCloudFireCheckNewTicket.hour);
+
+
+                            Calendar beginTime = Calendar.getInstance();
+                            Calendar endTime = Calendar.getInstance();
+                            beginTime.set(year-1, month-1, day, hour, minute);
+                            endTime.set(year-1, month-1, day, hour + 1 , minute +30);
+                            Intent intent = new Intent(Intent.ACTION_INSERT)
+                                    .setData(CalendarContract.Events.CONTENT_URI)
+                                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                                    .putExtra(CalendarContract.Events.TITLE, "Meet " + "->" +
+                                            finalCloudFireCheckNewTicket.nameStudent + " " + finalCloudFireCheckNewTicket.surnameStudent)
+                                    .putExtra(CalendarContract.Events.DESCRIPTION, finalCloudFireCheckNewTicket.typeMeet)
+                                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                            startActivity(intent);
+                            //
+                        }
+                    });
+
+                    dialogBuilder2.setNeutralButton("Back", new Dialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+
+                    dialogBuilder2.create();
+                    dialogBuilder2.show();
+
                     objectList.remove(indexTicket);
                     int sizeList = objectList.size();
                     final CollectionReference collectionReference = firebaseFirestore.collection("Pending applications");
@@ -341,11 +401,11 @@ public class CheckNewTicket extends AppCompatActivity {
                         timeMeet.setText("Time: " + cloudFireCheckNewTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireCheckNewTicket.reason);
                     } else {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CheckNewTicket.this);
-                        dialogBuilder.setTitle("Check New Ticket");
-                        dialogBuilder.setMessage("No tickets to display!");
-                        dialogBuilder.setCancelable(false);
-                        dialogBuilder.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
+                        AlertDialog.Builder dialogBuilder3 = new AlertDialog.Builder(CheckNewTicket.this);
+                        dialogBuilder3.setTitle("Check New Ticket");
+                        dialogBuilder3.setMessage("No tickets to display!");
+                        dialogBuilder3.setCancelable(false);
+                        dialogBuilder3.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Intent intent = new Intent(CheckNewTicket.this, PanelTeacher.class);
@@ -353,8 +413,8 @@ public class CheckNewTicket extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
-                        dialogBuilder.create();
-                        dialogBuilder.show();
+                        dialogBuilder3.create();
+                        dialogBuilder3.show();
                     }
                 }
 
@@ -438,6 +498,51 @@ public class CheckNewTicket extends AppCompatActivity {
                         }
                     });
 
+                    //CALENDAR
+
+                    AlertDialog.Builder dialogBuilder4 = new AlertDialog.Builder(CheckNewTicket.this);
+                    dialogBuilder4.setTitle("Check New Tickets");
+                    dialogBuilder4.setMessage("Would you like to add a ticket to your calendar?");
+                    dialogBuilder4.setCancelable(false);
+                    final CloudFireCheckNewTicket finalCloudFireCheckNewTicket = cloudFireCheckNewTicket;
+                    dialogBuilder4.setPositiveButton("Add", new Dialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                            int day = Integer.parseInt(finalCloudFireCheckNewTicket.day);
+                            int month = Integer.parseInt(finalCloudFireCheckNewTicket.month);
+                            int year = Integer.parseInt(finalCloudFireCheckNewTicket.year);
+
+                            int minute = Integer.parseInt(finalCloudFireCheckNewTicket.minute);
+                            int hour= Integer.parseInt(finalCloudFireCheckNewTicket.hour);
+
+                            Calendar beginTime = Calendar.getInstance();
+                            Calendar endTime = Calendar.getInstance();
+                            beginTime.set(year-1, month-1, day, hour, minute);
+                            endTime.set(year-1, month-1, day, hour + 1 , minute +30);
+                            Intent intent = new Intent(Intent.ACTION_INSERT)
+                                    .setData(CalendarContract.Events.CONTENT_URI)
+                                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                                    .putExtra(CalendarContract.Events.TITLE, "Meet " + "->" +
+                                            finalCloudFireCheckNewTicket.nameStudent + " " + finalCloudFireCheckNewTicket.surnameStudent)
+                                    .putExtra(CalendarContract.Events.DESCRIPTION, finalCloudFireCheckNewTicket.typeMeet)
+                                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                            startActivity(intent);
+                            //
+                        }
+                    });
+
+                    dialogBuilder4.setNeutralButton("Back", new Dialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+
+                    dialogBuilder4.create();
+                    dialogBuilder4.show();
+
+
                     objectList.remove(indexTicket);
                     int sizeList = objectList.size();
                     final CollectionReference collectionReference = firebaseFirestore.collection("Pending applications");
@@ -466,11 +571,11 @@ public class CheckNewTicket extends AppCompatActivity {
                         timeMeet.setText("Time: " + cloudFireCheckNewTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireCheckNewTicket.reason);
                     } else {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CheckNewTicket.this);
-                        dialogBuilder.setTitle("Check New Ticket");
-                        dialogBuilder.setMessage("No tickets to display!");
-                        dialogBuilder.setCancelable(false);
-                        dialogBuilder.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
+                        AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(CheckNewTicket.this);
+                        dialogBuilder4.setTitle("Check New Ticket");
+                        dialogBuilder4.setMessage("No tickets to display!");
+                        dialogBuilder4.setCancelable(false);
+                        dialogBuilder4.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 //showToast("You picked positive button");
@@ -479,8 +584,8 @@ public class CheckNewTicket extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
-                        dialogBuilder.create();
-                        dialogBuilder.show();
+                        dialogBuilder4.create();
+                        dialogBuilder4.show();
                     }
                 }
 
@@ -781,11 +886,19 @@ public class CheckNewTicket extends AppCompatActivity {
         String timeMeet = " ";
         String reason = " ";
 
+        String day = " ";
+        String month = " ";
+        String year = " ";
+
+        String minute = " ";
+        String hour = " ";
+
         public CloudFireCheckNewTicket(String nameTeacher, String surnameTeacher, String facultyTeacher, String fieldTeacher,
                                        String nameTeacher2, String surnameTeacher2, String facultyTeacher2, String fieldTeacher2,
                                        String nameStudent, String surnameStudent, String facultyStudent,
                                        String fieldStudent, String degreeStudent, String semesterStudent, String indexNumberStudent,
-                                       String typeMeet, String dataMeet, String timeMeet, String reason) {
+                                       String typeMeet, String dataMeet, String timeMeet, String reason,
+                                       String day, String month, String year, String minute, String hour) {
             this.nameTeacher = nameTeacher;
             this.surnameTeacher = surnameTeacher;
             this.facultyTeacher = facultyTeacher;
@@ -808,6 +921,13 @@ public class CheckNewTicket extends AppCompatActivity {
             this.dataMeet = dataMeet;
             this.timeMeet = timeMeet;
             this.reason = reason;
+
+            this.day = day;
+            this.month = month;
+            this.year = year;
+
+            this.minute = minute;
+            this.hour = hour;
         }
     }
 }

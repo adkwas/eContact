@@ -185,7 +185,9 @@ public class AddNewTicketStepOne extends AppCompatActivity {
         backStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AddNewTicketStepOne.this, PanelStudent.class));
+                Intent intent = (new Intent(AddNewTicketStepOne.this, PanelStudent.class));
+                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+                startActivity(intent);
             }
         });
     }

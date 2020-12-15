@@ -7,6 +7,26 @@
     android:background="@color/colorBackground"
     tools:context=".OngoingTicketStudent">
 
+    <Button
+        android:id="@+id/addTicketToCalendar_ongoingTicketStudent"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/cabin"
+        android:text="Add to calendar"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <TextView
         android:id="@+id/textview4_ongoingTicketTeacher4"
         style="@android:style/Widget.TextView"
@@ -321,7 +341,7 @@
 
     <Button
         android:id="@+id/next_ongoingTicketStudent"
-        android:layout_width="150dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
@@ -340,7 +360,7 @@
 
     <Button
         android:id="@+id/previous_ongoingTicketStudent"
-        android:layout_width="150dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"

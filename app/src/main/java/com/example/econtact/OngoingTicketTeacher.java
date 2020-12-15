@@ -236,10 +236,18 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
 
-                        OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
-                        OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+
+                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                            OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
+                            OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
+                            informationTeacher2Text.setText("No data!");
+                        }
+                        else{
+                            OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
+                            OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                            informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+                        }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
@@ -322,10 +330,16 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
-
-                        OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
-                        OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                            OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
+                            OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
+                            informationTeacher2Text.setText("No data!");
+                        }
+                        else{
+                            OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
+                            OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                            informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+                        }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
@@ -429,10 +443,16 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
-
-                        OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
-                        OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                            OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
+                            OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
+                            informationTeacher2Text.setText("No data!");
+                        }
+                        else{
+                            OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
+                            OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                            informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+                        }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
@@ -518,10 +538,16 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
-
-                        OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
-                        OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                            OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
+                            OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
+                            informationTeacher2Text.setText("No data!");
+                        }
+                        else{
+                            OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
+                            OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                            informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+                        }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
@@ -613,12 +639,17 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacherOne.setVisibility(VISIBLE);
                         save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
-
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
-
-                        OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
-                        OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                            OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
+                            OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
+                            informationTeacher2Text.setText("No data!");
+                        }
+                        else{
+                            OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
+                            OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                            informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+                        }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
@@ -702,10 +733,16 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
-
-                        OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
-                        OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                            OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
+                            OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
+                            informationTeacher2Text.setText("No data!");
+                        }
+                        else{
+                            OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
+                            OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
+                            informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+                        }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);

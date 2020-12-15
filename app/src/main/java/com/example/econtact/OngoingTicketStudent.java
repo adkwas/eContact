@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +31,7 @@ import static android.view.View.VISIBLE;
 
 public class OngoingTicketStudent extends AppCompatActivity {
 
-    Button secondTeacherAddButton, previousButton, nextButton, downloadData;
+    Button secondTeacherAddButton, previousButton, nextButton, downloadData, addToCalendar;
 
     String nameStudent, surnameStudent, facultyStudent, fieldStudent;
     String nameTeacher2Canceled = " ", surnameTeacher2Canceled = " ", facultyTeacher2Canceled = " ",
@@ -50,6 +52,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
         previousButton = findViewById(R.id.previous_ongoingTicketStudent);
         nextButton = findViewById(R.id.next_ongoingTicketStudent);
         downloadData = findViewById(R.id.downloadFile_ongoingTicketStudent);
+        addToCalendar = findViewById(R.id.addTicketToCalendar_ongoingTicketStudent);
 
         nameTeacher1 = findViewById(R.id.nameTeacher1_ongoingTicketStudent);
         surnameTeacher1 = findViewById(R.id.surnameTeacher1_ongoingTicketStudent);
@@ -142,8 +145,8 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
                     informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
 
-                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
-                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.equals(" ") &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.equals(" ")) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
                         informationTeacher2TextView.setVisibility(GONE);
@@ -257,6 +260,36 @@ public class OngoingTicketStudent extends AppCompatActivity {
             }
         });
 
+        addToCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCalendar.setVisibility(GONE);
+                CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(indexTicket);
+                int day = Integer.parseInt(cloudFireOngoingTicketStudent.dayTicket);
+                int month = Integer.parseInt(cloudFireOngoingTicketStudent.monthTicket);
+                int year = Integer.parseInt(cloudFireOngoingTicketStudent.yearTicket);
+
+                int minute = Integer.parseInt(cloudFireOngoingTicketStudent.minuteTicket);
+                int hour= Integer.parseInt(cloudFireOngoingTicketStudent.hourTicket);
+
+                Calendar beginTime = Calendar.getInstance();
+                Calendar endTime = Calendar.getInstance();
+                beginTime.set(year, month, day, hour, minute);
+                endTime.set(year, month, day, hour + 1 , minute +30);
+                Intent intent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                        .putExtra(CalendarContract.Events.TITLE, "Meet " + "->" +
+                                cloudFireOngoingTicketStudent.nameTeacher + " " + cloudFireOngoingTicketStudent.surnameTeacher)
+                        .putExtra(CalendarContract.Events.DESCRIPTION, cloudFireOngoingTicketStudent.typeMeet)
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                startActivity(intent);
+            }
+        });
+
+
+
         secondTeacherAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,6 +339,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 previousButton.setVisibility(View.VISIBLE);
+                addToCalendar.setVisibility(VISIBLE);
                 int sizeList = objectArrayList.size();
                 indexTicket++;
 
@@ -442,7 +476,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 indexTicket--;
-
+                addToCalendar.setVisibility(VISIBLE);
                 if (indexTicket == 0) {
                     previousButton.setVisibility(GONE);
                     final CloudFireOngoingTicketStudent cloudFireOngoingTicketStudent = objectArrayList.get(indexTicket);
@@ -591,24 +625,31 @@ public class OngoingTicketStudent extends AppCompatActivity {
 class CloudFireOngoingTicketStudent {
 
     String id = " ";
+
     String nameTeacher = " ";
     String surnameTeacher = " ";
     String facultyTeacher = " ";
     String fieldTeacher = " ";
+
     String nameTeacher2 = " ";
     String surnameTeacher2 = " ";
     String facultyTeacher2 = " ";
     String fieldTeacher2 = " ";
+
     String semesterStudent = " ";
     String degreeStudent = " ";
     String indexNumberStudent = " ";
+
     String minuteTicket = " ";
     String hourTicket = " ";
     String dayTicket = " ";
+
     String monthTicket = " ";
     String yearTicket = " ";
+
     String reasonType = " ";
     String typeMeet = " ";
+
     String informationTeacher1 = " ";
     String informationTeacher2 = " ";
 

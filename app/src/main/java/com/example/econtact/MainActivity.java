@@ -3,14 +3,11 @@ package com.example.econtact;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     Button loginButton, registerButton;
@@ -27,25 +24,11 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(MainActivity.this, Login.class);
-
-                //DZIALA
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(2020, 11, 24);
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, beginTime.getTimeInMillis())
-                        .putExtra(CalendarContract.Events.TITLE, "Yoga")
-                        .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                        .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+                Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
-
-                //startActivity(intent);
             }
         });
+        //<uses-sdk android:minSdkVersion="14" />
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
