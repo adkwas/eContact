@@ -37,8 +37,10 @@ import java.util.Objects;
 public class PanelStudent extends AppCompatActivity {
 
     TextView welcomeText, verifyMessage;
-    Button addNewTicketButton, confirmTicketsButton, logoutButton, pendingTicketsButton, rejectTicketsButton, resendCodeButton, ongoingTickets, settings;
-    String nameStudent, surnameStudent, facultyStudent, fieldStudent, degreeStudent, semesterStudent, indexNumberStudent, emailStudent;
+    Button addNewTicketButton, confirmTicketsButton,
+            logoutButton, pendingTicketsButton, rejectTicketsButton, resendCodeButton, ongoingTickets, settings;
+    String nameStudent, surnameStudent, facultyStudent,
+            fieldStudent, degreeStudent, semesterStudent, indexNumberStudent, emailStudent;
     int i=0;
     int j=0;
     FirebaseFirestore firebaseFirestore;

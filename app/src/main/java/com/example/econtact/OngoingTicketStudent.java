@@ -297,6 +297,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                 Intent intent = new Intent(OngoingTicketStudent.this, SecondTeacherStepOne.class);
 
                 intent.putExtra("id", cloudFireOngoingTicketStudent.id);
+
                 intent.putExtra("nameTeacher", cloudFireOngoingTicketStudent.nameTeacher);
                 intent.putExtra("surnameTeacher", cloudFireOngoingTicketStudent.surnameTeacher);
                 intent.putExtra("facultyTeacher", cloudFireOngoingTicketStudent.facultyTeacher);

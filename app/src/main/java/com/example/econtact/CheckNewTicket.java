@@ -142,7 +142,11 @@ public class CheckNewTicket extends AppCompatActivity {
                                             document.getString("yearTicket"),
 
                                             document.getString("minuteTicket"),
-                                            document.getString("hourTicket"));
+                                            document.getString("hourTicket"),
+
+                                            document.getString("informationTeacher1"),
+                                            document.getString("informationTeacher2"));
+
 
                             objectList.add(cloudFireCheckNewTicket);
                             IDArrayList.add(document.getId());
@@ -184,7 +188,9 @@ public class CheckNewTicket extends AppCompatActivity {
                                     document.getString("yearTicket"),
 
                                     document.getString("minuteTicket"),
-                                    document.getString("hourTicket"));
+                                    document.getString("hourTicket"),
+                                    document.getString("informationTeacher1"),
+                                    document.getString("informationTeacher2"));
                             objectList.add(cloudFireCheckNewTicket);
                             IDArrayList.add(document.getId());
                         }
@@ -287,6 +293,10 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     user.put("typeMeet", cloudFireCheckNewTicket.typeMeet);
                     user.put("reasonType", cloudFireCheckNewTicket.reason);
+
+                    user.put("informationTeacher1", cloudFireCheckNewTicket.informationTeacher1);
+                    user.put("informationTeacher2", cloudFireCheckNewTicket.informationTeacher2);
+
 
                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -408,22 +418,6 @@ public class CheckNewTicket extends AppCompatActivity {
                         Toast.makeText(CheckNewTicket.this,"No new applications pending!", Toast.LENGTH_SHORT).show();
                         acceptButton.setVisibility(GONE);
                         cancelButton.setVisibility(GONE);
-
-                        /*AlertDialog.Builder dialogBuilder3 = new AlertDialog.Builder(CheckNewTicket.this);
-                        dialogBuilder3.setTitle("Check New Ticket");
-                        dialogBuilder3.setMessage("No tickets to display!");
-                        dialogBuilder3.setCancelable(false);
-                        dialogBuilder3.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Intent intent = new Intent(CheckNewTicket.this, PanelTeacher.class);
-                                intent.putExtra("Email", getIntent().getStringExtra("Email"));
-                                startActivity(intent);
-                            }
-                        });
-                        dialogBuilder3.create();
-                        dialogBuilder3.show();
-                         */
                     }
                 }
 
@@ -463,6 +457,9 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     user.put("typeMeet", cloudFireCheckNewTicket.typeMeet);
                     user.put("reasonType", cloudFireCheckNewTicket.reason);
+
+                    user.put("informationTeacher1", cloudFireCheckNewTicket.informationTeacher1);
+                    user.put("informationTeacher2", cloudFireCheckNewTicket.informationTeacher2);
 
                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -637,6 +634,9 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("typeMeet", cloudFireCheckNewTicket.typeMeet);
                     user.put("reasonType", cloudFireCheckNewTicket.reason);
 
+                    user.put("informationTeacher1", cloudFireCheckNewTicket.informationTeacher1);
+                    user.put("informationTeacher2", cloudFireCheckNewTicket.informationTeacher2);
+
                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
@@ -748,6 +748,9 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("degreeStudent", cloudFireCheckNewTicket.degreeStudent);
                     user.put("semesterStudent", cloudFireCheckNewTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireCheckNewTicket.indexNumberStudent);
+
+                    user.put("informationTeacher1", cloudFireCheckNewTicket.informationTeacher1);
+                    user.put("informationTeacher2", cloudFireCheckNewTicket.informationTeacher2);
 
                     user.put("secondTeacher", "no");
 
@@ -891,12 +894,16 @@ public class CheckNewTicket extends AppCompatActivity {
         String minute = " ";
         String hour = " ";
 
+        String informationTeacher1 = " ";
+        String informationTeacher2 = " ";
+
         public CloudFireCheckNewTicket(String nameTeacher, String surnameTeacher, String facultyTeacher, String fieldTeacher,
                                        String nameTeacher2, String surnameTeacher2, String facultyTeacher2, String fieldTeacher2,
                                        String nameStudent, String surnameStudent, String facultyStudent,
                                        String fieldStudent, String degreeStudent, String semesterStudent, String indexNumberStudent,
                                        String typeMeet, String dataMeet, String timeMeet, String reason,
-                                       String day, String month, String year, String minute, String hour) {
+                                       String day, String month, String year, String minute, String hour,
+                                        String informationTeacher1, String informationTeacher2) {
             this.nameTeacher = nameTeacher;
             this.surnameTeacher = surnameTeacher;
             this.facultyTeacher = facultyTeacher;
@@ -926,6 +933,8 @@ public class CheckNewTicket extends AppCompatActivity {
 
             this.minute = minute;
             this.hour = hour;
+            this.informationTeacher1 = informationTeacher1;
+            this.informationTeacher2 = informationTeacher2;
         }
     }
 }
