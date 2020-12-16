@@ -23,13 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class RetrievePDF extends AppCompatActivity {
 
     ListView listView;
     List<putPDF>uploadedPDF;
     DatabaseReference databaseReference;
+    String val;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,9 @@ public class RetrievePDF extends AppCompatActivity {
         setContentView(R.layout.activity_retrieve_p_d_f);
         listView = findViewById(R.id.listview_retrievePDF);
         uploadedPDF = new ArrayList<>();
+
+        val = getIntent().getStringExtra("val");
+
         retrievedPDFFile();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,16 +57,14 @@ public class RetrievePDF extends AppCompatActivity {
 
     private void retrievedPDFFile() {
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("uploadPDF");
+        databaseReference = FirebaseDatabase.getInstance().getReference(val);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String val = getIntent().getStringExtra("val");
+
                 for(DataSnapshot ds: snapshot.getChildren()){
-                    if(Objects.requireNonNull(ds.getKey()).equals(val)){
                         putPDF putPDF = ds.getValue(com.example.econtact.putPDF.class);
                         uploadedPDF.add(putPDF);
-                    }
                 }
 
                 String[] uploadsName = new String[uploadedPDF.size()];
@@ -78,7 +79,7 @@ public class RetrievePDF extends AppCompatActivity {
                             @Override
                             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                                 View view = super.getView(position, convertView, parent);
-                                TextView textView = (TextView)view
+                                TextView textView = view
                                         .findViewById(android.R.id.text1);
 
                                 textView.setTextColor(Color.WHITE);

@@ -1,15 +1,20 @@
 package com.example.econtact;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,7 +71,6 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                 String indexNumberStudent = getIntent().getStringExtra("indexNumberStudent");
 
 
-
                 FirebaseFirestore firebaseFirestore;
                 firebaseFirestore = FirebaseFirestore.getInstance();
                 DocumentReference documentReference = firebaseFirestore.collection("Pending applications")
@@ -105,9 +109,26 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                 user.put("informationTeacher2", getIntent().getStringExtra("informationTeacher2"));
 
                 documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(SecondTeacherStepTwo.this, "Ticket has been sent to the teacher!", Toast.LENGTH_SHORT).show();
+
+                        NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                        channel.setDescription("description");
+
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        notificationManager.createNotificationChannel(channel);
+
+                        Notification notification = new NotificationCompat.Builder(SecondTeacherStepTwo.this, "channel01")
+                                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                .setContentTitle("Ticket has been sent to the teacher!")
+                                .setContentText("Wait for the teacher's decision")
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                .build();
+                        notificationManager.notify(0, notification);
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -124,7 +145,43 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
         previousStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondTeacherStepTwo.this, AddNewTicketStepOne.class));
+                Intent intent = new Intent(SecondTeacherStepTwo.this, SecondTeacherStepOne.class);
+                intent.putExtra("id", getIntent().getStringExtra("id"));
+
+                intent.putExtra("nameTeacher", getIntent().getStringExtra("nameTeacher"));
+                intent.putExtra("surnameTeacher", getIntent().getStringExtra("surnameTeacher"));
+                intent.putExtra("facultyTeacher", getIntent().getStringExtra("facultyTeacher"));
+                intent.putExtra("fieldTeacher", getIntent().getStringExtra("fieldTeacher"));
+
+                intent.putExtra("nameTeacher2", getIntent().getStringExtra("nameTeacher2"));
+                intent.putExtra("surnameTeacher2", getIntent().getStringExtra("surnameTeacher2"));
+                intent.putExtra("facultyTeacher2", getIntent().getStringExtra("facultyTeacher2"));
+                intent.putExtra("fieldTeacher2", getIntent().getStringExtra("fieldTeacher2"));
+
+                intent.putExtra("nameStudent", getIntent().getStringExtra("nameStudent"));
+                intent.putExtra("surnameStudent", getIntent().getStringExtra("surnameStudent"));
+                intent.putExtra("facultyStudent", getIntent().getStringExtra("facultyStudent"));
+                intent.putExtra("fieldStudent", getIntent().getStringExtra("fieldStudent"));
+                intent.putExtra("degreeStudent", getIntent().getStringExtra("degreeStudent"));
+                intent.putExtra("semesterStudent", getIntent().getStringExtra("semesterStudent"));
+                intent.putExtra("indexNumberStudent", getIntent().getStringExtra("indexNumberStudent"));
+
+                intent.putExtra("minuteTicket", getIntent().getStringExtra("minuteTicket"));
+                intent.putExtra("hourTicket", getIntent().getStringExtra("hourTicket"));
+
+                intent.putExtra("dayTicket", getIntent().getStringExtra("dayTicket"));
+                intent.putExtra("monthTicket", getIntent().getStringExtra("monthTicket"));
+                intent.putExtra("yearTicket", getIntent().getStringExtra("yearTicket"));
+
+                intent.putExtra("reasonType", getIntent().getStringExtra("reasonType"));
+                intent.putExtra("typeMeet", getIntent().getStringExtra("typeMeet"));
+
+                intent.putExtra("informationTeacher1", getIntent().getStringExtra("informationTeacher1"));
+                intent.putExtra("informationTeacher2", getIntent().getStringExtra("informationTeacher2"));
+
+                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+
+                startActivity(intent);
             }
         });
 

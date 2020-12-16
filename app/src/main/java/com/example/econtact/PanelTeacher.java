@@ -123,8 +123,8 @@ public class PanelTeacher extends AppCompatActivity {
 
                         Notification notification = new NotificationCompat.Builder(PanelTeacher.this, "channel01")
                                 .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                .setContentTitle("eContact")
-                                .setContentText("You have a new ticket from students! Check the news in the \"Check New Tickets\" tab")
+                                .setContentTitle("You have a new ticket " + "(" + i + ")" + "from students!")
+                                .setContentText("Check the news in the \"Check New Tickets\" tab")
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                 .build();
@@ -159,7 +159,7 @@ public class PanelTeacher extends AppCompatActivity {
 
                             Notification notification = new NotificationCompat.Builder(PanelTeacher.this, "channel01")
                                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                    .setContentTitle("eContact")
+                                    .setContentTitle("Success!")
                                     .setContentText("Verification Email has been sent")
                                     .setDefaults(Notification.DEFAULT_ALL)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
@@ -179,8 +179,8 @@ public class PanelTeacher extends AppCompatActivity {
 
                             Notification notification = new NotificationCompat.Builder(PanelTeacher.this, "channel01")
                                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                    .setContentTitle("eContact")
-                                    .setContentText("Error: " + e.getMessage())
+                                    .setContentTitle("Error: ")
+                                    .setContentText(e.getMessage())
                                     .setDefaults(Notification.DEFAULT_ALL)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                     .build();
@@ -192,8 +192,24 @@ public class PanelTeacher extends AppCompatActivity {
         }
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
+                NotificationChannel channel = new NotificationChannel("channel01", "name",
+                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                channel.setDescription("description");
+
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+
+                Notification notification = new NotificationCompat.Builder(PanelTeacher.this, "channel01")
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setContentTitle("eContact")
+                        .setContentText("You logged out!")
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                        .build();
+                notificationManager.notify(0, notification);
                 startActivity(new Intent(PanelTeacher.this, MainActivity.class));
             }
         });

@@ -149,7 +149,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             cloudFireOngoingTicketStudent.nameTeacher2.equals(" ")) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
-                        informationTeacher2TextView.setVisibility(GONE);
+                        informationTeacher2TextView.setText("No data!");
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     } else {
                         nameTeacher2.setVisibility(VISIBLE);
@@ -210,7 +210,7 @@ public class OngoingTicketStudent extends AppCompatActivity {
                             cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
-                        informationTeacher2TextView.setVisibility(GONE);
+                        informationTeacher2TextView.setText("No data!");
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     } else {
                         nameTeacher2.setVisibility(VISIBLE);
@@ -270,12 +270,12 @@ public class OngoingTicketStudent extends AppCompatActivity {
                 int year = Integer.parseInt(cloudFireOngoingTicketStudent.yearTicket);
 
                 int minute = Integer.parseInt(cloudFireOngoingTicketStudent.minuteTicket);
-                int hour= Integer.parseInt(cloudFireOngoingTicketStudent.hourTicket);
+                int hour = Integer.parseInt(cloudFireOngoingTicketStudent.hourTicket);
 
                 Calendar beginTime = Calendar.getInstance();
                 Calendar endTime = Calendar.getInstance();
-                beginTime.set(year, month, day, hour, minute);
-                endTime.set(year, month, day, hour + 1 , minute +30);
+                beginTime.set(year, month - 1, day, hour, minute);
+                endTime.set(year, month - 1, day, hour + 1, minute + 30);
                 Intent intent = new Intent(Intent.ACTION_INSERT)
                         .setData(CalendarContract.Events.CONTENT_URI)
                         .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
@@ -287,7 +287,6 @@ public class OngoingTicketStudent extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
 
         secondTeacherAddButton.setOnClickListener(new View.OnClickListener() {
@@ -353,11 +352,11 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
                     informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
 
-                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
-                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.equals(" ") &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.equals(" ")) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
-                        informationTeacher2TextView.setVisibility(GONE);
+                        informationTeacher2TextView.setText("No data!");
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     } else {
                         nameTeacher2.setVisibility(VISIBLE);
@@ -415,11 +414,11 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
                     informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
 
-                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
-                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.equals(" ") &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.equals(" ")) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
-                        informationTeacher2TextView.setVisibility(GONE);
+                        informationTeacher2TextView.setText("No data!");
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     } else {
                         nameTeacher2.setVisibility(VISIBLE);
@@ -487,11 +486,11 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
                     informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
 
-                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
-                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.equals(" ") &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.equals(" ")) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
-                        informationTeacher2TextView.setVisibility(GONE);
+                        informationTeacher2TextView.setText("No data!");
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     } else {
                         nameTeacher2.setVisibility(VISIBLE);
@@ -550,11 +549,11 @@ public class OngoingTicketStudent extends AppCompatActivity {
                     surnameTeacher1.setText(cloudFireOngoingTicketStudent.surnameTeacher);
                     informationTeacher1TextView.setText(cloudFireOngoingTicketStudent.informationTeacher1);
 
-                    if (cloudFireOngoingTicketStudent.surnameTeacher2.isEmpty() &&
-                            cloudFireOngoingTicketStudent.nameTeacher2.isEmpty()) {
+                    if (cloudFireOngoingTicketStudent.surnameTeacher2.equals(" ") &&
+                            cloudFireOngoingTicketStudent.nameTeacher2.equals(" ")) {
                         nameTeacher2.setVisibility(GONE);
                         surnameTeacher2.setVisibility(GONE);
-                        informationTeacher2TextView.setVisibility(GONE);
+                        informationTeacher2TextView.setText("No data!");
                         secondTeacherAddButton.setVisibility(VISIBLE);
                     } else {
                         nameTeacher2.setVisibility(VISIBLE);

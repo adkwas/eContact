@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -101,7 +100,6 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         emailTeacherLogin = getIntent().getStringExtra("Email");
 
         storageReference = FirebaseStorage.getInstance().getReference();
-        databaseReference = FirebaseDatabase.getInstance().getReference("uploadPDF");
 
         uploadFile.setEnabled(false);
 
@@ -238,12 +236,11 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher2Text.setVisibility(VISIBLE);
 
 
-                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                        if (cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")) {
                             OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
                             OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
                             informationTeacher2Text.setText("No data!");
-                        }
-                        else{
+                        } else {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
@@ -330,12 +327,11 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                        if (cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")) {
                             OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
                             OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
                             informationTeacher2Text.setText("No data!");
-                        }
-                        else{
+                        } else {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
@@ -443,12 +439,11 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                        if (cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")) {
                             OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
                             OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
                             informationTeacher2Text.setText("No data!");
-                        }
-                        else{
+                        } else {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
@@ -538,12 +533,11 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                        if (cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")) {
                             OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
                             OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
                             informationTeacher2Text.setText("No data!");
-                        }
-                        else{
+                        } else {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
@@ -640,12 +634,11 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         save1.setVisibility(VISIBLE);
                         informationTeacher1Text.setVisibility(GONE);
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                        if (cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")) {
                             OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
                             OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
                             informationTeacher2Text.setText("No data!");
-                        }
-                        else{
+                        } else {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
@@ -733,12 +726,11 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         informationTeacher1Text.setVisibility(GONE);
 
                         informationTeacher2Text.setVisibility(VISIBLE);
-                        if(cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")){
+                        if (cloudFireOngoingTicket.nameTeacher2.equals(" ") && cloudFireOngoingTicket.surnameTeacher2.equals(" ")) {
                             OngoingTicketTeacher.this.nameTeacher2.setText("No data!");
                             OngoingTicketTeacher.this.surnameTeacher2.setText("No data!");
                             informationTeacher2Text.setText("No data!");
-                        }
-                        else{
+                        } else {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
@@ -895,8 +887,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                             Notification notification = new NotificationCompat.Builder(OngoingTicketTeacher.this, "channel01")
                                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                    .setContentTitle("eContact")
-                                    .setContentText("Error!: " + e.toString())
+                                    .setContentTitle("Error!: ")
+                                    .setContentText(e.toString())
                                     .setDefaults(Notification.DEFAULT_ALL)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                     .build();
@@ -978,7 +970,6 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("TAG", "Error!: " + e.toString());
 
                             NotificationChannel channel = new NotificationChannel("channel01", "name",
                                     NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
@@ -989,8 +980,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                             Notification notification = new NotificationCompat.Builder(OngoingTicketTeacher.this, "channel01")
                                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                    .setContentTitle("eContact")
-                                    .setContentText("Error!: " + e.toString())
+                                    .setContentTitle("Error!: " )
+                                    .setContentText(e.toString())
                                     .setDefaults(Notification.DEFAULT_ALL)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                     .build();
@@ -1018,7 +1009,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                 if (document.getId().equals(cloudFireOngoingTicket.id)) {
                                     collectionReference.document(cloudFireOngoingTicket.id).delete();
                                     objectArrayList.remove(indexTicket);
-                                    databaseReference.child("uploadFile").removeValue();
+                                    //databaseReference.child("uploadFile").removeValue();
                                 }
                             }
                             ///
@@ -1631,6 +1622,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
         if ((requestCode == 12) && (resultCode == RESULT_OK) && (data != null) && (data.getData() != null)) {
             uploadFile.setEnabled(true);
+
             selectFile.setText(data.getDataString()
                     .substring(data.getDataString().lastIndexOf("/") + 1));
 
@@ -1650,6 +1642,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
         final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
 
+        //Storage
         StorageReference reference = storageReference.child("uploadPDF " + System.currentTimeMillis() + ".pdf");
         reference.putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -1660,14 +1653,22 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                         while (!uriTask.isComplete()) ;
                         Uri uri = uriTask.getResult();
+                        databaseReference = FirebaseDatabase.getInstance().getReference(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+                                cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+                                + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+                                + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
 
                         putPDF putPDF = new putPDF(selectFile.getText().toString(), uri.toString());
-                        databaseReference
-                                .child(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
-                                        cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
-                                        + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
-                                        + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket).setValue(putPDF);
+                        //databaseReference
+                        //        .child(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+                        //                cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+                        //                + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+                        //               + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket).setValue(putPDF);
 
+                        databaseReference
+                                .child("path" + selectFile.getText().toString()).setValue(putPDF);
+
+                        ////
                         NotificationChannel channel = new NotificationChannel("channel01", "name",
                                 NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
                         channel.setDescription("description");
@@ -1684,19 +1685,17 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                 .build();
                         notificationManager.notify(0, notification);
                         progressDialog.dismiss();
+                        ///
                     }
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-
                 double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
                 progressDialog.setMessage("File Uploaded.." + (int) progress + "%");
-
             }
         });
     }
 }
-
 class CloudFireOngoingTicket {
 
     String id = " ";

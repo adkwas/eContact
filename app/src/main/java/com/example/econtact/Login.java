@@ -94,44 +94,11 @@ public class Login extends AppCompatActivity {
                             if (val.equals(studentVal)) {
                                 Intent intent = new Intent(Login.this, PanelStudent.class);
                                 intent.putExtra("Email", emailUserString);
-
-                                NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                                channel.setDescription("description");
-
-                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                notificationManager.createNotificationChannel(channel);
-
-                                Notification notification = new NotificationCompat.Builder(Login.this, "channel01")
-                                        .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                        .setContentTitle("eContact")
-                                        .setContentText("You are logged in!")
-                                        .setDefaults(Notification.DEFAULT_ALL)
-                                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                        .build();
-                                notificationManager.notify(0, notification);
-
-
                                 startActivity(intent);
                             }
                             if (val.equals(teacherVal)) {
                                 Intent intent = new Intent(Login.this, PanelTeacher.class);
                                 intent.putExtra("Email", emailUserString);
-                                NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                                channel.setDescription("description");
-
-                                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                notificationManager.createNotificationChannel(channel);
-
-                                Notification notification = new NotificationCompat.Builder(Login.this, "channel01")
-                                        .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                        .setContentTitle("eContact")
-                                        .setContentText("You are logged in!")
-                                        .setDefaults(Notification.DEFAULT_ALL)
-                                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                        .build();
-                                notificationManager.notify(0, notification);
                                 startActivity(intent);
                             }
                         } else {

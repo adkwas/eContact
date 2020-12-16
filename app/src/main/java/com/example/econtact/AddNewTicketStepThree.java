@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -61,7 +60,8 @@ public class AddNewTicketStepThree extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         //Set typeMeet adapter typeMeetArray
-        final ArrayAdapter<String> adapterElements = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeMeetArray);
+        final ArrayAdapter<String> adapterElements = new
+                ArrayAdapter<>(this, android.R.layout.simple_spinner_item, typeMeetArray);
         typeMeetSpinner.setAdapter(adapterElements);
 
         //The user selects one type of match with the spinner
@@ -241,8 +241,8 @@ public class AddNewTicketStepThree extends AppCompatActivity {
 
                         Notification notification = new NotificationCompat.Builder(AddNewTicketStepThree.this, "channel01")
                                 .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                .setContentTitle("eContact")
-                                .setContentText("Application sent to the teacher! Wait for his decision.")
+                                .setContentTitle("Application sent to the teacher!")
+                                .setContentText("Wait for his decision")
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                 .build();
@@ -251,9 +251,32 @@ public class AddNewTicketStepThree extends AppCompatActivity {
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("TAG", "Error!: " + e.toString());
+                        NotificationChannel channel = null;   // for heads-up notifications
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            channel = new NotificationChannel("channel01", "name",
+                                    NotificationManager.IMPORTANCE_HIGH);
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            channel.setDescription("description");
+                        }
+
+                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            notificationManager.createNotificationChannel(channel);
+                        }
+
+                        Notification notification = new NotificationCompat.Builder(AddNewTicketStepThree.this, "channel01")
+                                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                .setContentTitle("Error!")
+                                .setContentText(e.toString())
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                .build();
+                        notificationManager.notify(0, notification);
+
                     }
                 });
                 Intent intent = new Intent(AddNewTicketStepThree.this, PanelStudent.class);

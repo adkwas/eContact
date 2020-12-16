@@ -217,7 +217,7 @@ public class ResetSemesterAndDegreeStudent extends AppCompatActivity {
 
                         Notification notification = new NotificationCompat.Builder(ResetSemesterAndDegreeStudent.this, "channel01")
                                 .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                .setContentTitle("eContact")
+                                .setContentTitle("Settings")
                                 .setContentText("Degree and Semester changed!")
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
@@ -237,7 +237,7 @@ public class ResetSemesterAndDegreeStudent extends AppCompatActivity {
 
                         Notification notification = new NotificationCompat.Builder(ResetSemesterAndDegreeStudent.this, "channel01")
                                 .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                .setContentTitle("eContact")
+                                .setContentTitle("Settings")
                                 .setContentText("Error: " + e.toString())
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up

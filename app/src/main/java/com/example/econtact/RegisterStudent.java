@@ -622,8 +622,8 @@ public class RegisterStudent extends AppCompatActivity {
 
                                     Notification notification = new NotificationCompat.Builder(RegisterStudent.this, "channel01")
                                             .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Registered success!")
+                                            .setContentTitle("Registered success!")
+                                            .setContentText("You can login to your account")
                                             .setDefaults(Notification.DEFAULT_ALL)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                             .build();
@@ -642,8 +642,8 @@ public class RegisterStudent extends AppCompatActivity {
 
                                     Notification notification = new NotificationCompat.Builder(RegisterStudent.this, "channel01")
                                             .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Error: " + e.toString())
+                                            .setContentTitle("Error: ")
+                                            .setContentText(e.toString())
                                             .setDefaults(Notification.DEFAULT_ALL)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                             .build();
@@ -660,21 +660,6 @@ public class RegisterStudent extends AppCompatActivity {
                                 @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                                    channel.setDescription("description");
-
-                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                                    notificationManager.createNotificationChannel(channel);
-
-                                    Notification notification = new NotificationCompat.Builder(RegisterStudent.this, "channel01")
-                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Verification Email has been sent!")
-                                            .setDefaults(Notification.DEFAULT_ALL)
-                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                            .build();
-                                    notificationManager.notify(0, notification);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -689,8 +674,8 @@ public class RegisterStudent extends AppCompatActivity {
 
                                     Notification notification = new NotificationCompat.Builder(RegisterStudent.this, "channel01")
                                             .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Error: " + e.getMessage())
+                                            .setContentTitle("Error: ")
+                                            .setContentText(e.getMessage())
                                             .setDefaults(Notification.DEFAULT_ALL)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                             .build();
@@ -707,8 +692,8 @@ public class RegisterStudent extends AppCompatActivity {
 
                             Notification notification = new NotificationCompat.Builder(RegisterStudent.this, "channel01")
                                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                    .setContentTitle("eContact")
-                                    .setContentText("Error: " + Objects.requireNonNull(task.getException()).getMessage())
+                                    .setContentTitle("Error: ")
+                                    .setContentText(Objects.requireNonNull(task.getException()).getMessage())
                                     .setDefaults(Notification.DEFAULT_ALL)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                     .build();

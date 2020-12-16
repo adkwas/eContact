@@ -475,8 +475,8 @@ public class RegisterTeacher extends AppCompatActivity {
 
                                     Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
                                             .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Register success!")
+                                            .setContentTitle("Register success!")
+                                            .setContentText("You can login to your account")
                                             .setDefaults(Notification.DEFAULT_ALL)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                             .build();
@@ -495,8 +495,8 @@ public class RegisterTeacher extends AppCompatActivity {
 
                                     Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
                                             .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Error: " + e.toString())
+                                            .setContentTitle("Error: " )
+                                            .setContentText(e.toString())
                                             .setDefaults(Notification.DEFAULT_ALL)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                             .build();
@@ -542,8 +542,8 @@ public class RegisterTeacher extends AppCompatActivity {
 
                                     Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
                                             .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                            .setContentTitle("eContact")
-                                            .setContentText("Error: " + e.getMessage())
+                                            .setContentTitle("Error: " )
+                                            .setContentText(e.getMessage())
                                             .setDefaults(Notification.DEFAULT_ALL)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                             .build();
@@ -561,8 +561,8 @@ public class RegisterTeacher extends AppCompatActivity {
 
                             Notification notification = new NotificationCompat.Builder(RegisterTeacher.this, "channel01")
                                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                    .setContentTitle("eContact")
-                                    .setContentText("Error: " + Objects.requireNonNull(task.getException()).getMessage())
+                                    .setContentTitle("Error: ")
+                                    .setContentText(Objects.requireNonNull(task.getException()).getMessage())
                                     .setDefaults(Notification.DEFAULT_ALL)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                     .build();

@@ -420,7 +420,7 @@ public class ResetFacultyAndFieldTeacher extends AppCompatActivity {
 
                         Notification notification = new NotificationCompat.Builder(ResetFacultyAndFieldTeacher.this, "channel01")
                                 .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                .setContentTitle("eContact")
+                                .setContentTitle("Settings")
                                 .setContentText("Faculty and Field changed!")
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up

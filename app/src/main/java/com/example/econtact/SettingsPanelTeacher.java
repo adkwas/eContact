@@ -74,8 +74,8 @@ public class SettingsPanelTeacher extends AppCompatActivity {
 
                                 Notification notification = new NotificationCompat.Builder(SettingsPanelTeacher.this, "channel01")
                                         .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                        .setContentTitle("eContact")
-                                        .setContentText("Change password correct! Please log in again")
+                                        .setContentTitle("Change password correct! ")
+                                        .setContentText("Please log in again")
                                         .setDefaults(Notification.DEFAULT_ALL)
                                         .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
                                         .build();
@@ -95,7 +95,7 @@ public class SettingsPanelTeacher extends AppCompatActivity {
 
                                 Notification notification = new NotificationCompat.Builder(SettingsPanelTeacher.this, "channel01")
                                         .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                        .setContentTitle("eContact")
+                                        .setContentTitle("Settings")
                                         .setContentText("Change password failure!")
                                         .setDefaults(Notification.DEFAULT_ALL)
                                         .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up

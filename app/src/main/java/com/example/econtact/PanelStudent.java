@@ -1,35 +1,49 @@
 package com.example.econtact;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Objects;
 
 public class PanelStudent extends AppCompatActivity {
 
     TextView welcomeText, verifyMessage;
     Button addNewTicketButton, confirmTicketsButton, logoutButton, pendingTicketsButton, rejectTicketsButton, resendCodeButton, ongoingTickets, settings;
     String nameStudent, surnameStudent, facultyStudent, fieldStudent, degreeStudent, semesterStudent, indexNumberStudent, emailStudent;
+    int i=0;
+    int j=0;
     FirebaseFirestore firebaseFirestore;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +82,98 @@ public class PanelStudent extends AppCompatActivity {
             }
         });
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = firebaseFirestore.collection("Accepted Applications");
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                        String nameVal = document.getString("nameStudent");
+                        String surnameVal = document.getString("surnameStudent");
+                        String facultyVal = document.getString("facultyStudent");
+                        String fieldVal = document.getString("fieldStudent");
+
+                        assert nameVal != null;
+                        assert surnameVal != null;
+                        assert facultyVal != null;
+                        assert fieldVal != null;
+
+                        if (nameVal.equals(nameStudent) && surnameVal.equals(surnameStudent)
+                                && facultyVal.equals(facultyStudent) && fieldVal.equals(fieldStudent)) {
+                            i++;
+                        }
+                    }
+                }
+
+                if(i>0){
+                    NotificationChannel channel = new NotificationChannel("channel01", "name",
+                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                    channel.setDescription("description");
+
+                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                    notificationManager.createNotificationChannel(channel);
+
+                    Notification notification = new NotificationCompat.Builder(PanelStudent.this, "channel01")
+                            .setSmallIcon(android.R.drawable.ic_dialog_info)
+                            .setContentTitle("You have new accepted "+ "(" + i + ")" +"teachers' tickets!")
+                            .setContentText("Check the tickets in the accepted or ongoing tab")
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                            .build();
+                    notificationManager.notify(0, notification);
+                }
+            }
+        });
+
+        CollectionReference collectionReference1 = firebaseFirestore.collection("Canceled Applications");
+        collectionReference1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                        String nameVal = document.getString("nameStudent");
+                        String surnameVal = document.getString("surnameStudent");
+                        String facultyVal = document.getString("facultyStudent");
+                        String fieldVal = document.getString("fieldStudent");
+
+                        assert nameVal != null;
+                        assert surnameVal != null;
+                        assert facultyVal != null;
+                        assert fieldVal != null;
+
+                        if (nameVal.equals(nameStudent) && surnameVal.equals(surnameStudent)
+                                && facultyVal.equals(facultyStudent) && fieldVal.equals(fieldStudent)) {
+                            j++;
+                        }
+                    }
+                }
+                if(j>0){
+                    NotificationChannel channel = new NotificationChannel("channel01", "name",
+                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                    channel.setDescription("description");
+
+                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                    notificationManager.createNotificationChannel(channel);
+
+                    Notification notification = new NotificationCompat.Builder(PanelStudent.this, "channel01")
+                            .setSmallIcon(android.R.drawable.ic_dialog_info)
+                            .setContentTitle("You have new canceled "+ "(" + j + ")" +"teachers' tickets!")
+                            .setContentText("Check the tickets in the canceled tab")
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                            .build();
+                    notificationManager.notify(0, notification);
+                }
+            }
+        });
+
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
 
@@ -78,14 +184,45 @@ public class PanelStudent extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(PanelStudent.this, "A new verification e-mail has been sent", Toast.LENGTH_SHORT).show();
+                            NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                    NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                            channel.setDescription("description");
+
+                            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                            notificationManager.createNotificationChannel(channel);
+
+                            Notification notification = new NotificationCompat.Builder(PanelStudent.this, "channel01")
+                                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                    .setContentTitle("eContact")
+                                    .setContentText("A new verification e-mail has been sent")
+                                    .setDefaults(Notification.DEFAULT_ALL)
+                                    .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                    .build();
+                            notificationManager.notify(0, notification);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("tag", "Error: " + e.getMessage());
+                            NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                    NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                            channel.setDescription("description");
+
+                            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                            notificationManager.createNotificationChannel(channel);
+
+                            Notification notification = new NotificationCompat.Builder(PanelStudent.this, "channel01")
+                                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                    .setContentTitle("Error: ")
+                                    .setContentText(e.getMessage())
+                                    .setDefaults(Notification.DEFAULT_ALL)
+                                    .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                    .build();
+                            notificationManager.notify(0, notification);
                         }
                     });
                 }
@@ -95,7 +232,21 @@ public class PanelStudent extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(PanelStudent.this, "Sign Out", Toast.LENGTH_SHORT).show();
+                NotificationChannel channel = new NotificationChannel("channel01", "name",
+                        NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                channel.setDescription("description");
+
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+
+                Notification notification = new NotificationCompat.Builder(PanelStudent.this, "channel01")
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setContentTitle("eContact")
+                        .setContentText("You logged out!")
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                        .build();
+                notificationManager.notify(0, notification);
                 startActivity(new Intent(PanelStudent.this, MainActivity.class));
             }
         });

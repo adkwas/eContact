@@ -14,6 +14,7 @@ import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -36,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static android.view.View.GONE;
 
 public class CheckNewTicket extends AppCompatActivity {
 
@@ -349,8 +352,8 @@ public class CheckNewTicket extends AppCompatActivity {
 
                             Calendar beginTime = Calendar.getInstance();
                             Calendar endTime = Calendar.getInstance();
-                            beginTime.set(year-1, month-1, day, hour, minute);
-                            endTime.set(year-1, month-1, day, hour + 1 , minute +30);
+                            beginTime.set(year, month-1, day, hour, minute);
+                            endTime.set(year, month-1, day, hour + 1 , minute +30);
                             Intent intent = new Intent(Intent.ACTION_INSERT)
                                     .setData(CalendarContract.Events.CONTENT_URI)
                                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
@@ -401,7 +404,12 @@ public class CheckNewTicket extends AppCompatActivity {
                         timeMeet.setText("Time: " + cloudFireCheckNewTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireCheckNewTicket.reason);
                     } else {
-                        AlertDialog.Builder dialogBuilder3 = new AlertDialog.Builder(CheckNewTicket.this);
+
+                        Toast.makeText(CheckNewTicket.this,"No new applications pending!", Toast.LENGTH_SHORT).show();
+                        acceptButton.setVisibility(GONE);
+                        cancelButton.setVisibility(GONE);
+
+                        /*AlertDialog.Builder dialogBuilder3 = new AlertDialog.Builder(CheckNewTicket.this);
                         dialogBuilder3.setTitle("Check New Ticket");
                         dialogBuilder3.setMessage("No tickets to display!");
                         dialogBuilder3.setCancelable(false);
@@ -415,6 +423,7 @@ public class CheckNewTicket extends AppCompatActivity {
                         });
                         dialogBuilder3.create();
                         dialogBuilder3.show();
+                         */
                     }
                 }
 
@@ -518,8 +527,8 @@ public class CheckNewTicket extends AppCompatActivity {
 
                             Calendar beginTime = Calendar.getInstance();
                             Calendar endTime = Calendar.getInstance();
-                            beginTime.set(year-1, month-1, day, hour, minute);
-                            endTime.set(year-1, month-1, day, hour + 1 , minute +30);
+                            beginTime.set(year, month-1, day, hour, minute);
+                            endTime.set(year, month-1, day, hour + 1 , minute +30);
                             Intent intent = new Intent(Intent.ACTION_INSERT)
                                     .setData(CalendarContract.Events.CONTENT_URI)
                                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
@@ -571,21 +580,10 @@ public class CheckNewTicket extends AppCompatActivity {
                         timeMeet.setText("Time: " + cloudFireCheckNewTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireCheckNewTicket.reason);
                     } else {
-                        AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(CheckNewTicket.this);
-                        dialogBuilder4.setTitle("Check New Ticket");
-                        dialogBuilder4.setMessage("No tickets to display!");
-                        dialogBuilder4.setCancelable(false);
-                        dialogBuilder4.setNeutralButton("Back to Panel", new Dialog.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //showToast("You picked positive button");
-                                Intent intent = new Intent(CheckNewTicket.this, PanelTeacher.class);
-                                intent.putExtra("Email", getIntent().getStringExtra("Email"));
-                                startActivity(intent);
-                            }
-                        });
-                        dialogBuilder4.create();
-                        dialogBuilder4.show();
+
+                        Toast.makeText(CheckNewTicket.this,"No new applications pending!", Toast.LENGTH_SHORT).show();
+                        acceptButton.setVisibility(GONE);
+                        cancelButton.setVisibility(GONE);
                     }
                 }
 
