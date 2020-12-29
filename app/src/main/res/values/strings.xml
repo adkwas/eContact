@@ -26,9 +26,9 @@
     <string name="student_pp_button">Student PP</string>
     <string name="teacher_button_as">Teacher</string>
     <string name="student_button_as">Student</string>
-    <string name="password">Password:</string>
+    <string name="passwordone">Password:</string>
     <string name="email_put">Email PUT:</string>
-    <string name="login">Login</string>
+    <string name="loginone">Login</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="log_in_account">Log in Account</string>
     <string name="next_step">Next step</string>
@@ -136,4 +136,17 @@
     <string name="pending_tickets">Pending tickets</string>
     <string name="data_meeting">Data meeting:</string>
     <string name="lecturer_data">Lecturer data:</string>
+    <string name="nameone">Name:</string>
+    <string name="register_teacher">Register Teacher</string>
+    <string name="name">Name:</string>
+    <string name="surname">Surname:</string>
+    <string name="email">Email:</string>
+    <string name="password">Password:</string>
+    <string name="repeat_password">Repeat Password:</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="student_data_one">Student data:</string>
+    <string name="accepted_tickets">Accepted Tickets</string>
+    <string name="teacher_data">Teacher data:</string>
+    <string name="confirm_tickets">Confirm tickets</string>
 </resources>

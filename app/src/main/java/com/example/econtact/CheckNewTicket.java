@@ -455,7 +455,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("monthTicket", monthString);
                     user.put("yearTicket", yearString);
 
-                    user.put("typeMeet", cloudFireCheckNewTicket.typeMeet);
+                    user.put("typeMeet", cloudFireCheckNewTicket.typeMeet + " - as an additional teacher");
                     user.put("reasonType", cloudFireCheckNewTicket.reason);
 
                     user.put("informationTeacher1", cloudFireCheckNewTicket.informationTeacher1);
@@ -766,7 +766,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("monthTicket", monthString);
                     user.put("yearTicket", yearString);
 
-                    user.put("typeMeet", cloudFireCheckNewTicket.typeMeet);
+                    user.put("typeMeet", cloudFireCheckNewTicket.typeMeet + "- as an additional teacher");
                     user.put("reasonType", cloudFireCheckNewTicket.reason);
 
                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {

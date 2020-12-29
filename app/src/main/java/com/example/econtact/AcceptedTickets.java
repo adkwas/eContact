@@ -156,7 +156,7 @@ public class AcceptedTickets extends AppCompatActivity {
                             degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
                             semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
                             indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
                             dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
                             timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
                             reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
@@ -193,7 +193,7 @@ public class AcceptedTickets extends AppCompatActivity {
                             degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
                             semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
                             indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                            typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
                             dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
                             timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
                             reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
@@ -240,7 +240,7 @@ public class AcceptedTickets extends AppCompatActivity {
                         degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
                         semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
                         indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
                         dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
                         timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
@@ -277,7 +277,7 @@ public class AcceptedTickets extends AppCompatActivity {
                         degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
                         semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
                         indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
                         dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
                         timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
@@ -323,7 +323,7 @@ public class AcceptedTickets extends AppCompatActivity {
                         degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
                         semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
                         indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
                         dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
                         timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);
@@ -359,7 +359,7 @@ public class AcceptedTickets extends AppCompatActivity {
                         degreeStudent.setText(cloudFireAcceptedTicket.degreeStudent);
                         semesterStudent.setText("Semester: " + cloudFireAcceptedTicket.semesterStudent);
                         indexNumberStudent.setText("Index: " + cloudFireAcceptedTicket.indexNumber);
-                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType + " as an assistant teacher");
+                        typeMeet.setText("Type Meet: " + cloudFireAcceptedTicket.meetType);
                         dataMeet.setText("Date: " + cloudFireAcceptedTicket.dataMeet);
                         timeMeet.setText("Time: " + cloudFireAcceptedTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireAcceptedTicket.reason);

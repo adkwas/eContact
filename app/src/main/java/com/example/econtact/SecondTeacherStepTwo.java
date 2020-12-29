@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -112,23 +113,7 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(Void aVoid) {
-
-                        NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                        channel.setDescription("description");
-
-                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                        notificationManager.createNotificationChannel(channel);
-
-                        Notification notification = new NotificationCompat.Builder(SecondTeacherStepTwo.this, "channel01")
-                                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                .setContentTitle("Ticket has been sent to the teacher!")
-                                .setContentText("Wait for the teacher's decision")
-                                .setDefaults(Notification.DEFAULT_ALL)
-                                .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                .build();
-                        notificationManager.notify(0, notification);
-
+                        Toast.makeText(SecondTeacherStepTwo.this, "The ticket has been sent!", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
