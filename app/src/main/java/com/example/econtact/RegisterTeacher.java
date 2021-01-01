@@ -1,20 +1,25 @@
 package com.example.econtact;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -28,6 +33,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,9 +44,13 @@ import java.util.Objects;
 public class RegisterTeacher extends AppCompatActivity {
 
     EditText nameTeacher, surnameTeacher, emailTeacher, passwordTeacher, repeatPasswordTeacher;
-    Button registerButton, loginButton;
+    Button registerButton, loginButton, setPicture;
     Spinner facultyUniversity, fieldUniversity;
     String teacherFaculty, teacherField;
+    StorageReference storageReference;
+    ImageView pictureTeacher;
+
+
 
     String[] elementsFaculty = {"Faculty of Study", "Faculty of Architecture", "Faculty of Chemical Technology", "Faculty of Civil and Transport Engineering", "Faculty of Computing and Telecomunications", "Faculty of Control, Robotics and Electrical Engineering", "Faculty of Engineering Management", "Faculty of Environmental Engineering and Energy", "Faculty of Materials Engineering and Technical Physics", "Faculty of Mechanical Engineering"};
     String[] architectureField = {"Field of Study", "Architecture", "Interior Design"};
@@ -71,6 +83,11 @@ public class RegisterTeacher extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton_RegisterTeacher);
         facultyUniversity = findViewById(R.id.spinnerFaculty_RegisterTeacher);
         fieldUniversity = findViewById(R.id.spinnerField_RegisterTeacher);
+
+        setPicture = findViewById(R.id.setPicture_RegisterTeacher);
+        pictureTeacher = findViewById(R.id.imageView_ConfirmTickets);
+
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         final ArrayAdapter<String> adapterArchitecture = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, architectureField);
         final ArrayAdapter<String> adapterAutomatics = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, automaticsField);
@@ -570,6 +587,42 @@ public class RegisterTeacher extends AppCompatActivity {
                         }
                     }
                 });
+            }
+        });
+
+        setPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(openGalleryIntent, 1000);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1000){
+            if(resultCode == Activity.RESULT_OK){
+                Uri imageUri = data.getData();
+                pictureTeacher.setImageURI(imageUri);
+                uploadImageToFirebase(imageUri);
+            }
+        }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri){
+        StorageReference fileRef = storageReference.child("profile.jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(RegisterTeacher.this, "Image upload!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(RegisterTeacher.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }

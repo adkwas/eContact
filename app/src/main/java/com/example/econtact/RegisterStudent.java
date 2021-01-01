@@ -1,20 +1,25 @@
 package com.example.econtact;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -28,6 +33,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +44,10 @@ import java.util.Objects;
 public class RegisterStudent extends AppCompatActivity {
 
     EditText nameStudent, surnameStudent, indexNumberStudent, emailStudent, passwordStudent, repeatPasswordStudent;
-    Button registerButton, loginButton;
+    Button registerButton, loginButton, setPicture;
+    ImageView pictureStudent;
+
+    StorageReference storageReference;
     Spinner facultyUniversity, fieldUniversity, degreeStudent, semesterStudent;
     String studentFaculty, studentField, studentDegree, studentSemester;
 
@@ -78,6 +89,12 @@ public class RegisterStudent extends AppCompatActivity {
         fieldUniversity = findViewById(R.id.spinnerField__RegisterStudent);
         degreeStudent = findViewById(R.id.spinnerDegree_RegisterStudent);
         semesterStudent = findViewById(R.id.semesterStudent__RegisterStudent);
+
+        setPicture = findViewById(R.id.setPicture_RegisterTeacher);
+        pictureStudent = findViewById(R.id.imageView_ConfirmTickets);
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+
 
         final ArrayAdapter<String> adapterArchitecture = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, architectureField);
         final ArrayAdapter<String> adapterAutomatics = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, automaticsField);
@@ -703,6 +720,44 @@ public class RegisterStudent extends AppCompatActivity {
                         }
                     }
                 });
+            }
+        });
+
+        setPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(openGalleryIntent, 1000);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1000){
+            if(resultCode == Activity.RESULT_OK){
+                Uri imageUri = data.getData();
+                pictureStudent.setImageURI(imageUri);
+
+                uploadImageToFirebase(imageUri);
+            }
+        }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri){
+        StorageReference fileRef = storageReference.child("profile.jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(RegisterStudent.this, "Image upload!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(RegisterStudent.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
