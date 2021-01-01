@@ -85,7 +85,7 @@ public class RegisterTeacher extends AppCompatActivity {
         fieldUniversity = findViewById(R.id.spinnerField_RegisterTeacher);
 
         setPicture = findViewById(R.id.setPicture_RegisterTeacher);
-        pictureTeacher = findViewById(R.id.imageView_PendingTickets);
+        pictureTeacher = findViewById(R.id.imageView_CheckNewTicket);
 
         storageReference = FirebaseStorage.getInstance().getReference();
 

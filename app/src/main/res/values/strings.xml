@@ -149,4 +149,9 @@
     <string name="accepted_tickets">Accepted Tickets</string>
     <string name="teacher_data">Teacher data:</string>
     <string name="confirm_tickets">Confirm tickets</string>
+    <string name="checking_active_tickets_CheckNewTicket">Checking active tickets</string>
+    <string name="student_data_CheckNewTicket">Student data:</string>
+    <string name="todo_CheckNewTicket">TODO</string>
+    <string name="cancel_ticket_CheckNewTicket">Cancel ticket</string>
+    <string name="accept_ticket_CheckNewTicket">Accept ticket</string>
 </resources>

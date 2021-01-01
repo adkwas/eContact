@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView_PendingTickets"
+            android:id="@+id/imageView_CheckNewTicket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -117,7 +117,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_PendingTickets" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_CheckNewTicket" />
 
         <TextView
             android:id="@+id/facultyLecturer_confirmTickets"

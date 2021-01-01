@@ -91,7 +91,7 @@ public class RegisterStudent extends AppCompatActivity {
         semesterStudent = findViewById(R.id.semesterStudent__RegisterStudent);
 
         setPicture = findViewById(R.id.setPicture_RegisterTeacher);
-        pictureStudent = findViewById(R.id.imageView_PendingTickets);
+        pictureStudent = findViewById(R.id.imageView_CheckNewTicket);
 
         storageReference = FirebaseStorage.getInstance().getReference();
 

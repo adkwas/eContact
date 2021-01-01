@@ -30,11 +30,11 @@
             android:text="Set a picture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_PendingTickets" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_CheckNewTicket" />
 
 
         <ImageView
-            android:id="@+id/imageView_PendingTickets"
+            android:id="@+id/imageView_CheckNewTicket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
