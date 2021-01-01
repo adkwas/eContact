@@ -27,7 +27,7 @@
             android:text="Set a picture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_ConfirmTickets" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_PendingTickets" />
 
         <TextView
             android:id="@+id/textview_RegisterTeacher"
@@ -252,7 +252,7 @@
             app:layout_constraintTop_toBottomOf="@+id/copypasswordTeacher_RegisterTeacher" />
 
         <ImageView
-            android:id="@+id/imageView_ConfirmTickets"
+            android:id="@+id/imageView_PendingTickets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
