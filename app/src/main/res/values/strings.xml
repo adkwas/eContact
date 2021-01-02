@@ -154,4 +154,17 @@
     <string name="todo_CheckNewTicket">TODO</string>
     <string name="cancel_ticket_CheckNewTicket">Cancel ticket</string>
     <string name="accept_ticket_CheckNewTicket">Accept ticket</string>
+    <string name="ongoing_ticket_OngoingTicketStudent">Ongoing Ticket</string>
+    <string name="first_teacher_OngoingTicketStudent">First Teacher</string>
+    <string name="second_teacher_OngoingTicketStudent">Second teacher:</string>
+    <string name="todo_OngoingTicketStudent">TODO</string>
+    <string name="information_from_first_teacher_OngoingTicketStudent">Information from first teacher:</string>
+    <string name="add_teacher_OngoingTicketStudent">Add teacher</string>
+    <string name="information_from_second_teacher1_OngoingTicketStudent">Information from second teacher:</string>
+    <string name="information_from_second_teacher2_OngoingTicketStudent">Information from second teacher:</string>
+    <string name="files_added_by_leaders_for_download_OngoingTicketStudent">Files added by leaders for download:</string>
+    <string name="download_file_OngoingTicketStudent">Download file</string>
+    <string name="add_to_calendar_OngoingTicketStudent">Add to calendar</string>
+    <string name="previous_OngoingTicketStudent">Previous</string>
+    <string name="next_OngoingTicketStudent">Next</string>
 </resources>
