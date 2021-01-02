@@ -15,7 +15,7 @@
         tools:context=".OngoingTicketStudent">
 
         <TextView
-            android:id="@+id/textview1_OngoingTicketStudent"
+            android:id="@+id/textview1_OngoingTicketTeacher"
             style="@android:style/Widget.TextView"
             android:layout_width="0dp"
             android:layout_height="60dp"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView1_OngoingTicketStudent"
+            android:id="@+id/imageView_OngoingTicketStudent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -47,11 +47,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview5_ongoingTicketTeacher2"
+            app:layout_constraintTop_toBottomOf="@+id/textview5_ongoingTicketStudent"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
-            android:id="@+id/textview5_ongoingTicketTeacher2"
+            android:id="@+id/textview5_ongoingTicketStudent"
             style="@android:style/Widget.TextView"
             android:layout_width="0dp"
             android:layout_height="60dp"
@@ -70,7 +70,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview1_OngoingTicketStudent" />
+            app:layout_constraintTop_toBottomOf="@+id/textview1_OngoingTicketTeacher" />
 
         <TextView
             android:id="@+id/nameTeacher1_ongoingTicketStudent"
@@ -91,9 +91,10 @@
             android:textColorHint="#FFFFFF"
             android:textSize="18sp"
             android:visibility="visible"
+
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView1_OngoingTicketStudent"
-            app:layout_constraintTop_toBottomOf="@+id/textview5_ongoingTicketTeacher2" />
+            app:layout_constraintStart_toEndOf="@+id/imageView_OngoingTicketStudent"
+            app:layout_constraintTop_toBottomOf="@+id/textview5_ongoingTicketStudent" />
 
         <TextView
             android:id="@+id/surnameTeacher1_ongoingTicketStudent"
@@ -114,13 +115,14 @@
             android:textColorHint="#FFFFFF"
             android:textSize="18sp"
             android:visibility="visible"
+
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView1_OngoingTicketStudent"
+            app:layout_constraintStart_toEndOf="@+id/imageView_OngoingTicketStudent"
             app:layout_constraintTop_toBottomOf="@+id/nameTeacher1_ongoingTicketStudent" />
 
 
         <TextView
-            android:id="@+id/textview4_ongoingTicketTeacher2"
+            android:id="@+id/textview4_ongoingTicketStudent"
             style="@android:style/Widget.TextView"
             android:layout_width="0dp"
             android:layout_height="60dp"
@@ -151,7 +153,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketTeacher2"
+            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketStudent"
             app:srcCompat="@drawable/ic_launcher_foreground"
             android:contentDescription="@string/todo_OngoingTicketStudent" />
 
@@ -214,7 +216,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toEndOf="@+id/imageView2_OngoingTicketStudent"
-            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketTeacher2" />
+            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketStudent" />
 
 
         <TextView
@@ -261,7 +263,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView2_OngoingTicketStudent"
-            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketTeacher2" />
+            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketStudent" />
 
 
         <TextView
@@ -398,7 +400,7 @@
             android:background="@drawable/rounded_button"
             android:fontFamily="@font/cabin"
             android:text="@string/next_OngoingTicketStudent"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -416,7 +418,7 @@
             android:background="@drawable/rounded_button"
             android:fontFamily="@font/cabin"
             android:text="@string/previous_OngoingTicketStudent"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.069"
