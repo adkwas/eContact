@@ -197,4 +197,12 @@
     <string name="check_the_data_and_move_on_AddNewTicketStepTwo">Check the data and move on</string>
     <string name="todo_AddNewTicketStepTwo">TODO</string>
     <string name="previous_step_AddNewTicketStepTwo">Previous Step</string>
+    <string name="step_3_complete_the_form_AddNewTicketStepThree">Step 3 - Complete the form</string>
+    <string name="_1_fill_in_the_date_and_time_of_the_meeting_AddNewTicketStepThree">1.Fill in the date and time of the meeting:</string>
+    <string name="select_date_AddNewTicketStepThree">Select date:</string>
+    <string name="select_time_AddNewTicketStepThree">Select time:</string>
+    <string name="_2_fill_type_meet_AddNewTicketStepThree">2.Fill type meet:</string>
+    <string name="_3_describe_briefly_the_reason_for_the_meeting_AddNewTicketStepThree">3.Describe briefly the reason for the meeting:</string>
+    <string name="previous_step_AddNewTicketStepThree">Previous Step</string>
+    <string name="send_ticket_AddNewTicketStepThree">Send ticket!</string>
 </resources>
