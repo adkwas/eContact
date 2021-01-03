@@ -7,13 +7,14 @@
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
 
+
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ResetFacultyAndFieldTeacher"></activity>
+        <activity android:name=".ResetFacultyAndFieldTeacher" />
         <activity android:name=".SettingsPanelTeacher" />
         <activity android:name=".ResetSemesterAndDegreeStudent" />
         <activity android:name=".ResetFacultyAndFiledStudent" />
