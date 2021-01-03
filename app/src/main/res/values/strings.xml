@@ -205,4 +205,15 @@
     <string name="_3_describe_briefly_the_reason_for_the_meeting_AddNewTicketStepThree">3.Describe briefly the reason for the meeting:</string>
     <string name="previous_step_AddNewTicketStepThree">Previous Step</string>
     <string name="send_ticket_AddNewTicketStepThree">Send ticket!</string>
+    <string name="back_to_ongoing_tickets_SecondTeacherStepOne">Back to Ongoing Tickets</string>
+    <string name="surname_teacher_SecondTeacherStepOne">Surname teacher:</string>
+    <string name="search_for_a_teacher_in_the_econtact_SecondTeacherStepOne">Search for a teacher in the eContact</string>
+    <string name="name_teacher_SecondTeacherStepOne">Name teacher:</string>
+    <string name="faculty_second_teacher_SecondTeacherStepOne">Faculty second teacher:</string>
+    <string name="step_1_set_a_second_teacher_SecondTeacherStepOne">Step 1 - Set a second teacher</string>
+    <string name="step_2_data_teacher_SecondTeacherStepTwo">Step 2 - Data teacher</string>
+    <string name="check_the_data_and_move_on_SecondTeacherStepTwo">Check the data and move on</string>
+    <string name="todo_SecondTeacherStepTwo">TODO</string>
+    <string name="previous_step_SecondTeacherStepTwo">Previous Step</string>
+    <string name="send_ticket_SecondTeacherStepTwo">SEND TICKET</string>
 </resources>
