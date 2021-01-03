@@ -187,4 +187,10 @@
     <string name="verify_now_PanelTeacher">VERIFY NOW</string>
     <string name="email_is_not_verified_PanelTeacher">Email is not verified!</string>
     <string name="logout_PanelTeacher">Logout</string>
+    <string name="back_to_panel_AddNewTicketStepOne">Back to Panel</string>
+    <string name="name_teacher_AddNewTicketStepOne">Name teacher:</string>
+    <string name="surname_teacher_AddNewTicketStepOne">Surname teacher:</string>
+    <string name="search_for_a_teacher_in_the_econtact_AddNewTicketStepOne">Search for a teacher in the eContact</string>
+    <string name="give_the_faculty_of_the_teacher_AddNewTicketStepOne">Give the faculty of the teacher</string>
+    <string name="step_1_set_a_teacher_AddNewTicketStepOne">Step 1 - Set a teacher</string>
 </resources>
