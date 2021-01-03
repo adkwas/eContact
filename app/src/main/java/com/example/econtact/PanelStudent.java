@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,14 +79,13 @@ public class PanelStudent extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("profile.jpg");
+        storageReference = FirebaseStorage.getInstance().getReference().child("adam.jpg");
 
         try {
-            final File localFile = File.createTempFile("profile", "jpg");
+            final File localFile = File.createTempFile("adam", "jpg");
             storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(PanelStudent.this, "Picture retrieved", Toast.LENGTH_SHORT).show();
                     Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                     imageViewStudent.setImageBitmap(bitmap);
 
@@ -95,7 +93,6 @@ public class PanelStudent extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(PanelStudent.this, "Error!", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (IOException e) {

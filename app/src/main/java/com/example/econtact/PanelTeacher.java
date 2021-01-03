@@ -5,10 +5,13 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +34,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 public class PanelTeacher extends AppCompatActivity {
@@ -39,6 +47,11 @@ public class PanelTeacher extends AppCompatActivity {
     Button checkNewTicketButton, logoutButton, acceptedTicketsButton, resendCodeButton, ongoingButton, settings;
     String nameTeacher, surnameTeacher, facultyTeacher, fieldTeacher, emailTeacher;
     FirebaseFirestore firebaseFirestore;
+
+    ImageView imageViewTeacher;
+
+    StorageReference storageReference;
+
     int i = 0;
 
     @Override
@@ -54,7 +67,30 @@ public class PanelTeacher extends AppCompatActivity {
         acceptedTicketsButton = findViewById(R.id.acceptedTickets_panelTeacher);
         settings = findViewById(R.id.settingsPanel_panelTeacher);
 
+        imageViewTeacher = findViewById(R.id.imageView_PanelTeacher);
+
         emailTeacher = getIntent().getStringExtra("Email");
+
+        storageReference = FirebaseStorage.getInstance().getReference().child("adam.jpg");
+        try {
+            final File localFile = File.createTempFile("adam", "jpg");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    imageViewTeacher.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         final DocumentReference documentTeacher = FirebaseFirestore.getInstance().collection("Users Accounts").document(emailTeacher);
         documentTeacher.addSnapshotListener(new EventListener<DocumentSnapshot>() {

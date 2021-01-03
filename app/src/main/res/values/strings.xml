@@ -178,4 +178,13 @@
     <string name="information_for_student_OngoingTicketTeacher2">Information for student:</string>
     <string name="todo_OngoingTicketTeacher2">TODO</string>
     <string name="second_teacher_OngoingTicketTeacher">Second teacher:</string>
+    <string name="add_new_ticket_PanelStudent">Add new Ticket</string>
+    <string name="todo_PanelTeacher">TODO</string>
+    <string name="check_new_ticket_PanelTeacher">Check new ticket</string>
+    <string name="accepted_tickets_PanelTeacher">Accepted Tickets</string>
+    <string name="ongoing_tickets_PanelTeacher">Ongoing Tickets</string>
+    <string name="settings_PanelTeacher">Settings</string>
+    <string name="verify_now_PanelTeacher">VERIFY NOW</string>
+    <string name="email_is_not_verified_PanelTeacher">Email is not verified!</string>
+    <string name="logout_PanelTeacher">Logout</string>
 </resources>
