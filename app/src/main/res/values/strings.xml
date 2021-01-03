@@ -220,4 +220,8 @@
     <string name="reset_faculty_and_field_SettlingsPanelTeacher">Reset faculty and field</string>
     <string name="reset_password_SettlingsPanelTeacher">Reset password</string>
     <string name="settings_panel_SettlingsPanelTeacher">Settings Panel</string>
+    <string name="back_to_panel_student_SettingsPanelStudent">Back to Panel Student</string>
+    <string name="reset_data_user_SettingsPanelStudent">Reset data user</string>
+    <string name="reset_password_SettingsPanelStudent">Reset password</string>
+    <string name="settings_panel_SettingsPanelStudent">Settings Panel</string>
 </resources>
