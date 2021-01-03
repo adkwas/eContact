@@ -224,4 +224,9 @@
     <string name="reset_data_user_SettingsPanelStudent">Reset data user</string>
     <string name="reset_password_SettingsPanelStudent">Reset password</string>
     <string name="settings_panel_SettingsPanelStudent">Settings Panel</string>
+    <string name="back_to_settings_options_ResetDataStudent">Back to Settings Options</string>
+    <string name="reset_index_number_ResetDataStudent">Reset index number</string>
+    <string name="reset_degree_and_semester_ResetDataStudent">Reset degree and semester</string>
+    <string name="reset_faculty_and_field_ResetDataStudent">Reset faculty and field</string>
+    <string name="settings_panel_ResetDataStudent">Settings Panel</string>
 </resources>
