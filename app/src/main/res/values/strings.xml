@@ -193,4 +193,8 @@
     <string name="search_for_a_teacher_in_the_econtact_AddNewTicketStepOne">Search for a teacher in the eContact</string>
     <string name="give_the_faculty_of_the_teacher_AddNewTicketStepOne">Give the faculty of the teacher</string>
     <string name="step_1_set_a_teacher_AddNewTicketStepOne">Step 1 - Set a teacher</string>
+    <string name="step_2_data_teacher_AddNewTicketStepTwo">Step 2 - Data teacher</string>
+    <string name="check_the_data_and_move_on_AddNewTicketStepTwo">Check the data and move on</string>
+    <string name="todo_AddNewTicketStepTwo">TODO</string>
+    <string name="previous_step_AddNewTicketStepTwo">Previous Step</string>
 </resources>
