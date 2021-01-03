@@ -216,4 +216,8 @@
     <string name="todo_SecondTeacherStepTwo">TODO</string>
     <string name="previous_step_SecondTeacherStepTwo">Previous Step</string>
     <string name="send_ticket_SecondTeacherStepTwo">SEND TICKET</string>
+    <string name="back_to_panel_teacher_SettlingsPanelTeacher">Back to Panel Teacher</string>
+    <string name="reset_faculty_and_field_SettlingsPanelTeacher">Reset faculty and field</string>
+    <string name="reset_password_SettlingsPanelTeacher">Reset password</string>
+    <string name="settings_panel_SettlingsPanelTeacher">Settings Panel</string>
 </resources>
