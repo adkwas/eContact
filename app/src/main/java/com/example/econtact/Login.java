@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,7 +37,6 @@ public class Login extends AppCompatActivity {
     EditText loginUser, passwordUser;
     TextView forgotTextLink;
     Button loginButton;
-    ProgressBar progressBar;
     FirebaseAuth firebaseAuth;
     String userStatus;
 
@@ -50,7 +48,6 @@ public class Login extends AppCompatActivity {
         passwordUser = findViewById(R.id.password_Login);
         forgotTextLink = findViewById(R.id.forgotPassword_Login);
         loginButton = findViewById(R.id.loginButton_Login);
-        progressBar = findViewById(R.id.bar_Login);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

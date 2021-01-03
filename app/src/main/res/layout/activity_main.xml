@@ -16,9 +16,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:height="50dp"
         android:fontFamily="@font/cabin"
         android:gravity="center"
@@ -28,21 +28,17 @@
         android:textColorHint="#FFFFFF"
         android:textSize="30sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/loginMainActivity"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_button"
         android:bufferType="normal"
         android:fontFamily="@font/cabin"
@@ -55,17 +51,14 @@
         android:textSize="18sp"
         android:typeface="normal"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.800" />
+        app:layout_constraintTop_toBottomOf="@+id/pp_logo" />
 
     <Button
         android:id="@+id/registerMainActivity"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_margin="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
@@ -80,26 +73,23 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.950" />
+        app:layout_constraintTop_toBottomOf="@+id/loginMainActivity"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/pp_logo"
-        android:layout_width="0dp"
-        android:layout_height="260dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="16dp"
+
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="@string/pp_logo_main_activity"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.500"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.300"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeActivityMain"
         app:srcCompat="@drawable/pp_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
