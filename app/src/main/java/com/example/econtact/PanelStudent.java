@@ -79,10 +79,10 @@ public class PanelStudent extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("adam.jpg");
+        storageReference = FirebaseStorage.getInstance().getReference().child(emailStudent + ".jpg");
 
         try {
-            final File localFile = File.createTempFile("adam", "jpg");
+            final File localFile = File.createTempFile(emailStudent, "jpg");
             storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {

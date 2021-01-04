@@ -47,6 +47,8 @@ public class RegisterStudent extends AppCompatActivity {
     Button registerButton, loginButton, setPicture;
     ImageView pictureStudent;
 
+    Uri imageUri;
+
     StorageReference storageReference;
     Spinner facultyUniversity, fieldUniversity, degreeStudent, semesterStudent;
     String studentFaculty, studentField, studentDegree, studentSemester;
@@ -607,6 +609,8 @@ public class RegisterStudent extends AppCompatActivity {
                     return;
                 }
 
+                uploadImageToFirebase(imageUri, emailString);
+
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
@@ -736,19 +740,17 @@ public class RegisterStudent extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == 1000){
-            if(resultCode == Activity.RESULT_OK){
-                Uri imageUri = data.getData();
+            if(resultCode == Activity.RESULT_OK) {
+                assert data != null;
+                imageUri = data.getData();
                 pictureStudent.setImageURI(imageUri);
-
-                uploadImageToFirebase(imageUri);
             }
         }
     }
 
-    private void uploadImageToFirebase(Uri imageUri){
-        StorageReference fileRef = storageReference.child("profile.jpg");
+    private void uploadImageToFirebase(Uri imageUri, String emailString){
+        StorageReference fileRef = storageReference.child(emailString + ".jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
