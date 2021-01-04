@@ -105,6 +105,7 @@ public class SecondTeacherStepOne extends AppCompatActivity {
                                 intent.putExtra("surnameTeacher",getIntent().getStringExtra("surnameTeacher"));
                                 intent.putExtra("facultyTeacher",getIntent().getStringExtra("facultyTeacher"));
                                 intent.putExtra("fieldTeacher",getIntent().getStringExtra("fieldTeacher"));
+                                intent.putExtra("emailTeacher1",getIntent().getStringExtra("emailTeacher1"));
 
                                 intent.putExtra("nameTeacher2",nameSelected);
                                 intent.putExtra("surnameTeacher2",surnameSelected);

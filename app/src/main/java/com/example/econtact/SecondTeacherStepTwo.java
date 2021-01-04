@@ -117,6 +117,7 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                 user.put("surnameTeacher", surnameTeacher);
                 user.put("facultyTeacher", facultyTeacher);
                 user.put("fieldTeacher", fieldTeacher);
+                user.put("emailTeacher1", getIntent().getStringExtra("fieldTeacher"));
 
                 user.put("nameTeacher2", nameTeacher2);
                 user.put("surnameTeacher2", surnameTeacher2);
@@ -130,6 +131,7 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                 user.put("degreeStudent", degreeStudent);
                 user.put("semesterStudent", semesterStudent);
                 user.put("indexNumberStudent", indexNumberStudent);
+                user.put("emailStudent", getIntent().getStringExtra("Email"));
 
                 user.put("minuteTicket", getIntent().getStringExtra("minuteTicket"));
                 user.put("hourTicket", getIntent().getStringExtra("hourTicket"));
@@ -172,6 +174,7 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                 intent.putExtra("surnameTeacher", getIntent().getStringExtra("surnameTeacher"));
                 intent.putExtra("facultyTeacher", getIntent().getStringExtra("facultyTeacher"));
                 intent.putExtra("fieldTeacher", getIntent().getStringExtra("fieldTeacher"));
+                intent.putExtra("emailTeacher1", getIntent().getStringExtra("fieldTeacher"));
 
                 intent.putExtra("nameTeacher2", getIntent().getStringExtra("nameTeacher2"));
                 intent.putExtra("surnameTeacher2", getIntent().getStringExtra("surnameTeacher2"));
