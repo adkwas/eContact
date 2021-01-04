@@ -248,4 +248,8 @@
     <string name="rejected_tickets_RejectTickets">Rejected Tickets</string>
     <string name="teacher_data_RejectTickets">Teacher data:</string>
     <string name="todo_RejectTickets">TODO</string>
+    <string name="reset_profile_picture_SettingsPanelStudent">Reset profile picture</string>
+    <string name="back_to_settings_ResetPictureStudent">Back to Settings</string>
+    <string name="set_a_picture_ResetPictureStudent">Set a picture</string>
+    <string name="todo_ResetPictureStudent">TODO</string>
 </resources>

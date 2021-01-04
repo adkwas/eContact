@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SettingsPanelTeacher extends AppCompatActivity {
 
-    Button resetPassword, resetFacultyAndField, back;
+    Button resetPassword, resetFacultyAndField, back, resetPicture;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
@@ -39,6 +39,8 @@ public class SettingsPanelTeacher extends AppCompatActivity {
         resetPassword = findViewById(R.id.resetPassword_settingPanelTeacher);
         resetFacultyAndField = findViewById(R.id.resetFacultyAndField_settingsPanelTeacher);
         back = findViewById(R.id.back_settingsPanelTeacher);
+
+        resetPicture = findViewById(R.id.resetPicture_SettingsPanelTeacher);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -129,6 +131,15 @@ public class SettingsPanelTeacher extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SettingsPanelTeacher.this, PanelTeacher.class);
+                intent.putExtra("Email", email);
+                startActivity(intent);
+            }
+        });
+
+        resetPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsPanelTeacher.this, ResetPictureTeacher.class);
                 intent.putExtra("Email", email);
                 startActivity(intent);
             }
