@@ -9,12 +9,15 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,11 +37,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +60,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     EditText informationTeacherOne, informationTeacherTwo, selectFile;
 
 
-    TextView nameStudent, surnameStudent, nameTeacher2, surnameTeacher2, informationTeacher1Text, informationTeacher2Text, textView;
+    TextView nameStudent, surnameStudent, nameTeacher2, surnameTeacher2,
+            informationTeacher1Text, informationTeacher2Text, textView;
 
     String nameTeacher2Canceled = " ", surnameTeacher2Canceled = " ", facultyTeacher2Canceled = " ",
             fieldTeacher2Canceled = " ";
@@ -63,6 +70,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     int indexTicket = 0;
     List<CloudFireOngoingTicket> objectArrayList = new ArrayList<>();
+
+    ImageView imageViewStudent, imageViewTeacher2;
 
     StorageReference storageReference;
     DatabaseReference databaseReference;
@@ -89,7 +98,10 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         informationTeacher2Text = findViewById(R.id.informationTeacher2Text_ongoingTicketTeacher);
         informationTeacherOne = findViewById(R.id.informationTeacher1_ongoingTicketTeacher);
         informationTeacherTwo = findViewById(R.id.informationTeacher2_ongoingTicketTeacher);
-        textView = findViewById(R.id.textview4_ongoingTicketTeacher);
+        textView = findViewById(R.id.secondTeacherView_ongoingTicketTeacher);
+
+        imageViewStudent = findViewById(R.id.imageViewStudent_OngoingTicketTeacher);
+        imageViewTeacher2 = findViewById(R.id.imageViewTeacher2_OngoingTicketTeacher);
 
         selectFile = findViewById(R.id.selectFile_ongoingTicketTeacher);
 
@@ -127,11 +139,13 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                     document.getString("surnameTeacher"),
                                     document.getString("facultyTeacher"),
                                     document.getString("fieldTeacher"),
+                                    document.getString("emailTeacher1"),
 
                                     document.getString("nameTeacher2"),
                                     document.getString("surnameTeacher2"),
                                     document.getString("facultyTeacher2"),
                                     document.getString("fieldTeacher2"),
+                                    document.getString("emailTeacher2"),
 
                                     document.getString("nameStudent"),
                                     document.getString("surnameStudent"),
@@ -140,6 +154,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                     document.getString("semesterStudent"),
                                     document.getString("degreeStudent"),
                                     document.getString("indexNumberStudent"),
+                                    document.getString("emailStudent"),
 
                                     document.getString("minuteTicket"),
                                     document.getString("hourTicket"),
@@ -170,11 +185,13 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                     document.getString("surnameTeacher"),
                                     document.getString("facultyTeacher"),
                                     document.getString("fieldTeacher"),
+                                    document.getString("emailTeacher1"),
 
                                     document.getString("nameTeacher2"),
                                     document.getString("surnameTeacher2"),
                                     document.getString("facultyTeacher2"),
                                     document.getString("fieldTeacher2"),
+                                    document.getString("emailTeacher2"),
 
                                     document.getString("nameStudent"),
                                     document.getString("surnameStudent"),
@@ -183,6 +200,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                     document.getString("semesterStudent"),
                                     document.getString("degreeStudent"),
                                     document.getString("indexNumberStudent"),
+                                    document.getString("emailStudent"),
 
                                     document.getString("minuteTicket"),
                                     document.getString("hourTicket"),
@@ -228,6 +246,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
 
                         textView.setText("Second Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         informationTeacherOne.setVisibility(VISIBLE);
                         save1.setVisibility(VISIBLE);
@@ -244,10 +263,50 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                            try {
+                                final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewTeacher2.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                         }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -292,12 +351,53 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
                         textView.setText("First Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewTeacher2.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         informationTeacherOne.setVisibility(GONE);
                         save1.setVisibility(GONE);
@@ -321,6 +421,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
 
                         textView.setText("Second Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         informationTeacherOne.setVisibility(VISIBLE);
                         save1.setVisibility(VISIBLE);
@@ -335,10 +436,50 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                            try {
+                                final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewTeacher2.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -383,12 +524,53 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
                         textView.setText("First Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewTeacher2.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         informationTeacherOne.setVisibility(GONE);
                         save1.setVisibility(GONE);
@@ -432,6 +614,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
 
                         textView.setText("Second Teacher:");
+                        textView.setVisibility(VISIBLE);
 
 
                         informationTeacherOne.setVisibility(VISIBLE);
@@ -447,10 +630,50 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                            try {
+                                final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewTeacher2.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -495,12 +718,53 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
                         textView.setText("First Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewTeacher2.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         informationTeacherOne.setVisibility(GONE);
                         save1.setVisibility(GONE);
@@ -527,6 +791,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
 
                         textView.setText("Second Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         informationTeacherOne.setVisibility(VISIBLE);
                         save1.setVisibility(VISIBLE);
@@ -541,10 +806,49 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                            try {
+                                final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewTeacher2.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -589,12 +893,53 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
                         textView.setText("First Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewTeacher2.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         informationTeacherOne.setVisibility(GONE);
                         save1.setVisibility(GONE);
@@ -629,6 +974,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
 
                         textView.setText("Second Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         informationTeacherOne.setVisibility(VISIBLE);
                         save1.setVisibility(VISIBLE);
@@ -642,10 +988,50 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                            try {
+                                final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewTeacher2.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -690,12 +1076,53 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
                         textView.setText("First Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewTeacher2.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         informationTeacherOne.setVisibility(GONE);
                         save1.setVisibility(GONE);
@@ -720,6 +1147,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher)) {
 
                         textView.setText("Second Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         informationTeacherOne.setVisibility(VISIBLE);
                         save1.setVisibility(VISIBLE);
@@ -734,10 +1162,50 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                             OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
                             informationTeacher2Text.setText(cloudFireOngoingTicket.informationTeacher2);
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                            try {
+                                final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewStudent.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -782,12 +1250,53 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                             fieldTeacherLogin.equals(cloudFireOngoingTicket.fieldTeacher2)) {
 
                         textView.setText("First Teacher:");
+                        textView.setVisibility(VISIBLE);
 
                         OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                         OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewTeacher2.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                         OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                        try {
+                            final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         informationTeacherOne.setVisibility(GONE);
                         save1.setVisibility(GONE);
@@ -826,11 +1335,13 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     user.put("surnameTeacher", cloudFireOngoingTicket.surnameTeacher);
                     user.put("facultyTeacher", cloudFireOngoingTicket.facultyTeacher);
                     user.put("fieldTeacher", cloudFireOngoingTicket.fieldTeacher);
+                    user.put("emailTeacher1", cloudFireOngoingTicket.emailTeacher);
 
                     user.put("nameTeacher2", cloudFireOngoingTicket.nameTeacher2);
                     user.put("surnameTeacher2", cloudFireOngoingTicket.surnameTeacher2);
                     user.put("facultyTeacher2", cloudFireOngoingTicket.facultyTeacher2);
                     user.put("fieldTeacher2", cloudFireOngoingTicket.fieldTeacher2);
+                    user.put("emailTeacher2", cloudFireOngoingTicket.emailTeacher2);
 
                     user.put("nameStudent", cloudFireOngoingTicket.nameStudent);
                     user.put("surnameStudent", cloudFireOngoingTicket.surnameStudent);
@@ -839,6 +1350,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     user.put("degreeStudent", cloudFireOngoingTicket.degreeStudent);
                     user.put("semesterStudent", cloudFireOngoingTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireOngoingTicket.indexNumberStudent);
+                    user.put("emailStudent", cloudFireOngoingTicket.emailStudent);
 
                     user.put("minuteTicket", cloudFireOngoingTicket.minuteTicket);
                     user.put("hourTicket", cloudFireOngoingTicket.hourTicket);
@@ -920,17 +1432,20 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     user.put("surnameTeacher", cloudFireOngoingTicket.surnameTeacher);
                     user.put("facultyTeacher", cloudFireOngoingTicket.facultyTeacher);
                     user.put("fieldTeacher", cloudFireOngoingTicket.fieldTeacher);
+                    user.put("emailTeacher1", cloudFireOngoingTicket.emailTeacher);
 
                     user.put("nameTeacher2", cloudFireOngoingTicket.nameTeacher2);
                     user.put("surnameTeacher2", cloudFireOngoingTicket.surnameTeacher2);
                     user.put("facultyTeacher2", cloudFireOngoingTicket.facultyTeacher2);
                     user.put("fieldTeacher2", cloudFireOngoingTicket.fieldTeacher2);
+                    user.put("emailTeacher2", cloudFireOngoingTicket.emailTeacher2);
 
                     user.put("nameStudent", cloudFireOngoingTicket.nameStudent);
                     user.put("surnameStudent", cloudFireOngoingTicket.surnameStudent);
                     user.put("facultyStudent", cloudFireOngoingTicket.facultyStudent);
                     user.put("fieldStudent", cloudFireOngoingTicket.fieldStudent);
                     user.put("indexNumberStudent", cloudFireOngoingTicket.indexNumberStudent);
+                    user.put("emailStudent", cloudFireOngoingTicket.emailStudent);
 
                     user.put("minuteTicket", cloudFireOngoingTicket.minuteTicket);
                     user.put("hourTicket", cloudFireOngoingTicket.hourTicket);
@@ -1082,8 +1597,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                                                 final CloudFireOngoingTicket finalCloudFireOngoingTicket4 = cloudFireOngoingTicket;
@@ -1133,8 +1688,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 informationTeacherOne.setVisibility(GONE);
                                                 save1.setVisibility(GONE);
@@ -1170,8 +1765,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                                                 final CloudFireOngoingTicket finalCloudFireOngoingTicket5 = cloudFireOngoingTicket;
@@ -1220,9 +1855,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 informationTeacherOne.setVisibility(GONE);
                                                 save1.setVisibility(GONE);
@@ -1269,8 +1943,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                                                 final CloudFireOngoingTicket finalCloudFireOngoingTicket2 = cloudFireOngoingTicket;
@@ -1320,8 +2034,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 informationTeacherOne.setVisibility(GONE);
                                                 save1.setVisibility(GONE);
@@ -1356,8 +2110,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent+ ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                                                 final CloudFireOngoingTicket finalCloudFireOngoingTicket3 = cloudFireOngoingTicket;
@@ -1407,8 +2201,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 informationTeacherOne.setVisibility(GONE);
                                                 save1.setVisibility(GONE);
@@ -1453,8 +2287,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                                                 final CloudFireOngoingTicket finalCloudFireOngoingTicket1 = cloudFireOngoingTicket;
@@ -1504,8 +2378,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 informationTeacherOne.setVisibility(GONE);
                                                 save1.setVisibility(GONE);
@@ -1541,8 +2455,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher2);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher2);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher2 + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher2, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 CollectionReference collectionReference = firebaseFirestore.collection("Canceled Applications");
                                                 final CloudFireOngoingTicket finalCloudFireOngoingTicket = cloudFireOngoingTicket;
@@ -1592,8 +2546,48 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                                 OngoingTicketTeacher.this.nameTeacher2.setText(cloudFireOngoingTicket.nameTeacher);
                                                 OngoingTicketTeacher.this.surnameTeacher2.setText(cloudFireOngoingTicket.surnameTeacher);
 
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailTeacher + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailTeacher, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewTeacher2.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                                 OngoingTicketTeacher.this.nameStudent.setText(cloudFireOngoingTicket.nameStudent);
                                                 OngoingTicketTeacher.this.surnameStudent.setText(cloudFireOngoingTicket.surnameStudent);
+
+                                                storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireOngoingTicket.emailStudent + ".jpg");
+
+                                                try {
+                                                    final File localFile = File.createTempFile(cloudFireOngoingTicket.emailStudent, "jpg");
+                                                    storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                                            imageViewStudent.setImageBitmap(bitmap);
+
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                        }
+                                                    });
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
 
                                                 informationTeacherOne.setVisibility(GONE);
                                                 save1.setVisibility(GONE);
@@ -1724,11 +2718,14 @@ class CloudFireOngoingTicket {
     String surnameTeacher = " ";
     String facultyTeacher = " ";
     String fieldTeacher = " ";
+    String emailTeacher = " ";
+
 
     String nameTeacher2 = " ";
     String surnameTeacher2 = " ";
     String facultyTeacher2 = " ";
     String fieldTeacher2 = " ";
+    String emailTeacher2 = " ";
 
     String nameStudent = " ";
     String surnameStudent = " ";
@@ -1737,6 +2734,7 @@ class CloudFireOngoingTicket {
     String semesterStudent = " ";
     String degreeStudent = " ";
     String indexNumberStudent = " ";
+    String emailStudent = " ";
 
     String minuteTicket = " ";
     String hourTicket = " ";
@@ -1751,10 +2749,10 @@ class CloudFireOngoingTicket {
     String informationTeacher1 = " ";
     String informationTeacher2 = " ";
 
-    public CloudFireOngoingTicket(String id, String nameTeacher, String surnameTeacher, String facultyTeacher, String fieldTeacher,
-                                  String nameTeacher2, String surnameTeacher2, String facultyTeacher2, String fieldTeacher2,
+    public CloudFireOngoingTicket(String id, String nameTeacher, String surnameTeacher, String facultyTeacher, String fieldTeacher, String emailTeacher,
+                                  String nameTeacher2, String surnameTeacher2, String facultyTeacher2, String fieldTeacher2, String emailTeacher2,
                                   String nameStudent, String surnameStudent, String facultyStudent, String fieldStudent,
-                                  String semesterStudent, String degreeStudent, String indexNumberStudent,
+                                  String semesterStudent, String degreeStudent, String indexNumberStudent, String emailStudent,
                                   String minuteTicket, String hourTicket, String dayTicket, String monthTicket, String yearTicket,
                                   String reasonType, String typeMeet, String informationTeacher1, String informationTeacher2) {
 
@@ -1764,11 +2762,13 @@ class CloudFireOngoingTicket {
         this.surnameTeacher = surnameTeacher;
         this.facultyTeacher = facultyTeacher;
         this.fieldTeacher = fieldTeacher;
+        this.emailTeacher = emailTeacher;
 
         this.nameTeacher2 = nameTeacher2;
         this.surnameTeacher2 = surnameTeacher2;
         this.facultyTeacher2 = facultyTeacher2;
         this.fieldTeacher2 = fieldTeacher2;
+        this.emailTeacher2 = emailTeacher2;
 
         this.nameStudent = nameStudent;
         this.surnameStudent = surnameStudent;
@@ -1777,6 +2777,7 @@ class CloudFireOngoingTicket {
         this.semesterStudent = semesterStudent;
         this.degreeStudent = degreeStudent;
         this.indexNumberStudent = indexNumberStudent;
+        this.emailStudent = emailStudent;
 
         this.minuteTicket = minuteTicket;
         this.hourTicket = hourTicket;

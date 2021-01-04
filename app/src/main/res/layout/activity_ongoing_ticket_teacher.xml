@@ -60,7 +60,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview1_OngoingTicketTeacher" />
 
         <ImageView
-            android:id="@+id/imageView_OngoingTicketTeacher"
+            android:id="@+id/imageViewStudent_OngoingTicketTeacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -93,7 +93,7 @@
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView_OngoingTicketTeacher"
+            app:layout_constraintStart_toEndOf="@+id/imageViewStudent_OngoingTicketTeacher"
             app:layout_constraintTop_toBottomOf="@+id/textview2_ongoingTicketStudent2" />
 
 
@@ -117,7 +117,7 @@
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView_OngoingTicketTeacher"
+            app:layout_constraintStart_toEndOf="@+id/imageViewStudent_OngoingTicketTeacher"
             app:layout_constraintTop_toBottomOf="@+id/nameStudent_ongoingTicketTeacher" />
 
         <TextView
@@ -212,7 +212,7 @@
 
 
         <TextView
-            android:id="@+id/textview4_ongoingTicketTeacher"
+            android:id="@+id/secondTeacherView_ongoingTicketTeacher"
             style="@android:style/Widget.TextView"
             android:layout_width="0dp"
             android:layout_height="60dp"
@@ -231,11 +231,11 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/informationTeacher1Text_ongoingTicketTeacher2" />
+            app:layout_constraintTop_toBottomOf="@+id/informationTeacher1_ongoingTicketTeacher" />
 
 
         <ImageView
-            android:id="@+id/imageView2_OngoingTicketTeacher"
+            android:id="@+id/imageViewTeacher2_OngoingTicketTeacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -245,7 +245,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketTeacher"
+            app:layout_constraintTop_toBottomOf="@+id/secondTeacherView_ongoingTicketTeacher"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
@@ -268,8 +268,8 @@
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2_OngoingTicketTeacher"
-            app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketTeacher" />
+            app:layout_constraintStart_toEndOf="@+id/imageViewTeacher2_OngoingTicketTeacher"
+            app:layout_constraintTop_toBottomOf="@+id/secondTeacherView_ongoingTicketTeacher" />
 
         <TextView
             android:id="@+id/surnameTeacher2_ongoingTicketTeacher"
@@ -291,7 +291,7 @@
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2_OngoingTicketTeacher"
+            app:layout_constraintStart_toEndOf="@+id/imageViewTeacher2_OngoingTicketTeacher"
             app:layout_constraintTop_toBottomOf="@+id/nameTeacher2_ongoingTicketTeacher" />
 
         <TextView
