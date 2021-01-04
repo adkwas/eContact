@@ -245,4 +245,7 @@
     <string name="reset_ResetFacultyAndFieldTeacher">Reset</string>
     <string name="settings_panel_ResetFacultyAndFieldTeacher">Settings Panel</string>
     <string name="todo_ConfirmTickets">TODO</string>
+    <string name="rejected_tickets_RejectTickets">Rejected Tickets</string>
+    <string name="teacher_data_RejectTickets">Teacher data:</string>
+    <string name="todo_RejectTickets">TODO</string>
 </resources>

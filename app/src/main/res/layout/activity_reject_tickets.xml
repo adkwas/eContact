@@ -28,7 +28,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:orientation="horizontal"
-            android:text="Rejected Tickets"
+            android:text="@string/rejected_tickets_RejectTickets"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
             android:textSize="30sp"
@@ -50,7 +50,7 @@
             android:fontFamily="@font/cabin"
             android:gravity="center"
             android:orientation="horizontal"
-            android:text="Teacher data:"
+            android:text="@string/teacher_data_RejectTickets"
             android:textAlignment="center"
             android:padding="10dp"
             android:textColor="#FFFFFF"
@@ -63,13 +63,13 @@
 
 
         <ImageView
-            android:id="@+id/imageView1_ConfirmTickets"
+            android:id="@+id/imageView_RejectTickets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo_RejectTickets"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview2_rejectTickets"
@@ -97,7 +97,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView1_ConfirmTickets" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_RejectTickets" />
 
 
         <TextView
