@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class AcceptedTickets extends AppCompatActivity {
@@ -145,6 +146,8 @@ public class AcceptedTickets extends AppCompatActivity {
                         dialogBuilder.show();
                     }
                     if (objectArrayList.size() == 1) {
+                        nextButton.setVisibility(GONE);
+                        previousButton.setVisibility(GONE);
                         CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(0);
                         if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
                                 facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
@@ -306,7 +309,7 @@ public class AcceptedTickets extends AppCompatActivity {
                 indexTicket++;
 
                 if (indexTicket == (sizeList - 1)) {
-                    nextButton.setVisibility(View.GONE);
+                    nextButton.setVisibility(GONE);
                     CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(indexTicket);
 
                     if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
@@ -449,7 +452,7 @@ public class AcceptedTickets extends AppCompatActivity {
 
                     }
                 } else {
-                    nextButton.setVisibility(View.GONE);
+                    nextButton.setVisibility(GONE);
                 }
             }
         });
@@ -460,7 +463,7 @@ public class AcceptedTickets extends AppCompatActivity {
                 indexTicket--;
 
                 if (indexTicket == 0) {
-                    previousButton.setVisibility(View.GONE);
+                    previousButton.setVisibility(GONE);
                     CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(indexTicket);
 
                     if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
@@ -608,7 +611,7 @@ public class AcceptedTickets extends AppCompatActivity {
                     }
                     nextButton.setVisibility(VISIBLE);
                 } else {
-                    previousButton.setVisibility(View.GONE);
+                    previousButton.setVisibility(GONE);
                 }
             }
         });

@@ -46,8 +46,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import io.grpc.Context;
-
 import static android.view.View.GONE;
 
 public class CheckNewTicket extends AppCompatActivity {
@@ -237,7 +235,6 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     if (objectList.size() == 1) {
                         CloudFireCheckNewTicket cloudFireCheckNewTicket = objectList.get(0);
-
                         storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireCheckNewTicket.emailStudent + ".jpg");
                         try {
                             final File localFile = File.createTempFile(cloudFireCheckNewTicket.emailStudent, "jpg");
@@ -323,10 +320,10 @@ public class CheckNewTicket extends AppCompatActivity {
                                 cloudFireCheckNewTicket.nameTeacher + " " + cloudFireCheckNewTicket.surnameTeacher + " date: " + cloudFireCheckNewTicket.dataMeet + " time: " + cloudFireCheckNewTicket.timeMeet);
                 Map<String, Object> user = new HashMap<>();
 
-                if (cloudFireCheckNewTicket.nameTeacher2.isEmpty() &&
-                        cloudFireCheckNewTicket.surnameTeacher2.isEmpty() &&
-                        cloudFireCheckNewTicket.facultyTeacher2.isEmpty() &&
-                        cloudFireCheckNewTicket.fieldTeacher2.isEmpty()) {
+                if (cloudFireCheckNewTicket.nameTeacher2.equals(" ") &&
+                        cloudFireCheckNewTicket.surnameTeacher2.equals(" ") &&
+                        cloudFireCheckNewTicket.facultyTeacher2.equals(" ") &&
+                        cloudFireCheckNewTicket.fieldTeacher2.equals(" ")) {
                     user.put("nameTeacher", cloudFireCheckNewTicket.nameTeacher);
                     user.put("surnameTeacher", cloudFireCheckNewTicket.surnameTeacher);
                     user.put("facultyTeacher", cloudFireCheckNewTicket.facultyTeacher);
@@ -510,10 +507,10 @@ public class CheckNewTicket extends AppCompatActivity {
                     }
                 }
 
-                if ((!(cloudFireCheckNewTicket.nameTeacher2.isEmpty())) &&
-                        (!(cloudFireCheckNewTicket.surnameTeacher2.isEmpty())) &&
-                        (!(cloudFireCheckNewTicket.facultyTeacher2.isEmpty())) &&
-                        (!(cloudFireCheckNewTicket.fieldTeacher2.isEmpty()))) {
+                if ((!(cloudFireCheckNewTicket.nameTeacher2.equals(" "))) &&
+                        (!(cloudFireCheckNewTicket.surnameTeacher2.equals(" "))) &&
+                        (!(cloudFireCheckNewTicket.facultyTeacher2.equals(" "))) &&
+                        (!(cloudFireCheckNewTicket.fieldTeacher2.equals(" ")))) {
                     user.put("nameTeacher", cloudFireCheckNewTicket.nameTeacher);
                     user.put("surnameTeacher", cloudFireCheckNewTicket.surnameTeacher);
                     user.put("facultyTeacher", cloudFireCheckNewTicket.facultyTeacher);
@@ -713,10 +710,10 @@ public class CheckNewTicket extends AppCompatActivity {
                                 " time: " + cloudFireCheckNewTicket.timeMeet);
                 Map<String, Object> user = new HashMap<>();
 
-                if (cloudFireCheckNewTicket.nameTeacher2.isEmpty() &&
-                        cloudFireCheckNewTicket.surnameTeacher2.isEmpty() &&
-                        cloudFireCheckNewTicket.facultyTeacher2.isEmpty() &&
-                        cloudFireCheckNewTicket.fieldTeacher2.isEmpty()) {
+                if (cloudFireCheckNewTicket.nameTeacher2.equals(" ") &&
+                        cloudFireCheckNewTicket.surnameTeacher2.equals(" ") &&
+                        cloudFireCheckNewTicket.facultyTeacher2.equals(" ") &&
+                        cloudFireCheckNewTicket.fieldTeacher2.equals(" ")) {
 
                     user.put("nameTeacher", cloudFireCheckNewTicket.nameTeacher);
                     user.put("surnameTeacher", cloudFireCheckNewTicket.surnameTeacher);
@@ -861,10 +858,10 @@ public class CheckNewTicket extends AppCompatActivity {
                     }
                 }
 
-                if ((!(cloudFireCheckNewTicket.nameTeacher2.isEmpty())) &&
-                        (!(cloudFireCheckNewTicket.surnameTeacher2.isEmpty())) &&
-                        (!(cloudFireCheckNewTicket.facultyTeacher2.isEmpty())) &&
-                        (!(cloudFireCheckNewTicket.fieldTeacher2.isEmpty()))) {
+                if ((!(cloudFireCheckNewTicket.nameTeacher2.equals(" "))) &&
+                        (!(cloudFireCheckNewTicket.surnameTeacher2.equals(" "))) &&
+                        (!(cloudFireCheckNewTicket.facultyTeacher2.equals(" "))) &&
+                        (!(cloudFireCheckNewTicket.fieldTeacher2.equals(" ")))) {
                     user.put("nameTeacher", cloudFireCheckNewTicket.nameTeacher);
                     user.put("surnameTeacher", cloudFireCheckNewTicket.nameTeacher);
                     user.put("facultyTeacher", cloudFireCheckNewTicket.facultyTeacher);

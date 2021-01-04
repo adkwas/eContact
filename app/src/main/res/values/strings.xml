@@ -244,4 +244,5 @@
     <string name="back_to_settings_options_ResetFacultyAndFieldTeacher">Back to Settings Options</string>
     <string name="reset_ResetFacultyAndFieldTeacher">Reset</string>
     <string name="settings_panel_ResetFacultyAndFieldTeacher">Settings Panel</string>
+    <string name="todo_ConfirmTickets">TODO</string>
 </resources>
