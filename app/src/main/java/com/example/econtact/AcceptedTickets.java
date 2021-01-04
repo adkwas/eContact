@@ -5,21 +5,31 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +43,10 @@ public class AcceptedTickets extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     String day, month, year, minute, hour;
     int indexTicket = 0;
+
+    ImageView imageViewStudent;
+
+    StorageReference storageReference;
 
     String nameVal, surnameVal, facultyVal, fieldVal, nameVal2, surnameVal2, facultyVal2, fieldVal2;
 
@@ -56,6 +70,8 @@ public class AcceptedTickets extends AppCompatActivity {
         timeMeet = findViewById(R.id.timeMeet_acceptedTickets);
         reasonMeet = findViewById(R.id.reasonMeet_acceptedTickets);
         indexNumberStudent = findViewById(R.id.indexNumberStudent_acceptedTickets);
+
+        imageViewStudent = findViewById(R.id.imageView_AcceptedTickets);
 
         nameTeacher = getIntent().getStringExtra("nameTeacher");
         surnameTeacher = getIntent().getStringExtra("surnameTeacher");
@@ -91,7 +107,7 @@ public class AcceptedTickets extends AppCompatActivity {
                             minute = document.getString("minuteTicket");
                             hour = document.getString("hourTicket");
                             CloudFireAcceptedTicket cloudFireAcceptedTicket = new CloudFireAcceptedTicket(document.getString("nameStudent"), document.getString("surnameStudent"), document.getString("facultyStudent"),
-                                    document.getString("fieldStudent"), document.getString("degreeStudent"), document.getString("semesterStudent"), document.getString("typeMeet"), day + "." + month + "." + year,
+                                    document.getString("fieldStudent"), document.getString("degreeStudent"), document.getString("semesterStudent"),document.getString("emailStudent"),  document.getString("typeMeet"), day + "." + month + "." + year,
                                     hour + ":" + minute, document.getString("reasonType"), document.getString("indexNumberStudent"));
                             objectArrayList.add(cloudFireAcceptedTicket);
                         }
@@ -104,7 +120,7 @@ public class AcceptedTickets extends AppCompatActivity {
                             minute = document.getString("minuteTicket");
                             hour = document.getString("hourTicket");
                             CloudFireAcceptedTicket cloudFireAcceptedTicket = new CloudFireAcceptedTicket(document.getString("nameStudent"), document.getString("surnameStudent"), document.getString("facultyStudent"),
-                                    document.getString("fieldStudent"), document.getString("degreeStudent"), document.getString("semesterStudent"), document.getString("typeMeet"), day + "." + month + "." + year,
+                                    document.getString("fieldStudent"), document.getString("degreeStudent"), document.getString("semesterStudent"), document.getString("emailStudent"),document.getString("typeMeet"), day + "." + month + "." + year,
                                     hour + ":" + minute, document.getString("reasonType"), document.getString("indexNumberStudent"));
                             objectArrayList.add(cloudFireAcceptedTicket);
                         }
@@ -129,10 +145,29 @@ public class AcceptedTickets extends AppCompatActivity {
                         dialogBuilder.show();
                     }
                     if (objectArrayList.size() == 1) {
-
                         CloudFireAcceptedTicket cloudFireAcceptedTicket = objectArrayList.get(0);
                         if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
                                 facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                            try {
+                                final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewStudent.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
 
                             nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                             surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
@@ -149,6 +184,26 @@ public class AcceptedTickets extends AppCompatActivity {
                         }
                         if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
                                 facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                            try {
+                                final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewStudent.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                             nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                             surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                             facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -171,6 +226,25 @@ public class AcceptedTickets extends AppCompatActivity {
                         if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
                                 facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
 
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                            try {
+                                final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewStudent.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                             nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                             surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                             facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -186,6 +260,26 @@ public class AcceptedTickets extends AppCompatActivity {
                         }
                         if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
                                 facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+
+                            storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                            try {
+                                final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imageViewStudent.setImageBitmap(bitmap);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                             nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                             surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                             facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -217,7 +311,24 @@ public class AcceptedTickets extends AppCompatActivity {
 
                     if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
                             facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
 
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -233,6 +344,24 @@ public class AcceptedTickets extends AppCompatActivity {
                     }
                     if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
                             facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -255,6 +384,24 @@ public class AcceptedTickets extends AppCompatActivity {
                     if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
                             facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -270,6 +417,24 @@ public class AcceptedTickets extends AppCompatActivity {
                     }
                     if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
                             facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -301,6 +466,25 @@ public class AcceptedTickets extends AppCompatActivity {
                     if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
                             facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -316,6 +500,25 @@ public class AcceptedTickets extends AppCompatActivity {
                     }
                     if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
                             facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -337,6 +540,25 @@ public class AcceptedTickets extends AppCompatActivity {
                     if (nameVal.equals(nameTeacher) && surnameVal.equals(surnameTeacher) &&
                             facultyVal.equals(facultyTeacher) && fieldVal.equals(fieldTeacher)) {
 
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -352,6 +574,25 @@ public class AcceptedTickets extends AppCompatActivity {
                     }
                     if (nameVal2.equals(nameTeacher) && surnameVal2.equals(surnameTeacher) &&
                             facultyVal2.equals(facultyTeacher) && fieldVal2.equals(fieldTeacher)) {
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireAcceptedTicket.emailStudent+ ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireAcceptedTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         nameStudent.setText("Name: " + cloudFireAcceptedTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireAcceptedTicket.surnameStudent);
                         facultyStudent.setText(cloudFireAcceptedTicket.facultyStudent);
@@ -385,6 +626,8 @@ public class AcceptedTickets extends AppCompatActivity {
         String degreeStudent = " ";
         String semesterStudent = " ";
 
+        String emailStudent = " ";
+
         String meetType = " ";
         String dataMeet = " ";
 
@@ -395,6 +638,7 @@ public class AcceptedTickets extends AppCompatActivity {
 
         public CloudFireAcceptedTicket(String nameStudent, String surnameStudent, String facultyStudent,
                                        String fieldStudent, String degreeStudent, String semesterStudent,
+                                       String emailStudent,
                                        String meetType, String dataMeet, String timeMeet, String reason, String indexNumber) {
             this.nameStudent = nameStudent;
             this.surnameStudent = surnameStudent;
@@ -402,6 +646,7 @@ public class AcceptedTickets extends AppCompatActivity {
             this.fieldStudent = fieldStudent;
             this.degreeStudent = degreeStudent;
             this.semesterStudent = semesterStudent;
+            this.emailStudent = emailStudent;
             this.meetType = meetType;
             this.dataMeet = dataMeet;
             this.timeMeet = timeMeet;

@@ -181,11 +181,13 @@ public class AddNewTicketStepThree extends AppCompatActivity {
                 user.put("surnameTeacher", surnameTeacher);
                 user.put("facultyTeacher", facultyTeacher);
                 user.put("fieldTeacher", fieldTeacher);
+                user.put("emailTeacher1", getIntent().getStringExtra("emailTeacher"));
 
                 user.put("nameTeacher2", " ");
                 user.put("surnameTeacher2", " ");
                 user.put("facultyTeacher2", " ");
                 user.put("fieldTeacher2", " ");
+                user.put("emailTeacher2", " ");
 
                 //Data student
                 user.put("nameStudent", nameStudent);
@@ -195,6 +197,7 @@ public class AddNewTicketStepThree extends AppCompatActivity {
                 user.put("degreeStudent", degreeStudent);
                 user.put("semesterStudent", semesterStudent);
                 user.put("indexNumberStudent", indexNumberStudent);
+                user.put("emailStudent", getIntent().getStringExtra("Email"));
 
                 //Data ticket///
                 //Time meet

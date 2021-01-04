@@ -8,11 +8,14 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,13 +33,20 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import io.grpc.Context;
 
 import static android.view.View.GONE;
 
@@ -48,6 +58,10 @@ public class CheckNewTicket extends AppCompatActivity {
     String nameTeacher, surnameTeacher, facultyTeacher, fieldTeacher, dayTicket, monthTicket, yearTicket, minuteTicket, hourTicket;
 
     List<CloudFireCheckNewTicket> objectList = new ArrayList<>();
+
+    StorageReference storageReference;
+
+    ImageView imageViewStudent;
 
     List<String> IDArrayList = new ArrayList<>();
     int indexTicket = 0;
@@ -70,6 +84,8 @@ public class CheckNewTicket extends AppCompatActivity {
         dataMeet = findViewById(R.id.dataMeet_checkNewTicket);
         timeMeet = findViewById(R.id.timeMeet_checkNewTicket);
         reasonMeet = findViewById(R.id.reasonMeet_checkNewTicket);
+
+        imageViewStudent = findViewById(R.id.imageView1_ConfirmTickets);
 
         nameTeacher = getIntent().getStringExtra("nameTeacher");
         surnameTeacher = getIntent().getStringExtra("surnameTeacher");
@@ -118,7 +134,9 @@ public class CheckNewTicket extends AppCompatActivity {
                                             document.getString("surnameTeacher"),
                                             document.getString("facultyTeacher"),
                                             document.getString("fieldTeacher"),
+                                            document.getString("emailTeacher1"),
 
+                                            " ",
                                             " ",
                                             " ",
                                             " ",
@@ -131,6 +149,7 @@ public class CheckNewTicket extends AppCompatActivity {
                                             document.getString("degreeStudent"),
                                             document.getString("semesterStudent"),
                                             document.getString("indexNumberStudent"),
+                                            document.getString("emailStudent"),
 
                                             document.getString("typeMeet"),
                                             dayTicket + "." + monthTicket + "." + yearTicket,
@@ -164,11 +183,13 @@ public class CheckNewTicket extends AppCompatActivity {
                                     document.getString("surnameTeacher"),
                                     document.getString("facultyTeacher"),
                                     document.getString("fieldTeacher"),
+                                    document.getString("emailTeacher1"),
 
                                     document.getString("nameTeacher2"),
                                     document.getString("surnameTeacher2"),
                                     document.getString("facultyTeacher2"),
                                     document.getString("fieldTeacher2"),
+                                    document.getString("emailTeacher2"),
 
                                     document.getString("nameStudent"),
                                     document.getString("surnameStudent"),
@@ -177,6 +198,7 @@ public class CheckNewTicket extends AppCompatActivity {
                                     document.getString("degreeStudent"),
                                     document.getString("semesterStudent"),
                                     document.getString("indexNumberStudent"),
+                                    document.getString("emailStudent"),
 
                                     document.getString("typeMeet"),
                                     dayTicket + "." + monthTicket + "." + yearTicket,
@@ -215,6 +237,29 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     if (objectList.size() == 1) {
                         CloudFireCheckNewTicket cloudFireCheckNewTicket = objectList.get(0);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireCheckNewTicket.emailStudent + ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireCheckNewTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+
                         nameStudent.setText("Name: " + cloudFireCheckNewTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireCheckNewTicket.surnameStudent);
                         facultyStudent.setText(cloudFireCheckNewTicket.facultyStudent);
@@ -226,10 +271,31 @@ public class CheckNewTicket extends AppCompatActivity {
                         dataMeet.setText("Date: " + cloudFireCheckNewTicket.dataMeet);
                         timeMeet.setText("Time: " + cloudFireCheckNewTicket.timeMeet);
                         reasonMeet.setText("Reason: " + cloudFireCheckNewTicket.reason);
+
                     }
 
                     if (objectList.size() > 1) {
                         CloudFireCheckNewTicket cloudFireCheckNewTicket = objectList.get(0);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireCheckNewTicket.emailStudent + ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireCheckNewTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         nameStudent.setText("Name: " + cloudFireCheckNewTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireCheckNewTicket.surnameStudent);
                         facultyStudent.setText(cloudFireCheckNewTicket.facultyStudent);
@@ -265,11 +331,13 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("surnameTeacher", cloudFireCheckNewTicket.surnameTeacher);
                     user.put("facultyTeacher", cloudFireCheckNewTicket.facultyTeacher);
                     user.put("fieldTeacher", cloudFireCheckNewTicket.fieldTeacher);
+                    user.put("emailTeacher1", cloudFireCheckNewTicket.emailTeacher1);
 
                     user.put("nameTeacher2", " ");
                     user.put("surnameTeacher2", " ");
                     user.put("facultyTeacher2", " ");
                     user.put("fieldTeacher2", " ");
+                    user.put("emailTeacher2", " ");
 
                     user.put("nameStudent", cloudFireCheckNewTicket.nameStudent);
                     user.put("surnameStudent", cloudFireCheckNewTicket.surnameStudent);
@@ -278,6 +346,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("degreeStudent", cloudFireCheckNewTicket.degreeStudent);
                     user.put("semesterStudent", cloudFireCheckNewTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireCheckNewTicket.indexNumberStudent);
+                    user.put("emailStudent", cloudFireCheckNewTicket.emailStudent);
 
                     String minuteString = String.valueOf(minuteTicket);
                     String hourString = String.valueOf(hourTicket);
@@ -402,6 +471,26 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     if (indexTicket < sizeList || indexTicket == (sizeList - 1)) {
                         cloudFireCheckNewTicket = objectList.get(indexTicket);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireCheckNewTicket.emailStudent + ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireCheckNewTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         nameStudent.setText("Name: " + cloudFireCheckNewTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireCheckNewTicket.surnameStudent);
                         facultyStudent.setText(cloudFireCheckNewTicket.facultyStudent);
@@ -429,11 +518,13 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("surnameTeacher", cloudFireCheckNewTicket.surnameTeacher);
                     user.put("facultyTeacher", cloudFireCheckNewTicket.facultyTeacher);
                     user.put("fieldTeacher", cloudFireCheckNewTicket.fieldTeacher);
+                    user.put("emailTeacher1", cloudFireCheckNewTicket.emailTeacher1);
 
                     user.put("nameTeacher2", cloudFireCheckNewTicket.nameTeacher2);
                     user.put("surnameTeacher2", cloudFireCheckNewTicket.surnameTeacher2);
                     user.put("facultyTeacher2", cloudFireCheckNewTicket.facultyTeacher2);
                     user.put("fieldTeacher2", cloudFireCheckNewTicket.fieldTeacher2);
+                    user.put("emailTeacher2", cloudFireCheckNewTicket.emailTeacher2);
 
                     user.put("nameStudent", cloudFireCheckNewTicket.nameStudent);
                     user.put("surnameStudent", cloudFireCheckNewTicket.surnameStudent);
@@ -442,6 +533,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("degreeStudent", cloudFireCheckNewTicket.degreeStudent);
                     user.put("semesterStudent", cloudFireCheckNewTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireCheckNewTicket.indexNumberStudent);
+                    user.put("emailStudent", cloudFireCheckNewTicket.emailStudent);
 
                     String minuteString = String.valueOf(minuteTicket);
                     String hourString = String.valueOf(hourTicket);
@@ -565,6 +657,26 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     if (indexTicket < sizeList || indexTicket == (sizeList - 1)) {
                         cloudFireCheckNewTicket = objectList.get(indexTicket);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireCheckNewTicket.emailStudent + ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireCheckNewTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         nameStudent.setText("Name: " + cloudFireCheckNewTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireCheckNewTicket.surnameStudent);
                         facultyStudent.setText(cloudFireCheckNewTicket.facultyStudent);
@@ -610,6 +722,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("surnameTeacher", cloudFireCheckNewTicket.surnameTeacher);
                     user.put("facultyTeacher", cloudFireCheckNewTicket.facultyTeacher);
                     user.put("fieldTeacher", cloudFireCheckNewTicket.fieldTeacher);
+                    user.put("emailTeacher1", cloudFireCheckNewTicket.emailTeacher1);
 
                     user.put("nameStudent", cloudFireCheckNewTicket.nameStudent);
                     user.put("surnameStudent", cloudFireCheckNewTicket.surnameStudent);
@@ -618,6 +731,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("degreeStudent", cloudFireCheckNewTicket.degreeStudent);
                     user.put("semesterStudent", cloudFireCheckNewTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireCheckNewTicket.indexNumberStudent);
+                    user.put("emailStudent", cloudFireCheckNewTicket.emailStudent);
 
                     String minuteString = String.valueOf(minuteTicket);
                     String hourString = String.valueOf(hourTicket);
@@ -697,6 +811,26 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     if (indexTicket < sizeList || indexTicket == (sizeList - 1)) {
                         cloudFireCheckNewTicket = objectList.get(indexTicket);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireCheckNewTicket.emailStudent + ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireCheckNewTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         nameStudent.setText("Name: " + cloudFireCheckNewTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireCheckNewTicket.surnameStudent);
                         facultyStudent.setText(cloudFireCheckNewTicket.facultyStudent);
@@ -735,11 +869,13 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("surnameTeacher", cloudFireCheckNewTicket.nameTeacher);
                     user.put("facultyTeacher", cloudFireCheckNewTicket.facultyTeacher);
                     user.put("fieldTeacher", cloudFireCheckNewTicket.fieldTeacher);
+                    user.put("emailTeacher1", cloudFireCheckNewTicket.emailTeacher1);
 
                     user.put("nameTeacher2", cloudFireCheckNewTicket.nameTeacher2);
                     user.put("surnameTeacher2", cloudFireCheckNewTicket.surnameTeacher2);
                     user.put("facultyTeacher2", cloudFireCheckNewTicket.facultyTeacher2);
                     user.put("fieldTeacher2", cloudFireCheckNewTicket.fieldTeacher2);
+                    user.put("emailTeacher2", cloudFireCheckNewTicket.emailTeacher2);
 
                     user.put("nameStudent", cloudFireCheckNewTicket.nameStudent);
                     user.put("surnameStudent", cloudFireCheckNewTicket.surnameStudent);
@@ -748,6 +884,7 @@ public class CheckNewTicket extends AppCompatActivity {
                     user.put("degreeStudent", cloudFireCheckNewTicket.degreeStudent);
                     user.put("semesterStudent", cloudFireCheckNewTicket.semesterStudent);
                     user.put("indexNumberStudent", cloudFireCheckNewTicket.indexNumberStudent);
+                    user.put("emailStudent", cloudFireCheckNewTicket.emailStudent);
 
                     user.put("informationTeacher1", cloudFireCheckNewTicket.informationTeacher1);
                     user.put("informationTeacher2", cloudFireCheckNewTicket.informationTeacher2);
@@ -827,6 +964,26 @@ public class CheckNewTicket extends AppCompatActivity {
 
                     if (indexTicket < sizeList || indexTicket == (sizeList - 1)) {
                         cloudFireCheckNewTicket = objectList.get(indexTicket);
+
+                        storageReference = FirebaseStorage.getInstance().getReference().child(cloudFireCheckNewTicket.emailStudent + ".jpg");
+                        try {
+                            final File localFile = File.createTempFile(cloudFireCheckNewTicket.emailStudent, "jpg");
+                            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    imageViewStudent.setImageBitmap(bitmap);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         nameStudent.setText("Name: " + cloudFireCheckNewTicket.nameStudent);
                         surnameStudent.setText("Surname: " + cloudFireCheckNewTicket.surnameStudent);
                         facultyStudent.setText(cloudFireCheckNewTicket.facultyStudent);
@@ -868,11 +1025,13 @@ public class CheckNewTicket extends AppCompatActivity {
         String surnameTeacher = " ";
         String facultyTeacher = " ";
         String fieldTeacher = " ";
+        String emailTeacher1 = " ";
 
         String nameTeacher2 = " ";
         String surnameTeacher2 = " ";
         String facultyTeacher2 = " ";
         String fieldTeacher2 = " ";
+        String emailTeacher2 = " ";
 
         String nameStudent = " ";
         String surnameStudent = " ";
@@ -881,6 +1040,7 @@ public class CheckNewTicket extends AppCompatActivity {
         String degreeStudent = " ";
         String semesterStudent = " ";
         String indexNumberStudent = " ";
+        String emailStudent = " ";
 
         String typeMeet = " ";
         String dataMeet = " ";
@@ -898,9 +1058,12 @@ public class CheckNewTicket extends AppCompatActivity {
         String informationTeacher2 = " ";
 
         public CloudFireCheckNewTicket(String nameTeacher, String surnameTeacher, String facultyTeacher, String fieldTeacher,
+                                       String emailTeacher1,
                                        String nameTeacher2, String surnameTeacher2, String facultyTeacher2, String fieldTeacher2,
+                                       String emailTeacher2,
                                        String nameStudent, String surnameStudent, String facultyStudent,
                                        String fieldStudent, String degreeStudent, String semesterStudent, String indexNumberStudent,
+                                       String emailStudent,
                                        String typeMeet, String dataMeet, String timeMeet, String reason,
                                        String day, String month, String year, String minute, String hour,
                                         String informationTeacher1, String informationTeacher2) {
@@ -908,11 +1071,13 @@ public class CheckNewTicket extends AppCompatActivity {
             this.surnameTeacher = surnameTeacher;
             this.facultyTeacher = facultyTeacher;
             this.fieldTeacher = fieldTeacher;
+            this.emailTeacher1 = emailTeacher1;
 
             this.nameTeacher2 = nameTeacher2;
             this.surnameTeacher2 = surnameTeacher2;
             this.facultyTeacher2 = facultyTeacher2;
             this.fieldTeacher2 = fieldTeacher2;
+            this.emailTeacher2 = emailTeacher2;
 
             this.nameStudent = nameStudent;
             this.surnameStudent = surnameStudent;
@@ -922,6 +1087,7 @@ public class CheckNewTicket extends AppCompatActivity {
             this.degreeStudent = degreeStudent;
             this.semesterStudent = semesterStudent;
             this.indexNumberStudent = indexNumberStudent;
+            this.emailStudent = emailStudent;
 
             this.dataMeet = dataMeet;
             this.timeMeet = timeMeet;

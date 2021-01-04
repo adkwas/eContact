@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview1_acceptedTickets" />
 
         <ImageView
-            android:id="@+id/imageView1_ConfirmTickets"
+            android:id="@+id/imageView_AcceptedTickets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -95,7 +95,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView1_ConfirmTickets" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_AcceptedTickets" />
 
         <TextView
             android:id="@+id/surnameStudent_acceptedTickets"

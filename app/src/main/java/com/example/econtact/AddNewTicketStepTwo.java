@@ -1,17 +1,33 @@
 package com.example.econtact;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 public class AddNewTicketStepTwo extends AppCompatActivity {
 
     TextView nameLecturer, surnameLecturer, fieldLecturer, facultyLecturer, emailLecturer;
     Button nextStep, previousStep;
+    ImageView imageViewTeacher;
+
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +42,7 @@ public class AddNewTicketStepTwo extends AppCompatActivity {
         emailLecturer = findViewById(R.id.emailTeacher_addNewTicketStepTwo);
         nextStep = findViewById(R.id.nextStep_addNewTicketStepTwo);
         previousStep = findViewById(R.id.previousStep_addNewTicketStepTwo);
+        imageViewTeacher = findViewById(R.id.imageView_AddNewTicketStepTwo);
 
         //Download data of previous activity and set in Textviews
         nameLecturer.setText(getIntent().getStringExtra("nameTeacher"));
@@ -33,6 +50,26 @@ public class AddNewTicketStepTwo extends AppCompatActivity {
         facultyLecturer.setText(getIntent().getStringExtra("facultyTeacher"));
         fieldLecturer.setText(getIntent().getStringExtra("fieldTeacher"));
         emailLecturer.setText(getIntent().getStringExtra("emailTeacher"));
+        storageReference = FirebaseStorage.getInstance().getReference().child(getIntent().getStringExtra("emailTeacher") + ".jpg");
+        try {
+            final File localFile = File.createTempFile(getIntent().getStringExtra("emailTeacher"), "jpg");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    imageViewTeacher.setImageBitmap(bitmap);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
         //"Next Step" Button Action
         //Transfer user data (lecturer and Student) to next activity
