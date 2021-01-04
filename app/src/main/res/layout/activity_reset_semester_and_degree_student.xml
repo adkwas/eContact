@@ -16,22 +16,18 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:height="50dp"
         android:fontFamily="@font/cabin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:text="Set new semester:"
+        android:text="@string/set_new_semester_ResetSemesterAndDegreeStudent"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintTop_toBottomOf="@+id/degree_ResetSemesterAndDegreeStudent" />
 
     <TextView
         android:id="@+id/textview_settingPanel7"
@@ -42,22 +38,18 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:height="50dp"
         android:fontFamily="@font/cabin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:text="Set new degree:"
+        android:text="@string/set_new_degree_ResetSemesterAndDegreeStudent"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.163" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_settingPanel4" />
 
     <Button
         android:id="@+id/back_ResetSemesterAndDegreeStudent"
@@ -66,34 +58,26 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/cabin"
-        android:text="Back to settings Options"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/back_to_settings_options_ResetSemesterAndDegreeStudent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/reset_ResetSemesterAndDegreeStudent" />
 
     <Button
         android:id="@+id/reset_ResetSemesterAndDegreeStudent"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/cabin"
-        android:text="Reset"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/reset_ResetSemesterAndDegreeStudent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintTop_toBottomOf="@+id/semester_ResetSemesterAndDegreeStudent" />
 
     <Spinner
         android:id="@+id/semester_ResetSemesterAndDegreeStudent"
@@ -101,19 +85,15 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_button"
         android:popupBackground="@color/common_google_signin_btn_text_dark_default"
         android:textAlignment="center"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.622" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_settingPanel8" />
 
     <Spinner
         android:id="@+id/degree_ResetSemesterAndDegreeStudent"
@@ -121,43 +101,36 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/rounded_button"
         android:popupBackground="@color/common_google_signin_btn_text_dark_default"
         android:textAlignment="center"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.288" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_settingPanel7" />
 
     <TextView
         android:id="@+id/textview_settingPanel4"
         style="@android:style/Widget.TextView"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_margin="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:height="50dp"
         android:fontFamily="@font/cabin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:text="Settings Panel"
+        android:text="@string/settings_panel_ResetSemesterAndDegreeStudent"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textSize="30sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

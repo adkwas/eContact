@@ -229,4 +229,9 @@
     <string name="reset_degree_and_semester_ResetDataStudent">Reset degree and semester</string>
     <string name="reset_faculty_and_field_ResetDataStudent">Reset faculty and field</string>
     <string name="settings_panel_ResetDataStudent">Settings Panel</string>
+    <string name="set_new_semester_ResetSemesterAndDegreeStudent">Set new semester:</string>
+    <string name="set_new_degree_ResetSemesterAndDegreeStudent">Set new degree:</string>
+    <string name="back_to_settings_options_ResetSemesterAndDegreeStudent">Back to settings Options</string>
+    <string name="reset_ResetSemesterAndDegreeStudent">Reset</string>
+    <string name="settings_panel_ResetSemesterAndDegreeStudent">Settings Panel</string>
 </resources>
