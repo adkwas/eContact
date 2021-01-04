@@ -239,4 +239,9 @@
     <string name="settings_panel_FacultyAndFiledStudent">Settings Panel</string>
     <string name="set_new_faculty_FacultyAndFiledStudent">Set new faculty:</string>
     <string name="set_new_field_FacultyAndFiledStudent">Set new field:</string>
+    <string name="set_new_field_ResetFacultyAndFieldTeacher">Set new field:</string>
+    <string name="set_new_faculty_ResetFacultyAndFieldTeacher">Set new faculty:</string>
+    <string name="back_to_settings_options_ResetFacultyAndFieldTeacher">Back to Settings Options</string>
+    <string name="reset_ResetFacultyAndFieldTeacher">Reset</string>
+    <string name="settings_panel_ResetFacultyAndFieldTeacher">Settings Panel</string>
 </resources>
