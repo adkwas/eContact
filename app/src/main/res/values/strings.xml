@@ -234,4 +234,9 @@
     <string name="back_to_settings_options_ResetSemesterAndDegreeStudent">Back to settings Options</string>
     <string name="reset_ResetSemesterAndDegreeStudent">Reset</string>
     <string name="settings_panel_ResetSemesterAndDegreeStudent">Settings Panel</string>
+    <string name="back_to_settings_options_FacultyAndFiledStudent">Back to settings Options</string>
+    <string name="reset_FacultyAndFiledStudent">Reset</string>
+    <string name="settings_panel_FacultyAndFiledStudent">Settings Panel</string>
+    <string name="set_new_faculty_FacultyAndFiledStudent">Set new faculty:</string>
+    <string name="set_new_field_FacultyAndFiledStudent">Set new field:</string>
 </resources>
