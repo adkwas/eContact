@@ -71,9 +71,9 @@ public class PanelTeacher extends AppCompatActivity {
 
         emailTeacher = getIntent().getStringExtra("Email");
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("adam.jpg");
+        storageReference = FirebaseStorage.getInstance().getReference().child(emailTeacher + ".jpg");
         try {
-            final File localFile = File.createTempFile("adam", "jpg");
+            final File localFile = File.createTempFile(emailTeacher, "jpg");
             storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {

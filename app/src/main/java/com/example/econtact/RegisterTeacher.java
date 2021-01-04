@@ -50,6 +50,7 @@ public class RegisterTeacher extends AppCompatActivity {
     StorageReference storageReference;
     ImageView pictureTeacher;
 
+    Uri imageUri;
 
 
     String[] elementsFaculty = {"Faculty of Study", "Faculty of Architecture", "Faculty of Chemical Technology", "Faculty of Civil and Transport Engineering", "Faculty of Computing and Telecomunications", "Faculty of Control, Robotics and Electrical Engineering", "Faculty of Engineering Management", "Faculty of Environmental Engineering and Energy", "Faculty of Materials Engineering and Technical Physics", "Faculty of Mechanical Engineering"};
@@ -463,6 +464,7 @@ public class RegisterTeacher extends AppCompatActivity {
                     return;
                 }
 
+                uploadImageToFirebase(imageUri, emailString);
 
                 //Register new teacher user
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -603,26 +605,24 @@ public class RegisterTeacher extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1000){
-            if(resultCode == Activity.RESULT_OK){
-                Uri imageUri = data.getData();
+        if (requestCode == 1000) {
+            if (resultCode == Activity.RESULT_OK) {
+                assert data != null;
+                imageUri = data.getData();
                 pictureTeacher.setImageURI(imageUri);
-                uploadImageToFirebase(imageUri);
             }
         }
     }
 
-    private void uploadImageToFirebase(Uri imageUri){
-        StorageReference fileRef = storageReference.child("profile.jpg");
+    private void uploadImageToFirebase(Uri imageUri, String emailString) {
+        StorageReference fileRef = storageReference.child(emailString + ".jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(RegisterTeacher.this, "Image upload!", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(RegisterTeacher.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
