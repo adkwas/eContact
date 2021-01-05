@@ -62,17 +62,22 @@ public class RetrievePDF extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                //Wyszukiwanie w bazie danych
+
                 for(DataSnapshot ds: snapshot.getChildren()){
                         putPDF putPDF = ds.getValue(com.example.econtact.putPDF.class);
                         uploadedPDF.add(putPDF);
                 }
 
+                //Ustawienie rozmiaru tablicy
                 String[] uploadsName = new String[uploadedPDF.size()];
 
+                //Ustawienie plików do tablicy
                 for(int i = 0; i<uploadsName.length; i++){
                     uploadsName[i] = uploadedPDF.get(i).getName();
                 }
 
+                //Ustawienie View pdf w aplikacji do wyswietlenia
                 ArrayAdapter<String>arrayAdapter = new
                         ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, uploadsName){
                             @NonNull

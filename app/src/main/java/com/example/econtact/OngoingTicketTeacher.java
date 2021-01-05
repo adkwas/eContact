@@ -30,8 +30,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,6 +62,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     Button previousButton, nextButton, save1, save2, deleteTicket, uploadFile;
     EditText informationTeacherOne, informationTeacherTwo, selectFile;
 
+    List<putPDF>uploadedPDF;
 
     TextView nameStudent, surnameStudent, nameTeacher2, surnameTeacher2,
             informationTeacher1Text, informationTeacher2Text, textView;
@@ -69,6 +73,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     String nameTeacherLogin, surnameTeacherLogin, facultyTeacherLogin, fieldTeacherLogin, emailTeacherLogin;
     FirebaseFirestore firebaseFirestore;
     int indexTicket = 0;
+    int i = 0;
     List<CloudFireOngoingTicket> objectArrayList = new ArrayList<>();
 
     ImageView imageViewStudent, imageViewTeacher2;
@@ -591,7 +596,36 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         selectFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectPDF();
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OngoingTicketTeacher.this);
+                dialogBuilder.setTitle("Ongoing Tickets ");
+                dialogBuilder.setMessage("Select the type of file to send:");
+                dialogBuilder.setCancelable(false);
+                dialogBuilder.setNeutralButton("PDF", new Dialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        selectPDF();
+                    }
+                });
+
+                dialogBuilder.setNeutralButton("Image", new Dialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+
+                dialogBuilder.setNeutralButton("DOC", new Dialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+
+                dialogBuilder.create();
+                dialogBuilder.show();
+
+
             }
         });
 
@@ -2637,8 +2671,23 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         if ((requestCode == 12) && (resultCode == RESULT_OK) && (data != null) && (data.getData() != null)) {
             uploadFile.setEnabled(true);
 
+            ///int i = 0;
+
+            //Sprawdzenie ilosci elementow w bazie danych
+            //CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
+
+            //String val = cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+            //        cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+            //        + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+            //        + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket;
+
+            //i = howMuchElementsInDatabaseStorage(val);
+
             selectFile.setText(data.getDataString()
                     .substring(data.getDataString().lastIndexOf("/") + 1));
+
+            //int j = i+1;
+            //selectFile.setText("Document PDF nb: " + j);
 
             uploadFile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2649,16 +2698,39 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         }
     }
 
-    private void uploadPDFFileFirebase(Uri data) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("File is loading...");
-        progressDialog.show();
+    private int howMuchElementsInDatabaseStorage(String val) {
 
-        final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
+        databaseReference = FirebaseDatabase.getInstance().getReference(val);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        //Storage
-        StorageReference reference = storageReference.child("uploadPDF " + System.currentTimeMillis() + ".pdf");
-        reference.putFile(data)
+                //Wyszukiwanie w bazie danych
+
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    putPDF putPDF = ds.getValue(com.example.econtact.putPDF.class);
+                    uploadedPDF.add(putPDF);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        return uploadedPDF.size();
+    }
+
+
+            private void uploadPDFFileFirebase(Uri data) {
+                final ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setTitle("File is loading...");
+                progressDialog.show();
+
+                final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
+
+                //Storage
+                StorageReference reference = storageReference.child("uploadPDF " + System.currentTimeMillis() + ".pdf");
+                reference.putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
@@ -2673,11 +2745,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                 + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
 
                         putPDF putPDF = new putPDF(selectFile.getText().toString(), uri.toString());
-                        //databaseReference
-                        //        .child(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
-                        //                cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
-                        //                + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
-                        //               + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket).setValue(putPDF);
+
 
                         databaseReference
                                 .child("path" + selectFile.getText().toString()).setValue(putPDF);
