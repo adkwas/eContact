@@ -61,8 +61,8 @@
 
         <ImageView
             android:id="@+id/imageViewStudent_OngoingTicketTeacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="16dp"
@@ -236,8 +236,8 @@
 
         <ImageView
             android:id="@+id/imageViewTeacher2_OngoingTicketTeacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="16dp"
@@ -393,6 +393,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_button"
+            android:editable="false"
             android:fontFamily="@font/cabin"
             android:importantForAutofill="no"
             android:paddingStart="8dp"

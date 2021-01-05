@@ -30,11 +30,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -62,7 +59,6 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     Button previousButton, nextButton, save1, save2, deleteTicket, uploadFile;
     EditText informationTeacherOne, informationTeacherTwo, selectFile;
 
-    List<putPDF>uploadedPDF;
 
     TextView nameStudent, surnameStudent, nameTeacher2, surnameTeacher2,
             informationTeacher1Text, informationTeacher2Text, textView;
@@ -73,7 +69,6 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     String nameTeacherLogin, surnameTeacherLogin, facultyTeacherLogin, fieldTeacherLogin, emailTeacherLogin;
     FirebaseFirestore firebaseFirestore;
     int indexTicket = 0;
-    int i = 0;
     List<CloudFireOngoingTicket> objectArrayList = new ArrayList<>();
 
     ImageView imageViewStudent, imageViewTeacher2;
@@ -608,22 +603,24 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     }
                 });
 
-                dialogBuilder.setNeutralButton("Image", new Dialog.OnClickListener() {
+                dialogBuilder.setNegativeButton("Image", new Dialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-
+                        selectImage();
                     }
                 });
 
-                dialogBuilder.setNeutralButton("DOC", new Dialog.OnClickListener() {
+                dialogBuilder.setPositiveButton("DOC", new Dialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-
+                        selectDOC();
                     }
                 });
 
                 dialogBuilder.create();
                 dialogBuilder.show();
+
+                //selectPDF();
 
 
             }
@@ -2663,6 +2660,21 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "PDF FILE SELECT"), 12);
     }
 
+    private void selectImage() {
+        Intent intent = new Intent();
+        intent.setType("image/jpeg");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "IMAGE FILE SELECT"), 12);
+    }
+
+    private void selectDOC() {
+        Intent intent = new Intent();
+        intent.setType("application/msword");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "DOCUMENT FILE SELECT"), 12);
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     @Nullable final Intent data) {
@@ -2671,23 +2683,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         if ((requestCode == 12) && (resultCode == RESULT_OK) && (data != null) && (data.getData() != null)) {
             uploadFile.setEnabled(true);
 
-            ///int i = 0;
-
-            //Sprawdzenie ilosci elementow w bazie danych
-            //CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
-
-            //String val = cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
-            //        cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
-            //        + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
-            //        + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket;
-
-            //i = howMuchElementsInDatabaseStorage(val);
-
             selectFile.setText(data.getDataString()
                     .substring(data.getDataString().lastIndexOf("/") + 1));
-
-            //int j = i+1;
-            //selectFile.setText("Document PDF nb: " + j);
 
             uploadFile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2696,28 +2693,6 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private int howMuchElementsInDatabaseStorage(String val) {
-
-        databaseReference = FirebaseDatabase.getInstance().getReference(val);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                //Wyszukiwanie w bazie danych
-
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    putPDF putPDF = ds.getValue(com.example.econtact.putPDF.class);
-                    uploadedPDF.add(putPDF);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        return uploadedPDF.size();
     }
 
 
@@ -2729,7 +2704,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                 final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
 
                 //Storage
-                StorageReference reference = storageReference.child("uploadPDF " + System.currentTimeMillis() + ".pdf");
+                //StorageReference reference = storageReference.child("uploadPDF " + System.currentTimeMillis() + ".pdf");
+                StorageReference reference = storageReference.child("File " + System.currentTimeMillis());
                 reference.putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
