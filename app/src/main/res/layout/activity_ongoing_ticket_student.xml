@@ -39,8 +39,8 @@
 
         <ImageView
             android:id="@+id/imageView_OngoingTicketStudent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="16dp"
@@ -145,17 +145,17 @@
 
         <ImageView
             android:id="@+id/imageView2_OngoingTicketStudent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/todo_OngoingTicketStudent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview4_ongoingTicketStudent"
-            app:srcCompat="@drawable/ic_launcher_foreground"
-            android:contentDescription="@string/todo_OngoingTicketStudent" />
+            app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
             android:id="@+id/informationTeacher1Text_ongoingTicketStudent"
@@ -200,7 +200,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/surnameTeacher1_ongoingTicketStudent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView_OngoingTicketStudent" />
 
         <Button
             android:id="@+id/secondTeacherButton_ongoingTicketStudent"

@@ -47,10 +47,24 @@ public class RetrievePDF extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 putPDF putPDF = uploadedPDF.get(position);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setType("application/pdf");
-                intent.setData(Uri.parse(putPDF.getUrl()));
-                startActivity(intent);
+                if(putPDF.typeData.equals("PDF")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(putPDF.getUrl()), "application/pdf");
+                    startActivity(intent);
+                }
+
+                if(putPDF.typeData.equals("JPG")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(putPDF.getUrl()), "image/jpeg");
+                    startActivity(intent);
+                }
+
+                if(putPDF.typeData.equals("DOC")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(putPDF.getUrl()), "application/msword");
+                    startActivity(intent);
+                }
+
             }
         });
     }

@@ -69,6 +69,9 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     String nameTeacherLogin, surnameTeacherLogin, facultyTeacherLogin, fieldTeacherLogin, emailTeacherLogin;
     FirebaseFirestore firebaseFirestore;
     int indexTicket = 0;
+    int valueType = 0;
+
+    String nameFile, value;
     List<CloudFireOngoingTicket> objectArrayList = new ArrayList<>();
 
     ImageView imageViewStudent, imageViewTeacher2;
@@ -129,6 +132,11 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                         String surnameTeacher = document.getString("surnameTeacher");
                         String facultyTeacher = document.getString("facultyTeacher");
                         String fieldTeacher = document.getString("fieldTeacher");
+
+                        assert nameTeacher != null;
+                        assert surnameTeacher != null;
+                        assert facultyTeacher != null;
+                        assert fieldTeacher != null;
 
                         if (nameTeacher.equals(nameTeacherLogin) && surnameTeacher.equals(surnameTeacherLogin)
                                 && facultyTeacher.equals(facultyTeacherLogin) && fieldTeacher.equals(fieldTeacherLogin)) {
@@ -239,6 +247,8 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                 if (objectArrayList.size() == 1) {
                     //////
+                    nextButton.setVisibility(GONE);
+                    previousButton.setVisibility(GONE);
                     final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(0);
                     if (nameTeacherLogin.equals(cloudFireOngoingTicket.nameTeacher) &&
                             surnameTeacherLogin.equals(cloudFireOngoingTicket.surnameTeacher) &&
@@ -2656,6 +2666,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     private void selectPDF() {
         Intent intent = new Intent();
         intent.setType("application/pdf");
+        valueType = 1;
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "PDF FILE SELECT"), 12);
     }
@@ -2663,6 +2674,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     private void selectImage() {
         Intent intent = new Intent();
         intent.setType("image/jpeg");
+        valueType = 2;
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "IMAGE FILE SELECT"), 12);
     }
@@ -2670,6 +2682,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     private void selectDOC() {
         Intent intent = new Intent();
         intent.setType("application/msword");
+        valueType = 3;
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "DOCUMENT FILE SELECT"), 12);
     }
@@ -2683,8 +2696,71 @@ public class OngoingTicketTeacher extends AppCompatActivity {
         if ((requestCode == 12) && (resultCode == RESULT_OK) && (data != null) && (data.getData() != null)) {
             uploadFile.setEnabled(true);
 
-            selectFile.setText(data.getDataString()
-                    .substring(data.getDataString().lastIndexOf("/") + 1));
+            //selectFile.setText(data.getDataString()
+            //        .substring(data.getDataString().lastIndexOf("/") + 1));
+            //
+
+
+            if (valueType == 1) {
+
+                value = "File " + System.currentTimeMillis();
+                nameFile = "File " + System.currentTimeMillis() + ".pdf";
+                selectFile.setText(nameFile);
+
+
+                /*Intent target = new Intent(Intent.ACTION_VIEW);
+                target.setDataAndType(data.getData(),"application/pdf");
+                target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                Intent intent = Intent.createChooser(target, "Open File");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    // Instruct the user to install a PDF reader here, or something
+                }
+
+                 */
+            }
+
+            if (valueType == 2) {
+
+                value = "File " + System.currentTimeMillis();
+                nameFile = "File " + System.currentTimeMillis() + ".jpg";
+                selectFile.setText(nameFile);
+
+                /*Intent target = new Intent(Intent.ACTION_VIEW);
+                target.setDataAndType(data.getData(), "image/jpeg");
+                target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                Intent intent = Intent.createChooser(target, "Open File");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    // Instruct the user to install a PDF reader here, or something
+                }
+
+                 */
+            }
+
+            if (valueType == 3) {
+
+                value = "File " + System.currentTimeMillis();
+                nameFile = "File " + System.currentTimeMillis() + ".doc";
+                selectFile.setText(nameFile);
+
+                /*Intent target = new Intent(Intent.ACTION_VIEW);
+                target.setDataAndType(data.getData(), "application/msword");
+                target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                Intent intent = Intent.createChooser(target, "Open File");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    // Instruct the user to install a PDF reader here, or something
+                }
+
+                 */
+            }
 
             uploadFile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2692,6 +2768,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                     uploadPDFFileFirebase(data.getData());
                 }
             });
+
         }
     }
 
@@ -2703,56 +2780,151 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                 final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
 
-                //Storage
-                //StorageReference reference = storageReference.child("uploadPDF " + System.currentTimeMillis() + ".pdf");
-                StorageReference reference = storageReference.child("File " + System.currentTimeMillis());
-                reference.putFile(data)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                if (valueType == 1) {
+                    StorageReference reference = storageReference.child(nameFile);
+                    reference.putFile(data)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                    while (!uriTask.isComplete()) ;
+                                    Uri uri = uriTask.getResult();
+                                    putPDF putPDF = new putPDF(nameFile, uri.toString(), "PDF");
 
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isComplete()) ;
-                        Uri uri = uriTask.getResult();
-                        databaseReference = FirebaseDatabase.getInstance().getReference(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
-                                cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
-                                + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
-                                + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
+                                    databaseReference = FirebaseDatabase.getInstance().getReference(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+                                            cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+                                            + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+                                            + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
 
-                        putPDF putPDF = new putPDF(selectFile.getText().toString(), uri.toString());
+                                    databaseReference
+                                            .child("Path - " + value).setValue(putPDF);
 
+                                    //// Notification!
+                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                                    channel.setDescription("description");
 
-                        databaseReference
-                                .child("path" + selectFile.getText().toString()).setValue(putPDF);
+                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                    notificationManager.createNotificationChannel(channel);
 
-                        ////
-                        NotificationChannel channel = new NotificationChannel("channel01", "name",
-                                NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
-                        channel.setDescription("description");
+                                    Notification notification = new NotificationCompat.Builder(OngoingTicketTeacher.this, "channel01")
+                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                            .setContentTitle("eContact")
+                                            .setContentText("File Upload complete!")
+                                            .setDefaults(Notification.DEFAULT_ALL)
+                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                            .build();
+                                    notificationManager.notify(0, notification);
+                                    progressDialog.dismiss();
+                                    ///
+                                }
+                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                            progressDialog.setMessage("File Uploaded.." + (int) progress + "%");
+                        }
+                    });
+                }
 
-                        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                        notificationManager.createNotificationChannel(channel);
+                if(valueType == 2){
+                    StorageReference reference = storageReference.child(nameFile);
+                    reference.putFile(data)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                    while (!uriTask.isComplete()) ;
+                                    Uri uri = uriTask.getResult();
+                                    putPDF putPDF = new putPDF(nameFile, uri.toString(), "JPG");
 
-                        Notification notification = new NotificationCompat.Builder(OngoingTicketTeacher.this, "channel01")
-                                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                                .setContentTitle("eContact")
-                                .setContentText("File Upload complete!")
-                                .setDefaults(Notification.DEFAULT_ALL)
-                                .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
-                                .build();
-                        notificationManager.notify(0, notification);
-                        progressDialog.dismiss();
-                        ///
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                progressDialog.setMessage("File Uploaded.." + (int) progress + "%");
+                                    databaseReference = FirebaseDatabase.getInstance().getReference(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+                                            cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+                                            + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+                                            + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
+
+                                    databaseReference
+                                            .child("Path - " + value).setValue(putPDF);
+
+                                    //// Notification!
+                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                                    channel.setDescription("description");
+
+                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                    notificationManager.createNotificationChannel(channel);
+
+                                    Notification notification = new NotificationCompat.Builder(OngoingTicketTeacher.this, "channel01")
+                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                            .setContentTitle("eContact")
+                                            .setContentText("File Upload complete!")
+                                            .setDefaults(Notification.DEFAULT_ALL)
+                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                            .build();
+                                    notificationManager.notify(0, notification);
+                                    progressDialog.dismiss();
+                                    ///
+                                }
+                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                            progressDialog.setMessage("File Uploaded.." + (int) progress + "%");
+                        }
+                    });
+                }
+
+                if(valueType == 3){
+                    StorageReference reference = storageReference.child(nameFile);
+                    reference.putFile(data)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                    while (!uriTask.isComplete()) ;
+                                    Uri uri = uriTask.getResult();
+                                    putPDF putPDF = new putPDF(nameFile, uri.toString(), "DOC");
+
+                                    databaseReference = FirebaseDatabase.getInstance().getReference(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+                                            cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+                                            + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+                                            + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
+
+                                    databaseReference
+                                            .child("Path - " + value).setValue(putPDF);
+
+                                    //// Notification!
+                                    NotificationChannel channel = new NotificationChannel("channel01", "name",
+                                            NotificationManager.IMPORTANCE_HIGH);   // for heads-up notifications
+                                    channel.setDescription("description");
+
+                                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                                    notificationManager.createNotificationChannel(channel);
+
+                                    Notification notification = new NotificationCompat.Builder(OngoingTicketTeacher.this, "channel01")
+                                            .setSmallIcon(android.R.drawable.ic_dialog_info)
+                                            .setContentTitle("eContact")
+                                            .setContentText("File Upload complete!")
+                                            .setDefaults(Notification.DEFAULT_ALL)
+                                            .setPriority(NotificationCompat.PRIORITY_HIGH)   // heads-up
+                                            .build();
+                                    notificationManager.notify(0, notification);
+                                    progressDialog.dismiss();
+                                    ///
+                                }
+                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                            progressDialog.setMessage("File Uploaded.." + (int) progress + "%");
+                        }
+                    });
+                }
+
             }
-        });
-    }
 }
 class CloudFireOngoingTicket {
 
