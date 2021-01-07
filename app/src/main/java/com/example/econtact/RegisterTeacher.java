@@ -50,6 +50,8 @@ public class RegisterTeacher extends AppCompatActivity {
     StorageReference storageReference;
     ImageView pictureTeacher;
 
+    Boolean isPick = false;
+
     Uri imageUri;
 
 
@@ -464,7 +466,13 @@ public class RegisterTeacher extends AppCompatActivity {
                     return;
                 }
 
-                uploadImageToFirebase(imageUri, emailString);
+                if(!isPick){
+                    Toast.makeText(RegisterTeacher.this, "Choose a photo!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(isPick){
+                    uploadImageToFirebase(imageUri, emailString);
+                }
 
                 //Register new teacher user
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -610,6 +618,7 @@ public class RegisterTeacher extends AppCompatActivity {
                 assert data != null;
                 imageUri = data.getData();
                 pictureTeacher.setImageURI(imageUri);
+                isPick = true;
             }
         }
     }

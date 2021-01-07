@@ -30,6 +30,7 @@ public class AddNewTicketStepOne extends AppCompatActivity {
     Button nextStep, backStep;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
+    String emailStudent;
     String selectedFaculty = "", nameSelected = "", surnameSelected = "", fieldSelected = "", facultySelected = "", emailSelected = "";
     String[] arrayFaculty = new String[]{"Faculty of Architecture", "Faculty of Chemical Technology", "Faculty of Civil and Transport Engineering", "Faculty of Computing and Telecomunications",
             "Faculty of Control, Robotics and Electrical Engineering", "Faculty of Engineering Management", "Faculty of Environmental Engineering and Energy",
@@ -46,6 +47,8 @@ public class AddNewTicketStepOne extends AppCompatActivity {
         surnameTeacher = findViewById(R.id.surnameTeacher_addNewTicketStepOne);
         nextStep = findViewById(R.id.nextStep_addNewTicketStepOne);
         backStep = findViewById(R.id.backStep_addNewTicketStepOne);
+
+        emailStudent = getIntent().getStringExtra("Email");
 
         //Set Adapter for Spinner
         //Use a arrayFaculty
@@ -186,7 +189,7 @@ public class AddNewTicketStepOne extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = (new Intent(AddNewTicketStepOne.this, PanelStudent.class));
-                intent.putExtra("Email", getIntent().getStringExtra("Email"));
+                intent.putExtra("Email", emailStudent);
                 startActivity(intent);
             }
         });

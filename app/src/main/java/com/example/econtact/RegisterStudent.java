@@ -49,6 +49,8 @@ public class RegisterStudent extends AppCompatActivity {
 
     Uri imageUri;
 
+    Boolean isPick = false;
+
     StorageReference storageReference;
     Spinner facultyUniversity, fieldUniversity, degreeStudent, semesterStudent;
     String studentFaculty, studentField, studentDegree, studentSemester;
@@ -609,8 +611,14 @@ public class RegisterStudent extends AppCompatActivity {
                     return;
                 }
 
-                uploadImageToFirebase(imageUri, emailString);
+                if(!isPick){
+                    Toast.makeText(RegisterStudent.this, "Choose a photo!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+                if(isPick){
+                    uploadImageToFirebase(imageUri, emailString);
+                }
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailString, passwordString).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
@@ -745,6 +753,7 @@ public class RegisterStudent extends AppCompatActivity {
                 assert data != null;
                 imageUri = data.getData();
                 pictureStudent.setImageURI(imageUri);
+                isPick = true;
             }
         }
     }

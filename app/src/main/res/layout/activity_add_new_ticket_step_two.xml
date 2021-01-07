@@ -59,16 +59,16 @@
 
         <ImageView
             android:id="@+id/imageView_AddNewTicketStepTwo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
+            android:contentDescription="@string/todo_AddNewTicketStepTwo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview2_addNewTicketStepTwo"
-            app:srcCompat="@drawable/ic_launcher_foreground"
-            android:contentDescription="@string/todo_AddNewTicketStepTwo" />
+            app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
             android:id="@+id/nameTeacher_addNewTicketStepTwo"

@@ -92,11 +92,13 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                 String surnameTeacher = getIntent().getStringExtra("surnameTeacher");
                 String facultyTeacher = getIntent().getStringExtra("facultyTeacher");
                 String fieldTeacher = getIntent().getStringExtra("fieldTeacher");
+                String emailTeacher1 = getIntent().getStringExtra("emailTeacher1");
 
                 String nameTeacher2 = getIntent().getStringExtra("nameTeacher2");
                 String surnameTeacher2 = getIntent().getStringExtra("surnameTeacher2");
                 String facultyTeacher2 = getIntent().getStringExtra("facultyTeacher2");
                 String fieldTeacher2 = getIntent().getStringExtra("fieldTeacher2");
+                String emailTeacher2 = getIntent().getStringExtra("emailTeacher2");
 
                 String nameStudent = getIntent().getStringExtra("nameStudent");
                 String surnameStudent = getIntent().getStringExtra("surnameStudent");
@@ -117,12 +119,13 @@ public class SecondTeacherStepTwo extends AppCompatActivity {
                 user.put("surnameTeacher", surnameTeacher);
                 user.put("facultyTeacher", facultyTeacher);
                 user.put("fieldTeacher", fieldTeacher);
-                user.put("emailTeacher1", getIntent().getStringExtra("fieldTeacher"));
+                user.put("emailTeacher1", emailTeacher1);
 
                 user.put("nameTeacher2", nameTeacher2);
                 user.put("surnameTeacher2", surnameTeacher2);
                 user.put("facultyTeacher2", facultyTeacher2);
                 user.put("fieldTeacher2", fieldTeacher2);
+                user.put("emailTeacher2", emailTeacher2);
 
                 user.put("nameStudent", nameStudent);
                 user.put("surnameStudent", surnameStudent);

@@ -50,7 +50,7 @@
             android:fontFamily="@font/cabin"
             android:gravity="center"
             android:orientation="horizontal"
-            android:text="@string/student_OngoingTicketTeacher"
+            android:text="People participating in the event:"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
             android:textSize="18sp"
@@ -64,7 +64,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/todo_OngoingTicketTeacher"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,15 +73,16 @@
             app:layout_constraintTop_toBottomOf="@+id/textview2_ongoingTicketStudent2"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
+
         <TextView
             android:id="@+id/nameStudent_ongoingTicketTeacher"
             style="@android:style/Widget.TextView"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_margin="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="8dp"
             android:height="50dp"
             android:background="@drawable/rounded_color_button"
             android:fontFamily="@font/cabin"
@@ -93,9 +94,9 @@
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toEndOf="@+id/imageViewStudent_OngoingTicketTeacher"
             app:layout_constraintTop_toBottomOf="@+id/textview2_ongoingTicketStudent2" />
-
 
         <TextView
             android:id="@+id/surnameStudent_ongoingTicketTeacher"
@@ -103,9 +104,9 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_margin="32dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:height="50dp"
             android:background="@drawable/rounded_color_button"
             android:fontFamily="@font/cabin"
@@ -149,7 +150,6 @@
             android:layout_height="60dp"
             android:layout_margin="32dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:height="50dp"
             android:background="@drawable/rounded_color_button"
@@ -217,9 +217,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_margin="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="128dp"
             android:height="50dp"
             android:fontFamily="@font/cabin"
             android:gravity="center"
@@ -230,9 +228,9 @@
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.846"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/informationTeacher1_ongoingTicketTeacher" />
-
+            app:layout_constraintTop_toBottomOf="@+id/textview2_ongoingTicketStudent3" />
 
         <ImageView
             android:id="@+id/imageViewTeacher2_OngoingTicketTeacher"
@@ -254,9 +252,9 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_margin="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="8dp"
             android:height="50dp"
             android:background="@drawable/rounded_color_button"
             android:fontFamily="@font/cabin"
@@ -277,9 +275,9 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_margin="32dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:height="50dp"
             android:background="@drawable/rounded_color_button"
             android:fontFamily="@font/cabin"
@@ -314,7 +312,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/surnameTeacher2_ongoingTicketTeacher" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewTeacher2_OngoingTicketTeacher" />
 
         <TextView
             android:id="@+id/informationTeacher2Text_ongoingTicketTeacher"
@@ -390,7 +388,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="120dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_button"
             android:editable="false"
@@ -409,7 +407,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/informationTeacher2Text_ongoingTicketTeacher"
+            app:layout_constraintTop_toBottomOf="@+id/textview8_ongoingTicketStudent3"
             tools:visibility="visible" />
 
 

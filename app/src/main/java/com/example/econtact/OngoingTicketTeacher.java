@@ -30,8 +30,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,12 +69,14 @@ public class OngoingTicketTeacher extends AppCompatActivity {
     String nameTeacher2Canceled = " ", surnameTeacher2Canceled = " ", facultyTeacher2Canceled = " ",
             fieldTeacher2Canceled = " ";
 
+    String databaseReferenceNamePath;
+    putPDF uploadedPDF;
     String nameTeacherLogin, surnameTeacherLogin, facultyTeacherLogin, fieldTeacherLogin, emailTeacherLogin;
     FirebaseFirestore firebaseFirestore;
     int indexTicket = 0;
     int valueType = 0;
 
-    String nameFile, value;
+    String nameFile, valueFile, namePathFileView;
     List<CloudFireOngoingTicket> objectArrayList = new ArrayList<>();
 
     ImageView imageViewStudent, imageViewTeacher2;
@@ -629,10 +634,6 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
                 dialogBuilder.create();
                 dialogBuilder.show();
-
-                //selectPDF();
-
-
             }
         });
 
@@ -2703,9 +2704,90 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
             if (valueType == 1) {
 
-                value = "File " + System.currentTimeMillis();
+                final CloudFireOngoingTicket cloudFireOngoingTicket = objectArrayList.get(indexTicket);
+
+                ///
+                valueFile = "File " + System.currentTimeMillis();
                 nameFile = "File " + System.currentTimeMillis() + ".pdf";
                 selectFile.setText(nameFile);
+                ///
+                namePathFileView = "Preview " + nameFile;
+
+
+                /*
+                StorageReference reference = storageReference.child(namePathFileView);
+                reference.putFile(data.getData())
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                while (!uriTask.isComplete()) ;
+                                Uri uri = uriTask.getResult();
+                                putPDF putPDF = new putPDF(nameFile, uri.toString(), "PDF");
+
+                                databaseReference = FirebaseDatabase.getInstance().getReference(cloudFireOngoingTicket.nameStudent + cloudFireOngoingTicket.surnameStudent + "to" +
+                                        cloudFireOngoingTicket.nameTeacher + cloudFireOngoingTicket.surnameTeacher
+                                        + cloudFireOngoingTicket.dayTicket + cloudFireOngoingTicket.monthTicket + cloudFireOngoingTicket.yearTicket
+                                        + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
+
+                                databaseReference
+                                        .child("Path - " + valueFile).setValue(putPDF);
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    }
+                });
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OngoingTicketTeacher.this);
+                dialogBuilder.setTitle("Ongoing Ticket");
+                dialogBuilder.setMessage("Do you want to check the photo before uploading to the ticket?");
+                dialogBuilder.setCancelable(false);
+
+                dialogBuilder.setNegativeButton("No", new Dialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+
+                dialogBuilder.setPositiveButton("Yes", new Dialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        databaseReference = FirebaseDatabase.getInstance().getReference("Preview " + databaseReferenceNamePath);
+                        databaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    if (ds.toString().equals("Path - " + valueFile)) {
+                                        uploadedPDF = ds.getValue(com.example.econtact.putPDF.class);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.parse(uploadedPDF.getUrl()), "application/pdf");
+                        startActivity(intent);
+                    }
+                });
+
+                dialogBuilder.create();
+                dialogBuilder.show();
+
+
+
+
+
+
+
+
+                 */
 
 
                 /*Intent target = new Intent(Intent.ACTION_VIEW);
@@ -2724,9 +2806,10 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
             if (valueType == 2) {
 
-                value = "File " + System.currentTimeMillis();
+                valueFile = "File " + System.currentTimeMillis();
                 nameFile = "File " + System.currentTimeMillis() + ".jpg";
                 selectFile.setText(nameFile);
+
 
                 /*Intent target = new Intent(Intent.ACTION_VIEW);
                 target.setDataAndType(data.getData(), "image/jpeg");
@@ -2744,7 +2827,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
 
             if (valueType == 3) {
 
-                value = "File " + System.currentTimeMillis();
+                valueFile = "File " + System.currentTimeMillis();
                 nameFile = "File " + System.currentTimeMillis() + ".doc";
                 selectFile.setText(nameFile);
 
@@ -2798,7 +2881,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                             + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
 
                                     databaseReference
-                                            .child("Path - " + value).setValue(putPDF);
+                                            .child("Path - " + valueFile).setValue(putPDF);
 
                                     //// Notification!
                                     NotificationChannel channel = new NotificationChannel("channel01", "name",
@@ -2846,7 +2929,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                             + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
 
                                     databaseReference
-                                            .child("Path - " + value).setValue(putPDF);
+                                            .child("Path - " + valueFile).setValue(putPDF);
 
                                     //// Notification!
                                     NotificationChannel channel = new NotificationChannel("channel01", "name",
@@ -2894,7 +2977,7 @@ public class OngoingTicketTeacher extends AppCompatActivity {
                                             + cloudFireOngoingTicket.minuteTicket + cloudFireOngoingTicket.hourTicket);
 
                                     databaseReference
-                                            .child("Path - " + value).setValue(putPDF);
+                                            .child("Path - " + valueFile).setValue(putPDF);
 
                                     //// Notification!
                                     NotificationChannel channel = new NotificationChannel("channel01", "name",

@@ -1,5 +1,6 @@
 package com.example.econtact;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -47,22 +48,61 @@ public class RetrievePDF extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 putPDF putPDF = uploadedPDF.get(position);
 
-                if(putPDF.typeData.equals("PDF")){
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                if(putPDF.typeData.equals("PDF")) {
+                    /*Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(putPDF.getUrl()), "application/pdf");
                     startActivity(intent);
+                     */
+
+                    Intent target = new Intent(Intent.ACTION_VIEW);
+                    target.setDataAndType(Uri.parse(putPDF.url), "application/pdf");
+                    target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                    Intent intent = Intent.createChooser(target, "Open File");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        // Instruct the user to install a PDF reader here, or something
+                    }
+
+
                 }
 
-                if(putPDF.typeData.equals("JPG")){
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                if(putPDF.typeData.equals("JPG")) {
+                    /*Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(putPDF.getUrl()), "image/jpeg");
                     startActivity(intent);
+                     */
+
+                    Intent target = new Intent(Intent.ACTION_VIEW);
+                    target.setDataAndType(Uri.parse(putPDF.url), "image/jpeg");
+                    target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                    Intent intent = Intent.createChooser(target, "Open File");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        // Instruct the user to install a PDF reader here, or something
+                    }
                 }
 
-                if(putPDF.typeData.equals("DOC")){
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                if(putPDF.typeData.equals("DOC")) {
+                    /*Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(putPDF.getUrl()), "application/msword");
                     startActivity(intent);
+
+                     */
+
+                    Intent target = new Intent(Intent.ACTION_VIEW);
+                    target.setDataAndType(Uri.parse(putPDF.url), "application/msword");
+                    target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                    Intent intent = Intent.createChooser(target, "Open File");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        // Instruct the user to install a PDF reader here, or something
+                    }
                 }
 
             }
